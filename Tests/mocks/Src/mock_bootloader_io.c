@@ -18,6 +18,7 @@ enum
     IO_READ,
     IO_WRITE,
     IO_DEV_ID,
+    IO_PROGRAM,
     NO_EXPECTED_VALUE = -1,
     BOOTLOADER_ID = 1034
 };
@@ -132,6 +133,14 @@ void mock_bootloader_io_expect_write(
     record_expectation(IO_WRITE, data, data_size);
 }
 
+void mock_bootloader_io_expect_program(
+    const uint8_t *const data
+)
+{
+    fail_when_no_room_for_expectations();
+    record_expectation(IO_PROGRAM, data, sizeof(uint32_t));
+}
+
 void mock_bootloader_io_expect_read_then_return(
     const uint8_t *const  data,
     const uint8_t data_size
@@ -155,12 +164,12 @@ void mock_bootloader_io_verify_complete(void)
         return;
     
     sprintf(
-        message,
+        (char*)message,
         report_verify_error,
         set_expectation_count,
         get_expectation_count
     );
-    FAIL(message);
+    FAIL((char*)message);
 }
 
 // Implementations from bootloaderm_io --------------------------------------------
@@ -206,4 +215,33 @@ uint32_t bootloader_io_get_dev_id()
     
     get_expectation_count++;
     return BOOTLOADER_ID;
+}
+
+bootloader_status bootloader_io_program(
+    uint32_t address,
+    const uint8_t *const data
+)
+{
+    bootloader_status status = BOOTLOADER_OK;
+
+    // 128 pages
+    if (
+        address < APP_START_ADDRESS || 
+        address + sizeof(uint32_t) >= 0x0801FFFFUL
+    )
+        status = BOOTLOADER_BOUNDS_ERROR;
+
+    expectation current_expectation = expectations[get_expectation_count];
+
+    fail_when_no_init();
+    check_kind(&current_expectation, IO_PROGRAM);
+
+    memcpy(
+        (uint8_t*)data,
+        current_expectation.data,
+        current_expectation.data_size
+    );
+    
+    get_expectation_count++;
+    return status;
 }

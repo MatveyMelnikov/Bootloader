@@ -8,12 +8,14 @@ bootloader_status bootloader_io_read(
     const uint8_t *const data,
     const uint16_t size
 );
-
 bootloader_status bootloader_io_write(
     uint8_t *const data,
     const uint16_t size
 );
-
 uint32_t bootloader_io_get_dev_id(void);
+bootloader_status bootloader_io_program(
+    uint32_t address,
+    const uint8_t *const data
+);
 
 #endif

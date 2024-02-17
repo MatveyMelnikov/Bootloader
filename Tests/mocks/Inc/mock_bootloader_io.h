@@ -9,6 +9,9 @@ void mock_bootloader_io_expect_write(
     const uint8_t *const data,
     const uint8_t data_size
 );
+void mock_bootloader_io_expect_program(
+    const uint8_t *const data
+);
 void mock_bootloader_io_expect_read_then_return(
     const uint8_t *const data,
     const uint8_t data_size

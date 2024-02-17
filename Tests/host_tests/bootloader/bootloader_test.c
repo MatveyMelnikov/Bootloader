@@ -55,7 +55,7 @@ TEST(bootloader, output_help_success)
     static char *commands_list_message = "\r\nCommands:\r\n"
         "Get id of chip - '1';\r\n"
         "Get bootloader version - '2';\r\n"
-        "Read from memory (8 bytes) - '3'.";
+        "Write to memory (4 bytes) - '3'.";
     static char *input_data = "0";
     char *input_prompt = "\r\n>>";
 
@@ -113,12 +113,80 @@ TEST(bootloader, output_bootloader_id)
     TEST_ASSERT_EQUAL(BOOTLOADER_OK, status);
 }
 
-TEST(bootloader, read)
+TEST(bootloader, write_success)
 {
-    
+    static char *input_cmd = "3";
+    static uint32_t input_addr = APP_START_ADDRESS;
+    static uint32_t input_data = 0xf5533aa;
+    static char *input_prompt = "\r\n>>";
+
+    mock_bootloader_io_expect_read_then_return(input_cmd, 1);
+    mock_bootloader_io_expect_write(input_cmd, 1);
+    mock_bootloader_io_expect_read_then_return(
+        (uint8_t*)&input_addr,
+        sizeof(input_addr)
+    );
+    mock_bootloader_io_expect_read_then_return(
+        (uint8_t*)&input_data,
+        sizeof(input_data)
+    );
+    mock_bootloader_io_expect_program(&input_data);
+
+    mock_bootloader_io_expect_write(input_prompt, strlen(input_prompt) + 1);
+
+    bootloader_status status = bootloader_proccess_input();
+
+    TEST_ASSERT_EQUAL(BOOTLOADER_OK, status);
 }
 
-TEST(bootloader, write)
+TEST(bootloader, write_bound_error)
 {
-    
+    static char *input_cmd = "3";
+    static uint32_t input_addr = 0x08000000 + 0x400 * 128;
+    static uint32_t input_data = 0xf5533aa;
+    static char *input_prompt = "\r\n>>";
+
+    mock_bootloader_io_expect_read_then_return(input_cmd, 1);
+    mock_bootloader_io_expect_write(input_cmd, 1);
+    mock_bootloader_io_expect_read_then_return(
+        (uint8_t*)&input_addr,
+        sizeof(input_addr)
+    );
+    mock_bootloader_io_expect_read_then_return(
+        (uint8_t*)&input_data,
+        sizeof(input_data)
+    );
+    mock_bootloader_io_expect_program(&input_data);
+
+    mock_bootloader_io_expect_write(input_prompt, strlen(input_prompt) + 1);
+
+    bootloader_status status = bootloader_proccess_input();
+
+    TEST_ASSERT_EQUAL(BOOTLOADER_BOUNDS_ERROR, status);
+}
+
+TEST(bootloader, write_middle_success)
+{
+    static char *input_cmd = "3";
+    static uint32_t input_addr = 0x08000000 + 0x400 * 63;
+    static uint32_t input_data = 0xf5533aa;
+    static char *input_prompt = "\r\n>>";
+
+    mock_bootloader_io_expect_read_then_return(input_cmd, 1);
+    mock_bootloader_io_expect_write(input_cmd, 1);
+    mock_bootloader_io_expect_read_then_return(
+        (uint8_t*)&input_addr,
+        sizeof(input_addr)
+    );
+    mock_bootloader_io_expect_read_then_return(
+        (uint8_t*)&input_data,
+        sizeof(input_data)
+    );
+    mock_bootloader_io_expect_program(&input_data);
+
+    mock_bootloader_io_expect_write(input_prompt, strlen(input_prompt) + 1);
+
+    bootloader_status status = bootloader_proccess_input();
+
+    TEST_ASSERT_EQUAL(BOOTLOADER_OK, status);
 }

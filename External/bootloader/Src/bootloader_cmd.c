@@ -8,7 +8,7 @@ static char *input_prompt = "\r\n>>";
 static char *commands_list_message = "\r\nCommands:\r\n"
   "Get id of chip - '1';\r\n"
   "Get bootloader version - '2';\r\n"
-  "Read from memory (8 bytes) - '3'.";
+  "Write to memory (4 bytes) - '3'.";
 static char *id_message = "\r\nChip ID: ";
 static char *bootloader_version_message = "\r\nBootloader version: ";
 
@@ -71,7 +71,7 @@ static void cmd_get_bootloader_version()
     bootloader_version_message,
     strlen(bootloader_version_message) + 1
   );
-  bootloader_io_write(uart_buffer, strlen(bootloader_version_message + 1));
+  bootloader_io_write(uart_buffer, strlen(bootloader_version_message) + 1);
 
   uart_buffer[0] = BOOTLOADER_VER_MAJOR;
   uart_buffer[1] = '.';
@@ -80,14 +80,20 @@ static void cmd_get_bootloader_version()
   bootloader_io_write(uart_buffer, 3);
 }
 
-static void cmd_read()
+// cmd_0: address (4 bytes)
+// cmd_0: data (4 bytes)
+static bootloader_status cmd_write()
 {
-  
-}
+  uint32_t address = 0;
+  bootloader_status status = bootloader_io_read(&address, sizeof(uint32_t));
 
-static void cmd_write()
-{
-  
+  status |= bootloader_io_read(&uart_buffer, sizeof(uint32_t));
+
+  if (status)
+    return status;
+  status |= bootloader_io_program(address, &uart_buffer);
+
+  return status;
 }
 
 // Implementations -----------------------------------------------------------
@@ -126,11 +132,8 @@ bootloader_status bootloader_proccess_input()
     case CMD_GET_BOOTLOADER_VER:
       cmd_get_bootloader_version();
       break;
-    case CMD_READ:
-      cmd_read();
-      break;
     case CMD_WRITE:
-      cmd_write();
+      status |= cmd_write();
       break;
   }
 

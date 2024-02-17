@@ -34,15 +34,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define APP_START_ADDRESS 0x08000000 + (0x400 * 10) /* page 10 */
-#define SRAM_SIZE 20 * 1024
-#define SRAM_END (SRAM_BASE + SRAM_SIZE)
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define GET_VALUE_FROM_ADDR(ADDR) \
-  *((volatile uint32_t*)ADDR)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -171,12 +167,6 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  // while (1)
-  // {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-  // }
   /* USER CODE END 3 */
 }
 
