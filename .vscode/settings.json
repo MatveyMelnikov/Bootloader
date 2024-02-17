@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "compare": "c",
+        "cstdint": "c",
+        "cstdio": "c",
+        "stm32f1xx_hal_uart.h": "c",
+        "stm32f1xx.h": "c",
+        "bootloader_cmd.h": "c",
+        "bootloader_defs.h": "c"
+    }
+}

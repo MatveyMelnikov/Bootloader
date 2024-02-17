@@ -1,0 +1,27 @@
+#ifndef BOOTLOADER_DEFS_H
+#define BOOTLOADER_DEFS_H
+
+enum
+{
+  BOOTLOADER_VER_MAJOR = 0U + '0',
+  BOOTLOADER_VER_MINOR = 1U + '0',
+  CMD_HELP = 0U + '0',
+  CMD_GET_ID = 1U + '0',
+  CMD_GET_BOOTLOADER_VER = 2U + '0',
+  CMD_READ_PAGE = 3U + '0',
+  UART_POLLING_DELAY = 50U,
+  UART_DELAY = 100U,
+  LED_DELAY = 500U,
+  LED_ERROR_DELAY = 150U,
+  UART_BUFFER_SIZE = 100U,
+};
+
+typedef enum 
+{
+    BOOTLOADER_OK = 0x00U,
+    BOOTLOADER_ERROR = 0x01U,
+    BOOTLOADER_BUSY = 0x02U,
+    BOOTLOADER_TIMEOUT = 0x03U,
+} bootloader_status;
+
+#endif

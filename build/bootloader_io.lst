@@ -1,0 +1,196 @@
+ARM GAS  /tmp/ccXdcwAu.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"bootloader_io.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "External/bootloader/Src/bootloader_io.c"
+  18              		.section	.text.bootloader_io_read,"ax",%progbits
+  19              		.align	1
+  20              		.global	bootloader_io_read
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	bootloader_io_read:
+  26              	.LVL0:
+  27              	.LFB65:
+   1:External/bootloader/Src/bootloader_io.c **** #include "bootloader_io.h"
+   2:External/bootloader/Src/bootloader_io.c **** #include "stm32f1xx.h"
+   3:External/bootloader/Src/bootloader_io.c **** #include "stm32f1xx_hal_uart.h"
+   4:External/bootloader/Src/bootloader_io.c **** 
+   5:External/bootloader/Src/bootloader_io.c **** extern UART_HandleTypeDef *bootloader_uart;
+   6:External/bootloader/Src/bootloader_io.c **** 
+   7:External/bootloader/Src/bootloader_io.c **** bootloader_status bootloader_io_read(
+   8:External/bootloader/Src/bootloader_io.c ****     const uint8_t *const data,
+   9:External/bootloader/Src/bootloader_io.c ****     const uint16_t size
+  10:External/bootloader/Src/bootloader_io.c **** )
+  11:External/bootloader/Src/bootloader_io.c **** {
+  28              		.loc 1 11 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 11 1 is_stmt 0 view .LVU1
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  38 0002 0A46     		mov	r2, r1
+  12:External/bootloader/Src/bootloader_io.c ****     return (bootloader_status)HAL_UART_Receive(
+  39              		.loc 1 12 5 is_stmt 1 view .LVU2
+  40              		.loc 1 12 31 is_stmt 0 view .LVU3
+  41 0004 6423     		movs	r3, #100
+  42 0006 0146     		mov	r1, r0
+  43              	.LVL1:
+  44              		.loc 1 12 31 view .LVU4
+  45 0008 0248     		ldr	r0, .L3
+  46              	.LVL2:
+ARM GAS  /tmp/ccXdcwAu.s 			page 2
+
+
+  47              		.loc 1 12 31 view .LVU5
+  48 000a 0068     		ldr	r0, [r0]
+  49 000c FFF7FEFF 		bl	HAL_UART_Receive
+  50              	.LVL3:
+  13:External/bootloader/Src/bootloader_io.c ****         bootloader_uart,
+  14:External/bootloader/Src/bootloader_io.c ****         (uint8_t*)data,
+  15:External/bootloader/Src/bootloader_io.c ****         size,
+  16:External/bootloader/Src/bootloader_io.c ****         UART_DELAY
+  17:External/bootloader/Src/bootloader_io.c ****     );
+  18:External/bootloader/Src/bootloader_io.c **** }
+  51              		.loc 1 18 1 view .LVU6
+  52 0010 08BD     		pop	{r3, pc}
+  53              	.L4:
+  54 0012 00BF     		.align	2
+  55              	.L3:
+  56 0014 00000000 		.word	bootloader_uart
+  57              		.cfi_endproc
+  58              	.LFE65:
+  60              		.section	.text.bootloader_io_write,"ax",%progbits
+  61              		.align	1
+  62              		.global	bootloader_io_write
+  63              		.syntax unified
+  64              		.thumb
+  65              		.thumb_func
+  67              	bootloader_io_write:
+  68              	.LVL4:
+  69              	.LFB66:
+  19:External/bootloader/Src/bootloader_io.c **** 
+  20:External/bootloader/Src/bootloader_io.c **** bootloader_status bootloader_io_write(
+  21:External/bootloader/Src/bootloader_io.c ****     uint8_t *const data,
+  22:External/bootloader/Src/bootloader_io.c ****     const uint16_t size
+  23:External/bootloader/Src/bootloader_io.c **** )
+  24:External/bootloader/Src/bootloader_io.c **** {
+  70              		.loc 1 24 1 is_stmt 1 view -0
+  71              		.cfi_startproc
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74              		.loc 1 24 1 is_stmt 0 view .LVU8
+  75 0000 08B5     		push	{r3, lr}
+  76              	.LCFI1:
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 3, -8
+  79              		.cfi_offset 14, -4
+  80 0002 0A46     		mov	r2, r1
+  25:External/bootloader/Src/bootloader_io.c ****     return (bootloader_status)HAL_UART_Transmit(
+  81              		.loc 1 25 5 is_stmt 1 view .LVU9
+  82              		.loc 1 25 31 is_stmt 0 view .LVU10
+  83 0004 6423     		movs	r3, #100
+  84 0006 0146     		mov	r1, r0
+  85              	.LVL5:
+  86              		.loc 1 25 31 view .LVU11
+  87 0008 0248     		ldr	r0, .L7
+  88              	.LVL6:
+  89              		.loc 1 25 31 view .LVU12
+  90 000a 0068     		ldr	r0, [r0]
+  91 000c FFF7FEFF 		bl	HAL_UART_Transmit
+  92              	.LVL7:
+ARM GAS  /tmp/ccXdcwAu.s 			page 3
+
+
+  26:External/bootloader/Src/bootloader_io.c ****         bootloader_uart,
+  27:External/bootloader/Src/bootloader_io.c ****         (uint8_t*)data,
+  28:External/bootloader/Src/bootloader_io.c ****         size,
+  29:External/bootloader/Src/bootloader_io.c ****         UART_DELAY
+  30:External/bootloader/Src/bootloader_io.c ****     );
+  31:External/bootloader/Src/bootloader_io.c **** }
+  93              		.loc 1 31 1 view .LVU13
+  94 0010 08BD     		pop	{r3, pc}
+  95              	.L8:
+  96 0012 00BF     		.align	2
+  97              	.L7:
+  98 0014 00000000 		.word	bootloader_uart
+  99              		.cfi_endproc
+ 100              	.LFE66:
+ 102              		.section	.text.bootloader_io_get_dev_id,"ax",%progbits
+ 103              		.align	1
+ 104              		.global	bootloader_io_get_dev_id
+ 105              		.syntax unified
+ 106              		.thumb
+ 107              		.thumb_func
+ 109              	bootloader_io_get_dev_id:
+ 110              	.LFB67:
+  32:External/bootloader/Src/bootloader_io.c **** 
+  33:External/bootloader/Src/bootloader_io.c **** uint32_t bootloader_io_get_dev_id()
+  34:External/bootloader/Src/bootloader_io.c **** {
+ 111              		.loc 1 34 1 is_stmt 1 view -0
+ 112              		.cfi_startproc
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 0000 08B5     		push	{r3, lr}
+ 116              	.LCFI2:
+ 117              		.cfi_def_cfa_offset 8
+ 118              		.cfi_offset 3, -8
+ 119              		.cfi_offset 14, -4
+  35:External/bootloader/Src/bootloader_io.c ****     return HAL_GetDEVID();
+ 120              		.loc 1 35 5 view .LVU15
+ 121              		.loc 1 35 12 is_stmt 0 view .LVU16
+ 122 0002 FFF7FEFF 		bl	HAL_GetDEVID
+ 123              	.LVL8:
+  36:External/bootloader/Src/bootloader_io.c **** }
+ 124              		.loc 1 36 1 view .LVU17
+ 125 0006 08BD     		pop	{r3, pc}
+ 126              		.cfi_endproc
+ 127              	.LFE67:
+ 129              		.text
+ 130              	.Letext0:
+ 131              		.file 2 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/machine/_default_types.h"
+ 132              		.file 3 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/sys/_stdint.h"
+ 133              		.file 4 "External/bootloader/Inc/bootloader_defs.h"
+ 134              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 135              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 136              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 137              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
+ 138              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ARM GAS  /tmp/ccXdcwAu.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 bootloader_io.c
+     /tmp/ccXdcwAu.s:19     .text.bootloader_io_read:00000000 $t
+     /tmp/ccXdcwAu.s:25     .text.bootloader_io_read:00000000 bootloader_io_read
+     /tmp/ccXdcwAu.s:56     .text.bootloader_io_read:00000014 $d
+     /tmp/ccXdcwAu.s:61     .text.bootloader_io_write:00000000 $t
+     /tmp/ccXdcwAu.s:67     .text.bootloader_io_write:00000000 bootloader_io_write
+     /tmp/ccXdcwAu.s:98     .text.bootloader_io_write:00000014 $d
+     /tmp/ccXdcwAu.s:103    .text.bootloader_io_get_dev_id:00000000 $t
+     /tmp/ccXdcwAu.s:109    .text.bootloader_io_get_dev_id:00000000 bootloader_io_get_dev_id
+
+UNDEFINED SYMBOLS
+HAL_UART_Receive
+bootloader_uart
+HAL_UART_Transmit
+HAL_GetDEVID

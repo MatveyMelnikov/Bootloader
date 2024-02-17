@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Bootloader",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/External/bootloader/Inc/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USE_HAL_DRIVER",
+                "STM32F103xB"
+            ],
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": "/usr/local/src/arm-gnu-toolchain-13.2/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-mcpu=cortex-m3",
+                "-mthumb"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "gnu++11"
+        }
+    ],
+    "version": 4
+}
