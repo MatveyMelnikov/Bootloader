@@ -45,7 +45,7 @@ inline static uint8_t int_to_string(uint8_t *const buffer, uint32_t num)
   return i;
 }
 
-static void cmd_help(uint8_t *const uart_buffer)
+static void cmd_help()
 {
   strncpy(
     (char*)uart_buffer,
@@ -55,23 +55,23 @@ static void cmd_help(uint8_t *const uart_buffer)
   bootloader_io_write(uart_buffer, strlen(commands_list_message));
 }
 
-static void cmd_get_id(uint8_t *const uart_buffer)
+static void cmd_get_id()
 {
-  strncpy((char*)uart_buffer, id_message, strlen(id_message));
-  bootloader_io_write(uart_buffer, strlen(id_message));
+  strncpy((char*)uart_buffer, id_message, strlen(id_message) + 1);
+  bootloader_io_write(uart_buffer, strlen(id_message) + 1);
 
   uint8_t size = int_to_string(uart_buffer, bootloader_io_get_dev_id());
   bootloader_io_write(uart_buffer, size);
 }
 
-static void cmd_get_bootloader_version(uint8_t *const uart_buffer)
+static void cmd_get_bootloader_version()
 {
   strncpy(
     (char*)uart_buffer,
     bootloader_version_message,
-    strlen(bootloader_version_message)
+    strlen(bootloader_version_message) + 1
   );
-  bootloader_io_write(uart_buffer, strlen(bootloader_version_message));
+  bootloader_io_write(uart_buffer, strlen(bootloader_version_message + 1));
 
   uart_buffer[0] = BOOTLOADER_VER_MAJOR;
   uart_buffer[1] = '.';
@@ -80,7 +80,12 @@ static void cmd_get_bootloader_version(uint8_t *const uart_buffer)
   bootloader_io_write(uart_buffer, 3);
 }
 
-static void cmd_read_page(uint8_t *const uart_buffer)
+static void cmd_read()
+{
+  
+}
+
+static void cmd_write()
 {
   
 }
@@ -113,16 +118,19 @@ bootloader_status bootloader_proccess_input()
   switch(uart_buffer[0])
   {
     case CMD_HELP:
-      cmd_help(uart_buffer);
+      cmd_help();
       break;
     case CMD_GET_ID:
-      cmd_get_id(uart_buffer);
+      cmd_get_id();
       break;
     case CMD_GET_BOOTLOADER_VER:
-      cmd_get_bootloader_version(uart_buffer);
+      cmd_get_bootloader_version();
       break;
-    case CMD_READ_PAGE:
-      cmd_read_page(uart_buffer);
+    case CMD_READ:
+      cmd_read();
+      break;
+    case CMD_WRITE:
+      cmd_write();
       break;
   }
 
