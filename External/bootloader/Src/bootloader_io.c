@@ -43,7 +43,7 @@ bootloader_status bootloader_io_program(
   // 128 pages
   if (
     address < APP_START_ADDRESS || 
-    address + sizeof(uint32_t) >= FLASH_BANK1_END
+    address + sizeof(uint16_t) >= FLASH_BANK1_END
   )
     return BOOTLOADER_BOUNDS_ERROR;
 

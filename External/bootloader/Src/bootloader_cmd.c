@@ -8,7 +8,7 @@ static char *input_prompt = "\r\n>>";
 static char *commands_list_message = "\r\nCommands:\r\n"
   "Get id of chip - '1';\r\n"
   "Get bootloader version - '2';\r\n"
-  "Write to memory (4 bytes) - '3'.";
+  "Write to memory (2 bytes) - '3'.";
 static char *id_message = "\r\nChip ID: ";
 static char *bootloader_version_message = "\r\nBootloader version: ";
 
@@ -43,6 +43,17 @@ inline static uint8_t int_to_string(uint8_t *const buffer, uint32_t num)
   }
 
   return i;
+}
+
+// __attribute__((always_inline))
+// inline 
+static void send_response(bootloader_status status)
+{
+  if (status)
+    uart_buffer[0] = NACK_BYTE;
+  else
+    uart_buffer[0] = ACK_BYTE;
+  (void)bootloader_io_write(uart_buffer, 1);
 }
 
 static void cmd_help()
@@ -81,17 +92,24 @@ static void cmd_get_bootloader_version()
 }
 
 // cmd_0: address (4 bytes)
-// cmd_0: data (4 bytes)
+// cmd_0: data (2 bytes)
 static bootloader_status cmd_write()
 {
   uint32_t address = 0;
   bootloader_status status = bootloader_io_read(&address, sizeof(uint32_t));
+  send_response(status);
+  if (status)
+    return status;
 
-  status |= bootloader_io_read(&uart_buffer, sizeof(uint32_t));
+  status |= bootloader_io_read(&uart_buffer, sizeof(uint16_t));
+  send_response(status);
+  if (status)
+    return status;
 
   if (status)
     return status;
   status |= bootloader_io_program(address, &uart_buffer);
+  send_response(status);
 
   return status;
 }

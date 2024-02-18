@@ -290,8 +290,6 @@ static void led_blink(void)
 
 static void start_application_code()
 {
-  // volatile?
-  //volatile uint32_t *application_start = (uint32_t *)APP_START_ADDRESS;
   uint32_t app_msp = *((volatile uint32_t*)APP_START_ADDRESS);
   if (app_msp != SRAM_END)
     Error_Handler();
@@ -301,7 +299,7 @@ static void start_application_code()
   HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12);
   HAL_DeInit();
 
-  //RCC->CIR = 0x00000000; //Disable all interrupts related to clock
+  //RCC->CIR = 0x00000000; // Disable all interrupts related to clock
   __disable_irq();
   __set_MSP(app_msp);
   // programming manual pg. 99
@@ -310,14 +308,7 @@ static void start_application_code()
   /// programming manual pg. 100
   __DSB();
 
-  // ???
-  // uint32_t JumpAddress = *((volatile uint32_t*) (APP_START_ADDRESS + 4));
-  // void (*reset_handler)(void) = (void*)JumpAddress;
-
-  // uint32_t jump_address = (volatile uint32_t)(0x1FFF 0000 + 4);
-  // void (*boot_loader)(void) =  jump_address;
-
-  volatile uint32_t *jump_address = (volatile uint32_t)(
+  volatile uint32_t *jump_address = (volatile uint32_t*)(
     APP_START_ADDRESS + sizeof(uint32_t)
   );
   void (*reset_handler)(void) = (void*)jump_address;

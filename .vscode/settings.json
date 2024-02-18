@@ -7,5 +7,6 @@
         "stm32f1xx.h": "c",
         "bootloader_cmd.h": "c",
         "bootloader_defs.h": "c"
-    }
+    },
+    "cortex-debug.variableUseNaturalFormat": true
 }

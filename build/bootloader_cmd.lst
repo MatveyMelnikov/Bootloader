@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccHVVVIy.s 			page 1
+ARM GAS  /tmp/ccCICZWy.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -18,32 +18,14 @@ ARM GAS  /tmp/ccHVVVIy.s 			page 1
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
   17              		.file 1 "External/bootloader/Src/bootloader_cmd.c"
-  18              		.section	.rodata.cmd_help.str1.4,"aMS",%progbits,1
-  19              		.align	2
-  20              	.LC0:
-  21 0000 0D0A436F 		.ascii	"\015\012Commands:\015\012Get id of chip - '1';\015\012"
-  21      6D6D616E 
-  21      64733A0D 
-  21      0A476574 
-  21      20696420 
-  22 0024 47657420 		.ascii	"Get bootloader version - '2';\015\012Read from memo"
-  22      626F6F74 
-  22      6C6F6164 
-  22      65722076 
-  22      65727369 
-  23 0051 72792028 		.ascii	"ry (8 bytes) - '3'.\000"
-  23      38206279 
-  23      74657329 
-  23      202D2027 
-  23      33272E00 
-  24              		.section	.text.cmd_help,"ax",%progbits
-  25              		.align	1
-  26              		.syntax unified
-  27              		.thumb
-  28              		.thumb_func
-  30              	cmd_help:
-  31              	.LVL0:
-  32              	.LFB2:
+  18              		.section	.text.send_response,"ax",%progbits
+  19              		.align	1
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	send_response:
+  25              	.LVL0:
+  26              	.LFB2:
    1:External/bootloader/Src/bootloader_cmd.c **** #include "bootloader_cmd.h"
    2:External/bootloader/Src/bootloader_cmd.c **** #include "bootloader_defs.h"
    3:External/bootloader/Src/bootloader_cmd.c **** #include <string.h>
@@ -54,13 +36,10 @@ ARM GAS  /tmp/ccHVVVIy.s 			page 1
    8:External/bootloader/Src/bootloader_cmd.c **** static char *commands_list_message = "\r\nCommands:\r\n"
    9:External/bootloader/Src/bootloader_cmd.c ****   "Get id of chip - '1';\r\n"
   10:External/bootloader/Src/bootloader_cmd.c ****   "Get bootloader version - '2';\r\n"
-  11:External/bootloader/Src/bootloader_cmd.c ****   "Read from memory (8 bytes) - '3'.";
+  11:External/bootloader/Src/bootloader_cmd.c ****   "Write to memory (4 bytes) - '3'.";
   12:External/bootloader/Src/bootloader_cmd.c **** static char *id_message = "\r\nChip ID: ";
   13:External/bootloader/Src/bootloader_cmd.c **** static char *bootloader_version_message = "\r\nBootloader version: ";
   14:External/bootloader/Src/bootloader_cmd.c **** 
-ARM GAS  /tmp/ccHVVVIy.s 			page 2
-
-
   15:External/bootloader/Src/bootloader_cmd.c **** static uint8_t uart_buffer[UART_BUFFER_SIZE];
   16:External/bootloader/Src/bootloader_cmd.c **** 
   17:External/bootloader/Src/bootloader_cmd.c **** // Static functions ----------------------------------------------------------
@@ -79,6 +58,9 @@ ARM GAS  /tmp/ccHVVVIy.s 			page 1
   30:External/bootloader/Src/bootloader_cmd.c ****   int i = 0;
   31:External/bootloader/Src/bootloader_cmd.c ****     
   32:External/bootloader/Src/bootloader_cmd.c ****   do {
+ARM GAS  /tmp/ccCICZWy.s 			page 2
+
+
   33:External/bootloader/Src/bootloader_cmd.c ****     buffer[i++] = num % 10 + '0';
   34:External/bootloader/Src/bootloader_cmd.c ****     num /= 10;
   35:External/bootloader/Src/bootloader_cmd.c ****   } while (num > 0);
@@ -94,641 +76,872 @@ ARM GAS  /tmp/ccHVVVIy.s 			page 1
   45:External/bootloader/Src/bootloader_cmd.c ****   return i;
   46:External/bootloader/Src/bootloader_cmd.c **** }
   47:External/bootloader/Src/bootloader_cmd.c **** 
-  48:External/bootloader/Src/bootloader_cmd.c **** static void cmd_help(uint8_t *const uart_buffer)
-  49:External/bootloader/Src/bootloader_cmd.c **** {
-  33              		.loc 1 49 1 view -0
-  34              		.cfi_startproc
-  35              		@ args = 0, pretend = 0, frame = 0
-  36              		@ frame_needed = 0, uses_anonymous_args = 0
-  37              		.loc 1 49 1 is_stmt 0 view .LVU1
-  38 0000 38B5     		push	{r3, r4, r5, lr}
-  39              	.LCFI0:
-  40              		.cfi_def_cfa_offset 16
-  41              		.cfi_offset 3, -16
-  42              		.cfi_offset 4, -12
-  43              		.cfi_offset 5, -8
-  44              		.cfi_offset 14, -4
-  45 0002 0446     		mov	r4, r0
-  50:External/bootloader/Src/bootloader_cmd.c ****   strncpy(
-  46              		.loc 1 50 3 is_stmt 1 view .LVU2
-  47              		.loc 1 50 3 is_stmt 0 discriminator 1 view .LVU3
-  48 0004 6425     		movs	r5, #100
-  49 0006 2A46     		mov	r2, r5
-  50 0008 0349     		ldr	r1, .L3
-  51 000a FFF7FEFF 		bl	memcpy
-  52              	.LVL1:
-  51:External/bootloader/Src/bootloader_cmd.c ****     (char*)uart_buffer,
-ARM GAS  /tmp/ccHVVVIy.s 			page 3
+  48:External/bootloader/Src/bootloader_cmd.c **** // __attribute__((always_inline))
+  49:External/bootloader/Src/bootloader_cmd.c **** // inline 
+  50:External/bootloader/Src/bootloader_cmd.c **** static void send_response(bootloader_status status)
+  51:External/bootloader/Src/bootloader_cmd.c **** {
+  27              		.loc 1 51 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		.loc 1 51 1 is_stmt 0 view .LVU1
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  52:External/bootloader/Src/bootloader_cmd.c ****   if (status)
+  37              		.loc 1 52 3 is_stmt 1 view .LVU2
+  38              		.loc 1 52 6 is_stmt 0 view .LVU3
+  39 0002 38B1     		cbz	r0, .L2
+  53:External/bootloader/Src/bootloader_cmd.c ****     uart_buffer[0] = NACK_BYTE;
+  40              		.loc 1 53 5 is_stmt 1 view .LVU4
+  41              		.loc 1 53 20 is_stmt 0 view .LVU5
+  42 0004 054B     		ldr	r3, .L5
+  43 0006 AA22     		movs	r2, #170
+  44 0008 1A70     		strb	r2, [r3]
+  45              	.L3:
+  54:External/bootloader/Src/bootloader_cmd.c ****   else
+  55:External/bootloader/Src/bootloader_cmd.c ****     uart_buffer[0] = ACK_BYTE;
+  56:External/bootloader/Src/bootloader_cmd.c ****   (void)bootloader_io_write(uart_buffer, 1);
+  46              		.loc 1 56 3 is_stmt 1 view .LVU6
+  47              		.loc 1 56 9 is_stmt 0 view .LVU7
+  48 000a 0121     		movs	r1, #1
+  49 000c 0348     		ldr	r0, .L5
+  50              	.LVL1:
+  51              		.loc 1 56 9 view .LVU8
+  52 000e FFF7FEFF 		bl	bootloader_io_write
+  53              	.LVL2:
+  57:External/bootloader/Src/bootloader_cmd.c **** }
+  54              		.loc 1 57 1 view .LVU9
+  55 0012 08BD     		pop	{r3, pc}
+  56              	.LVL3:
+  57              	.L2:
+  55:External/bootloader/Src/bootloader_cmd.c ****   (void)bootloader_io_write(uart_buffer, 1);
+ARM GAS  /tmp/ccCICZWy.s 			page 3
 
 
-  52:External/bootloader/Src/bootloader_cmd.c ****     commands_list_message,
-  53:External/bootloader/Src/bootloader_cmd.c ****     strlen(commands_list_message)
-  54:External/bootloader/Src/bootloader_cmd.c ****   );
-  55:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(commands_list_message));
-  53              		.loc 1 55 3 is_stmt 1 view .LVU4
-  54              		.loc 1 55 3 is_stmt 0 discriminator 1 view .LVU5
-  55 000e 2946     		mov	r1, r5
-  56 0010 2046     		mov	r0, r4
-  57 0012 FFF7FEFF 		bl	bootloader_io_write
-  58              	.LVL2:
-  56:External/bootloader/Src/bootloader_cmd.c **** }
-  59              		.loc 1 56 1 view .LVU6
-  60 0016 38BD     		pop	{r3, r4, r5, pc}
-  61              	.LVL3:
-  62              	.L4:
-  63              		.loc 1 56 1 view .LVU7
-  64              		.align	2
-  65              	.L3:
-  66 0018 00000000 		.word	.LC0
-  67              		.cfi_endproc
-  68              	.LFE2:
-  70              		.section	.rodata.cmd_get_bootloader_version.str1.4,"aMS",%progbits,1
-  71              		.align	2
-  72              	.LC1:
-  73 0000 0D0A426F 		.ascii	"\015\012Bootloader version: \000"
-  73      6F746C6F 
-  73      61646572 
-  73      20766572 
-  73      73696F6E 
-  74              		.section	.text.cmd_get_bootloader_version,"ax",%progbits
-  75              		.align	1
-  76              		.syntax unified
-  77              		.thumb
-  78              		.thumb_func
-  80              	cmd_get_bootloader_version:
-  81              	.LVL4:
-  82              	.LFB4:
-  57:External/bootloader/Src/bootloader_cmd.c **** 
-  58:External/bootloader/Src/bootloader_cmd.c **** static void cmd_get_id(uint8_t *const uart_buffer)
-  59:External/bootloader/Src/bootloader_cmd.c **** {
-  60:External/bootloader/Src/bootloader_cmd.c ****   strncpy((char*)uart_buffer, id_message, strlen(id_message));
-  61:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(id_message));
-  62:External/bootloader/Src/bootloader_cmd.c **** 
-  63:External/bootloader/Src/bootloader_cmd.c ****   uint8_t size = int_to_string(uart_buffer, bootloader_io_get_dev_id());
-  64:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, size);
-  65:External/bootloader/Src/bootloader_cmd.c **** }
-  66:External/bootloader/Src/bootloader_cmd.c **** 
-  67:External/bootloader/Src/bootloader_cmd.c **** static void cmd_get_bootloader_version(uint8_t *const uart_buffer)
-  68:External/bootloader/Src/bootloader_cmd.c **** {
-  83              		.loc 1 68 1 is_stmt 1 view -0
-  84              		.cfi_startproc
-  85              		@ args = 0, pretend = 0, frame = 0
-  86              		@ frame_needed = 0, uses_anonymous_args = 0
-  87              		.loc 1 68 1 is_stmt 0 view .LVU9
-  88 0000 38B5     		push	{r3, r4, r5, lr}
-  89              	.LCFI1:
-  90              		.cfi_def_cfa_offset 16
-ARM GAS  /tmp/ccHVVVIy.s 			page 4
+  58              		.loc 1 55 5 is_stmt 1 view .LVU10
+  55:External/bootloader/Src/bootloader_cmd.c ****   (void)bootloader_io_write(uart_buffer, 1);
+  59              		.loc 1 55 20 is_stmt 0 view .LVU11
+  60 0014 014B     		ldr	r3, .L5
+  61 0016 5522     		movs	r2, #85
+  62 0018 1A70     		strb	r2, [r3]
+  63 001a F6E7     		b	.L3
+  64              	.L6:
+  65              		.align	2
+  66              	.L5:
+  67 001c 00000000 		.word	uart_buffer
+  68              		.cfi_endproc
+  69              	.LFE2:
+  71              		.section	.rodata.cmd_help.str1.4,"aMS",%progbits,1
+  72              		.align	2
+  73              	.LC0:
+  74 0000 0D0A436F 		.ascii	"\015\012Commands:\015\012Get id of chip - '1';\015\012"
+  74      6D6D616E 
+  74      64733A0D 
+  74      0A476574 
+  74      20696420 
+  75 0024 47657420 		.ascii	"Get bootloader version - '2';\015\012Write to memor"
+  75      626F6F74 
+  75      6C6F6164 
+  75      65722076 
+  75      65727369 
+  76 0051 79202834 		.ascii	"y (4 bytes) - '3'.\000"
+  76      20627974 
+  76      65732920 
+  76      2D202733 
+  76      272E00
+  77              		.section	.text.cmd_help,"ax",%progbits
+  78              		.align	1
+  79              		.syntax unified
+  80              		.thumb
+  81              		.thumb_func
+  83              	cmd_help:
+  84              	.LFB3:
+  58:External/bootloader/Src/bootloader_cmd.c **** 
+  59:External/bootloader/Src/bootloader_cmd.c **** static void cmd_help()
+  60:External/bootloader/Src/bootloader_cmd.c **** {
+  85              		.loc 1 60 1 is_stmt 1 view -0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89 0000 38B5     		push	{r3, r4, r5, lr}
+  90              	.LCFI1:
+  91              		.cfi_def_cfa_offset 16
+  92              		.cfi_offset 3, -16
+  93              		.cfi_offset 4, -12
+  94              		.cfi_offset 5, -8
+  95              		.cfi_offset 14, -4
+  61:External/bootloader/Src/bootloader_cmd.c ****   strncpy(
+  96              		.loc 1 61 3 view .LVU13
+  97              		.loc 1 61 3 is_stmt 0 discriminator 1 view .LVU14
+  98 0002 064C     		ldr	r4, .L9
+  99 0004 6325     		movs	r5, #99
+ARM GAS  /tmp/ccCICZWy.s 			page 4
 
 
-  91              		.cfi_offset 3, -16
-  92              		.cfi_offset 4, -12
-  93              		.cfi_offset 5, -8
-  94              		.cfi_offset 14, -4
-  95 0002 0446     		mov	r4, r0
-  69:External/bootloader/Src/bootloader_cmd.c ****   strncpy(
-  96              		.loc 1 69 3 is_stmt 1 view .LVU10
-  97              		.loc 1 69 3 is_stmt 0 discriminator 1 view .LVU11
-  98 0004 0C4D     		ldr	r5, .L7
-  99 0006 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
- 100              	.LVL5:
- 101              		.loc 1 69 3 discriminator 1 view .LVU12
- 102 0008 2060     		str	r0, [r4]	@ unaligned
- 103 000a 6160     		str	r1, [r4, #4]	@ unaligned
- 104 000c A260     		str	r2, [r4, #8]	@ unaligned
- 105 000e E360     		str	r3, [r4, #12]	@ unaligned
- 106 0010 2868     		ldr	r0, [r5]
- 107 0012 2061     		str	r0, [r4, #16]	@ unaligned
- 108 0014 AB88     		ldrh	r3, [r5, #4]	@ unaligned
- 109 0016 A382     		strh	r3, [r4, #20]	@ unaligned
-  70:External/bootloader/Src/bootloader_cmd.c ****     (char*)uart_buffer,
-  71:External/bootloader/Src/bootloader_cmd.c ****     bootloader_version_message,
-  72:External/bootloader/Src/bootloader_cmd.c ****     strlen(bootloader_version_message)
-  73:External/bootloader/Src/bootloader_cmd.c ****   );
-  74:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(bootloader_version_message));
- 110              		.loc 1 74 3 is_stmt 1 view .LVU13
- 111              		.loc 1 74 3 is_stmt 0 discriminator 1 view .LVU14
- 112 0018 1621     		movs	r1, #22
- 113 001a 2046     		mov	r0, r4
- 114 001c FFF7FEFF 		bl	bootloader_io_write
- 115              	.LVL6:
-  75:External/bootloader/Src/bootloader_cmd.c **** 
-  76:External/bootloader/Src/bootloader_cmd.c ****   uart_buffer[0] = BOOTLOADER_VER_MAJOR;
- 116              		.loc 1 76 3 is_stmt 1 view .LVU15
- 117              		.loc 1 76 18 is_stmt 0 view .LVU16
- 118 0020 3023     		movs	r3, #48
- 119 0022 2370     		strb	r3, [r4]
-  77:External/bootloader/Src/bootloader_cmd.c ****   uart_buffer[1] = '.';
- 120              		.loc 1 77 3 is_stmt 1 view .LVU17
- 121              		.loc 1 77 18 is_stmt 0 view .LVU18
- 122 0024 2E23     		movs	r3, #46
- 123 0026 6370     		strb	r3, [r4, #1]
-  78:External/bootloader/Src/bootloader_cmd.c ****   uart_buffer[2] = BOOTLOADER_VER_MINOR;
- 124              		.loc 1 78 3 is_stmt 1 view .LVU19
- 125              		.loc 1 78 18 is_stmt 0 view .LVU20
- 126 0028 3123     		movs	r3, #49
- 127 002a A370     		strb	r3, [r4, #2]
-  79:External/bootloader/Src/bootloader_cmd.c **** 
-  80:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, 3);
- 128              		.loc 1 80 3 is_stmt 1 view .LVU21
- 129 002c 0321     		movs	r1, #3
- 130 002e 2046     		mov	r0, r4
- 131 0030 FFF7FEFF 		bl	bootloader_io_write
- 132              	.LVL7:
-  81:External/bootloader/Src/bootloader_cmd.c **** }
- 133              		.loc 1 81 1 is_stmt 0 view .LVU22
- 134 0034 38BD     		pop	{r3, r4, r5, pc}
-ARM GAS  /tmp/ccHVVVIy.s 			page 5
+ 100 0006 2A46     		mov	r2, r5
+ 101 0008 0549     		ldr	r1, .L9+4
+ 102 000a 2046     		mov	r0, r4
+ 103 000c FFF7FEFF 		bl	memcpy
+ 104              	.LVL4:
+  62:External/bootloader/Src/bootloader_cmd.c ****     (char*)uart_buffer,
+  63:External/bootloader/Src/bootloader_cmd.c ****     commands_list_message,
+  64:External/bootloader/Src/bootloader_cmd.c ****     strlen(commands_list_message)
+  65:External/bootloader/Src/bootloader_cmd.c ****   );
+  66:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(commands_list_message));
+ 105              		.loc 1 66 3 is_stmt 1 view .LVU15
+ 106              		.loc 1 66 3 is_stmt 0 discriminator 1 view .LVU16
+ 107 0010 2946     		mov	r1, r5
+ 108 0012 2046     		mov	r0, r4
+ 109 0014 FFF7FEFF 		bl	bootloader_io_write
+ 110              	.LVL5:
+  67:External/bootloader/Src/bootloader_cmd.c **** }
+ 111              		.loc 1 67 1 view .LVU17
+ 112 0018 38BD     		pop	{r3, r4, r5, pc}
+ 113              	.L10:
+ 114 001a 00BF     		.align	2
+ 115              	.L9:
+ 116 001c 00000000 		.word	uart_buffer
+ 117 0020 00000000 		.word	.LC0
+ 118              		.cfi_endproc
+ 119              	.LFE3:
+ 121              		.section	.rodata.cmd_get_bootloader_version.str1.4,"aMS",%progbits,1
+ 122              		.align	2
+ 123              	.LC1:
+ 124 0000 0D0A426F 		.ascii	"\015\012Bootloader version: \000"
+ 124      6F746C6F 
+ 124      61646572 
+ 124      20766572 
+ 124      73696F6E 
+ 125              		.section	.text.cmd_get_bootloader_version,"ax",%progbits
+ 126              		.align	1
+ 127              		.syntax unified
+ 128              		.thumb
+ 129              		.thumb_func
+ 131              	cmd_get_bootloader_version:
+ 132              	.LFB5:
+  68:External/bootloader/Src/bootloader_cmd.c **** 
+  69:External/bootloader/Src/bootloader_cmd.c **** static void cmd_get_id()
+  70:External/bootloader/Src/bootloader_cmd.c **** {
+  71:External/bootloader/Src/bootloader_cmd.c ****   strncpy((char*)uart_buffer, id_message, strlen(id_message) + 1);
+  72:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(id_message) + 1);
+  73:External/bootloader/Src/bootloader_cmd.c **** 
+  74:External/bootloader/Src/bootloader_cmd.c ****   uint8_t size = int_to_string(uart_buffer, bootloader_io_get_dev_id());
+  75:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, size);
+  76:External/bootloader/Src/bootloader_cmd.c **** }
+  77:External/bootloader/Src/bootloader_cmd.c **** 
+  78:External/bootloader/Src/bootloader_cmd.c **** static void cmd_get_bootloader_version()
+  79:External/bootloader/Src/bootloader_cmd.c **** {
+ 133              		.loc 1 79 1 is_stmt 1 view -0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccCICZWy.s 			page 5
 
 
- 135              	.LVL8:
- 136              	.L8:
- 137              		.loc 1 81 1 view .LVU23
- 138 0036 00BF     		.align	2
- 139              	.L7:
- 140 0038 00000000 		.word	.LC1
- 141              		.cfi_endproc
- 142              	.LFE4:
- 144              		.section	.rodata.cmd_get_id.str1.4,"aMS",%progbits,1
- 145              		.align	2
- 146              	.LC2:
- 147 0000 0D0A4368 		.ascii	"\015\012Chip ID: \000"
- 147      69702049 
- 147      443A2000 
- 148              		.section	.text.cmd_get_id,"ax",%progbits
- 149              		.align	1
- 150              		.syntax unified
- 151              		.thumb
- 152              		.thumb_func
- 154              	cmd_get_id:
- 155              	.LVL9:
- 156              	.LFB3:
-  59:External/bootloader/Src/bootloader_cmd.c ****   strncpy((char*)uart_buffer, id_message, strlen(id_message));
- 157              		.loc 1 59 1 is_stmt 1 view -0
- 158              		.cfi_startproc
- 159              		@ args = 0, pretend = 0, frame = 0
- 160              		@ frame_needed = 0, uses_anonymous_args = 0
-  59:External/bootloader/Src/bootloader_cmd.c ****   strncpy((char*)uart_buffer, id_message, strlen(id_message));
- 161              		.loc 1 59 1 is_stmt 0 view .LVU25
- 162 0000 10B5     		push	{r4, lr}
- 163              	.LCFI2:
- 164              		.cfi_def_cfa_offset 8
- 165              		.cfi_offset 4, -8
- 166              		.cfi_offset 14, -4
- 167 0002 0446     		mov	r4, r0
-  60:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(id_message));
- 168              		.loc 1 60 3 is_stmt 1 view .LVU26
-  60:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(id_message));
- 169              		.loc 1 60 3 is_stmt 0 discriminator 1 view .LVU27
- 170 0004 1E4B     		ldr	r3, .L14
- 171 0006 03CB     		ldmia	r3!, {r0, r1}
- 172              	.LVL10:
-  60:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(id_message));
- 173              		.loc 1 60 3 discriminator 1 view .LVU28
- 174 0008 2060     		str	r0, [r4]	@ unaligned
- 175 000a 6160     		str	r1, [r4, #4]	@ unaligned
- 176 000c 1A88     		ldrh	r2, [r3]	@ unaligned
- 177 000e 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
- 178 0010 2281     		strh	r2, [r4, #8]	@ unaligned
- 179 0012 A372     		strb	r3, [r4, #10]
-  61:External/bootloader/Src/bootloader_cmd.c **** 
- 180              		.loc 1 61 3 is_stmt 1 view .LVU29
-  61:External/bootloader/Src/bootloader_cmd.c **** 
- 181              		.loc 1 61 3 is_stmt 0 discriminator 1 view .LVU30
- 182 0014 0B21     		movs	r1, #11
- 183 0016 2046     		mov	r0, r4
- 184 0018 FFF7FEFF 		bl	bootloader_io_write
-ARM GAS  /tmp/ccHVVVIy.s 			page 6
+ 137 0000 38B5     		push	{r3, r4, r5, lr}
+ 138              	.LCFI2:
+ 139              		.cfi_def_cfa_offset 16
+ 140              		.cfi_offset 3, -16
+ 141              		.cfi_offset 4, -12
+ 142              		.cfi_offset 5, -8
+ 143              		.cfi_offset 14, -4
+  80:External/bootloader/Src/bootloader_cmd.c ****   strncpy(
+ 144              		.loc 1 80 3 view .LVU19
+ 145 0002 0F4D     		ldr	r5, .L13
+ 146 0004 AC46     		mov	ip, r5
+ 147 0006 0F4C     		ldr	r4, .L13+4
+ 148 0008 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 149 000a ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 150 000e 94E80300 		ldm	r4, {r0, r1}
+ 151 0012 4CF8040B 		str	r0, [ip], #4
+ 152 0016 2CF8021B 		strh	r1, [ip], #2	@ movhi
+ 153 001a 090C     		lsrs	r1, r1, #16
+ 154 001c 8CF80010 		strb	r1, [ip]
+  81:External/bootloader/Src/bootloader_cmd.c ****     (char*)uart_buffer,
+  82:External/bootloader/Src/bootloader_cmd.c ****     bootloader_version_message,
+  83:External/bootloader/Src/bootloader_cmd.c ****     strlen(bootloader_version_message) + 1
+  84:External/bootloader/Src/bootloader_cmd.c ****   );
+  85:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(bootloader_version_message) + 1);
+ 155              		.loc 1 85 3 view .LVU20
+ 156              		.loc 1 85 3 is_stmt 0 discriminator 1 view .LVU21
+ 157 0020 1721     		movs	r1, #23
+ 158 0022 2846     		mov	r0, r5
+ 159 0024 FFF7FEFF 		bl	bootloader_io_write
+ 160              	.LVL6:
+  86:External/bootloader/Src/bootloader_cmd.c **** 
+  87:External/bootloader/Src/bootloader_cmd.c ****   uart_buffer[0] = BOOTLOADER_VER_MAJOR;
+ 161              		.loc 1 87 3 is_stmt 1 view .LVU22
+ 162              		.loc 1 87 18 is_stmt 0 view .LVU23
+ 163 0028 3023     		movs	r3, #48
+ 164 002a 2B70     		strb	r3, [r5]
+  88:External/bootloader/Src/bootloader_cmd.c ****   uart_buffer[1] = '.';
+ 165              		.loc 1 88 3 is_stmt 1 view .LVU24
+ 166              		.loc 1 88 18 is_stmt 0 view .LVU25
+ 167 002c 2E23     		movs	r3, #46
+ 168 002e 6B70     		strb	r3, [r5, #1]
+  89:External/bootloader/Src/bootloader_cmd.c ****   uart_buffer[2] = BOOTLOADER_VER_MINOR;
+ 169              		.loc 1 89 3 is_stmt 1 view .LVU26
+ 170              		.loc 1 89 18 is_stmt 0 view .LVU27
+ 171 0030 3123     		movs	r3, #49
+ 172 0032 AB70     		strb	r3, [r5, #2]
+  90:External/bootloader/Src/bootloader_cmd.c **** 
+  91:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, 3);
+ 173              		.loc 1 91 3 is_stmt 1 view .LVU28
+ 174 0034 0321     		movs	r1, #3
+ 175 0036 2846     		mov	r0, r5
+ 176 0038 FFF7FEFF 		bl	bootloader_io_write
+ 177              	.LVL7:
+  92:External/bootloader/Src/bootloader_cmd.c **** }
+ 178              		.loc 1 92 1 is_stmt 0 view .LVU29
+ 179 003c 38BD     		pop	{r3, r4, r5, pc}
+ 180              	.L14:
+ARM GAS  /tmp/ccCICZWy.s 			page 6
 
 
- 185              	.LVL11:
-  63:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, size);
- 186              		.loc 1 63 3 is_stmt 1 view .LVU31
-  63:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, size);
- 187              		.loc 1 63 18 is_stmt 0 view .LVU32
- 188 001c FFF7FEFF 		bl	bootloader_io_get_dev_id
- 189              	.LVL12:
- 190              	.LBB8:
- 191              	.LBI8:
+ 181 003e 00BF     		.align	2
+ 182              	.L13:
+ 183 0040 00000000 		.word	uart_buffer
+ 184 0044 00000000 		.word	.LC1
+ 185              		.cfi_endproc
+ 186              	.LFE5:
+ 188              		.section	.rodata.cmd_get_id.str1.4,"aMS",%progbits,1
+ 189              		.align	2
+ 190              	.LC2:
+ 191 0000 0D0A4368 		.ascii	"\015\012Chip ID: \000"
+ 191      69702049 
+ 191      443A2000 
+ 192              		.section	.text.cmd_get_id,"ax",%progbits
+ 193              		.align	1
+ 194              		.syntax unified
+ 195              		.thumb
+ 196              		.thumb_func
+ 198              	cmd_get_id:
+ 199              	.LFB4:
+  70:External/bootloader/Src/bootloader_cmd.c ****   strncpy((char*)uart_buffer, id_message, strlen(id_message) + 1);
+ 200              		.loc 1 70 1 is_stmt 1 view -0
+ 201              		.cfi_startproc
+ 202              		@ args = 0, pretend = 0, frame = 0
+ 203              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204 0000 10B5     		push	{r4, lr}
+ 205              	.LCFI3:
+ 206              		.cfi_def_cfa_offset 8
+ 207              		.cfi_offset 4, -8
+ 208              		.cfi_offset 14, -4
+  71:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(id_message) + 1);
+ 209              		.loc 1 71 3 view .LVU31
+  71:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, strlen(id_message) + 1);
+ 210              		.loc 1 71 3 is_stmt 0 discriminator 1 view .LVU32
+ 211 0002 1E4B     		ldr	r3, .L20
+ 212 0004 1E4A     		ldr	r2, .L20+4
+ 213 0006 07CA     		ldm	r2, {r0, r1, r2}
+ 214 0008 83E80700 		stm	r3, {r0, r1, r2}
+  72:External/bootloader/Src/bootloader_cmd.c **** 
+ 215              		.loc 1 72 3 is_stmt 1 view .LVU33
+  72:External/bootloader/Src/bootloader_cmd.c **** 
+ 216              		.loc 1 72 3 is_stmt 0 discriminator 1 view .LVU34
+ 217 000c 0C21     		movs	r1, #12
+ 218 000e 1846     		mov	r0, r3
+ 219 0010 FFF7FEFF 		bl	bootloader_io_write
+ 220              	.LVL8:
+  74:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, size);
+ 221              		.loc 1 74 3 is_stmt 1 view .LVU35
+  74:External/bootloader/Src/bootloader_cmd.c ****   bootloader_io_write(uart_buffer, size);
+ 222              		.loc 1 74 18 is_stmt 0 view .LVU36
+ 223 0014 FFF7FEFF 		bl	bootloader_io_get_dev_id
+ 224              	.LVL9:
+ 225              	.LBB8:
+ 226              	.LBI8:
   28:External/bootloader/Src/bootloader_cmd.c **** {
- 192              		.loc 1 28 23 is_stmt 1 view .LVU33
- 193              	.LBB9:
+ 227              		.loc 1 28 23 is_stmt 1 view .LVU37
+ 228              	.LBB9:
   30:External/bootloader/Src/bootloader_cmd.c ****     
- 194              		.loc 1 30 3 view .LVU34
+ARM GAS  /tmp/ccCICZWy.s 			page 7
+
+
+ 229              		.loc 1 30 3 view .LVU38
   30:External/bootloader/Src/bootloader_cmd.c ****     
- 195              		.loc 1 30 7 is_stmt 0 view .LVU35
- 196 0020 0021     		movs	r1, #0
- 197              	.LVL13:
- 198              	.L10:
+ 230              		.loc 1 30 7 is_stmt 0 view .LVU39
+ 231 0018 0021     		movs	r1, #0
+ 232              	.LVL10:
+ 233              	.L16:
   32:External/bootloader/Src/bootloader_cmd.c ****     buffer[i++] = num % 10 + '0';
- 199              		.loc 1 32 3 is_stmt 1 view .LVU36
+ 234              		.loc 1 32 3 is_stmt 1 view .LVU40
   33:External/bootloader/Src/bootloader_cmd.c ****     num /= 10;
- 200              		.loc 1 33 5 view .LVU37
+ 235              		.loc 1 33 5 view .LVU41
   33:External/bootloader/Src/bootloader_cmd.c ****     num /= 10;
- 201              		.loc 1 33 23 is_stmt 0 view .LVU38
- 202 0022 184B     		ldr	r3, .L14+4
- 203 0024 A3FB0023 		umull	r2, r3, r3, r0
- 204 0028 DB08     		lsrs	r3, r3, #3
- 205 002a 9C46     		mov	ip, r3
- 206 002c 03EB8303 		add	r3, r3, r3, lsl #2
- 207 0030 A0EB4303 		sub	r3, r0, r3, lsl #1
+ 236              		.loc 1 33 23 is_stmt 0 view .LVU42
+ 237 001a 1A4B     		ldr	r3, .L20+8
+ 238 001c A3FB0023 		umull	r2, r3, r3, r0
+ 239 0020 DB08     		lsrs	r3, r3, #3
+ 240 0022 9C46     		mov	ip, r3
+ 241 0024 03EB8303 		add	r3, r3, r3, lsl #2
+ 242 0028 A0EB4303 		sub	r3, r0, r3, lsl #1
   33:External/bootloader/Src/bootloader_cmd.c ****     num /= 10;
- 208              		.loc 1 33 28 view .LVU39
- 209 0034 3033     		adds	r3, r3, #48
+ 243              		.loc 1 33 28 view .LVU43
+ 244 002c 3033     		adds	r3, r3, #48
   33:External/bootloader/Src/bootloader_cmd.c ****     num /= 10;
- 210              		.loc 1 33 17 view .LVU40
- 211 0036 6354     		strb	r3, [r4, r1]
- 212 0038 0131     		adds	r1, r1, #1
- 213              	.LVL14:
+ 245              		.loc 1 33 17 view .LVU44
+ 246 002e 134C     		ldr	r4, .L20
+ 247 0030 6354     		strb	r3, [r4, r1]
+ 248 0032 0131     		adds	r1, r1, #1
+ 249              	.LVL11:
   34:External/bootloader/Src/bootloader_cmd.c ****   } while (num > 0);
- 214              		.loc 1 34 5 is_stmt 1 view .LVU41
- 215 003a 0346     		mov	r3, r0
+ 250              		.loc 1 34 5 is_stmt 1 view .LVU45
+ 251 0034 0346     		mov	r3, r0
   34:External/bootloader/Src/bootloader_cmd.c ****   } while (num > 0);
- 216              		.loc 1 34 9 is_stmt 0 view .LVU42
- 217 003c 6046     		mov	r0, ip
- 218              	.LVL15:
+ 252              		.loc 1 34 9 is_stmt 0 view .LVU46
+ 253 0036 6046     		mov	r0, ip
+ 254              	.LVL12:
   35:External/bootloader/Src/bootloader_cmd.c ****   buffer[i] = '\0';
- 219              		.loc 1 35 16 is_stmt 1 discriminator 1 view .LVU43
- 220 003e 092B     		cmp	r3, #9
- 221 0040 EFD8     		bhi	.L10
+ 255              		.loc 1 35 16 is_stmt 1 discriminator 1 view .LVU47
+ 256 0038 092B     		cmp	r3, #9
+ 257 003a EED8     		bhi	.L16
   36:External/bootloader/Src/bootloader_cmd.c **** 
- 222              		.loc 1 36 3 view .LVU44
+ 258              		.loc 1 36 3 view .LVU48
   36:External/bootloader/Src/bootloader_cmd.c **** 
- 223              		.loc 1 36 13 is_stmt 0 view .LVU45
- 224 0042 0022     		movs	r2, #0
- 225 0044 6254     		strb	r2, [r4, r1]
+ 259              		.loc 1 36 13 is_stmt 0 view .LVU49
+ 260 003c 0022     		movs	r2, #0
+ 261 003e 6254     		strb	r2, [r4, r1]
   39:External/bootloader/Src/bootloader_cmd.c ****   while (j < i / 2) {
-ARM GAS  /tmp/ccHVVVIy.s 			page 7
+ 262              		.loc 1 39 3 is_stmt 1 view .LVU50
+ 263              	.LVL13:
+  40:External/bootloader/Src/bootloader_cmd.c ****     swap(buffer + j, buffer + (i - j - 1));
+ 264              		.loc 1 40 3 view .LVU51
+  40:External/bootloader/Src/bootloader_cmd.c ****     swap(buffer + j, buffer + (i - j - 1));
+ 265              		.loc 1 40 9 is_stmt 0 view .LVU52
+ 266 0040 12E0     		b	.L17
+ 267              	.LVL14:
+ 268              	.L18:
+  41:External/bootloader/Src/bootloader_cmd.c ****     j++;
+ 269              		.loc 1 41 5 is_stmt 1 view .LVU53
+ 270 0042 0E48     		ldr	r0, .L20
+ARM GAS  /tmp/ccCICZWy.s 			page 8
 
 
- 226              		.loc 1 39 3 is_stmt 1 view .LVU46
- 227              	.LVL16:
-  40:External/bootloader/Src/bootloader_cmd.c ****     swap(buffer + j, buffer + (i - j - 1));
- 228              		.loc 1 40 3 view .LVU47
-  40:External/bootloader/Src/bootloader_cmd.c ****     swap(buffer + j, buffer + (i - j - 1));
- 229              		.loc 1 40 9 is_stmt 0 view .LVU48
- 230 0046 10E0     		b	.L11
- 231              	.LVL17:
- 232              	.L12:
   41:External/bootloader/Src/bootloader_cmd.c ****     j++;
- 233              		.loc 1 41 5 is_stmt 1 view .LVU49
+ 271              		.loc 1 41 34 is_stmt 0 view .LVU54
+ 272 0044 A1EB020C 		sub	ip, r1, r2
   41:External/bootloader/Src/bootloader_cmd.c ****     j++;
- 234              		.loc 1 41 34 is_stmt 0 view .LVU50
- 235 0048 881A     		subs	r0, r1, r2
-  41:External/bootloader/Src/bootloader_cmd.c ****     j++;
- 236              		.loc 1 41 29 view .LVU51
- 237 004a 0138     		subs	r0, r0, #1
- 238              	.LVL18:
- 239              	.LBB10:
- 240              	.LBI10:
+ 273              		.loc 1 41 29 view .LVU55
+ 274 0048 0CF1FF3C 		add	ip, ip, #-1
+ 275              	.LVL15:
+ 276              	.LBB10:
+ 277              	.LBI10:
   20:External/bootloader/Src/bootloader_cmd.c **** {
- 241              		.loc 1 20 20 is_stmt 1 view .LVU52
- 242              	.LBB11:
+ 278              		.loc 1 20 20 is_stmt 1 view .LVU56
+ 279              	.LBB11:
   22:External/bootloader/Src/bootloader_cmd.c ****   *b = *a ^ *b;
- 243              		.loc 1 22 3 view .LVU53
+ 280              		.loc 1 22 3 view .LVU57
   22:External/bootloader/Src/bootloader_cmd.c ****   *b = *a ^ *b;
- 244              		.loc 1 22 8 is_stmt 0 view .LVU54
- 245 004c A35C     		ldrb	r3, [r4, r2]	@ zero_extendqisi2
+ 281              		.loc 1 22 8 is_stmt 0 view .LVU58
+ 282 004c 835C     		ldrb	r3, [r0, r2]	@ zero_extendqisi2
   22:External/bootloader/Src/bootloader_cmd.c ****   *b = *a ^ *b;
- 246              		.loc 1 22 13 view .LVU55
- 247 004e 14F800C0 		ldrb	ip, [r4, r0]	@ zero_extendqisi2
+ 283              		.loc 1 22 13 view .LVU59
+ 284 004e 10F80C40 		ldrb	r4, [r0, ip]	@ zero_extendqisi2
   22:External/bootloader/Src/bootloader_cmd.c ****   *b = *a ^ *b;
- 248              		.loc 1 22 6 view .LVU56
- 249 0052 83EA0C03 		eor	r3, r3, ip
- 250 0056 A354     		strb	r3, [r4, r2]
+ 285              		.loc 1 22 6 view .LVU60
+ 286 0052 6340     		eors	r3, r3, r4
+ 287 0054 8354     		strb	r3, [r0, r2]
   23:External/bootloader/Src/bootloader_cmd.c ****   *a = *b ^ *a;
- 251              		.loc 1 23 3 is_stmt 1 view .LVU57
+ 288              		.loc 1 23 3 is_stmt 1 view .LVU61
   23:External/bootloader/Src/bootloader_cmd.c ****   *a = *b ^ *a;
- 252              		.loc 1 23 13 is_stmt 0 view .LVU58
- 253 0058 14F800C0 		ldrb	ip, [r4, r0]	@ zero_extendqisi2
+ 289              		.loc 1 23 13 is_stmt 0 view .LVU62
+ 290 0056 10F80C40 		ldrb	r4, [r0, ip]	@ zero_extendqisi2
   23:External/bootloader/Src/bootloader_cmd.c ****   *a = *b ^ *a;
- 254              		.loc 1 23 6 view .LVU59
- 255 005c 83EA0C03 		eor	r3, r3, ip
- 256 0060 2354     		strb	r3, [r4, r0]
+ 291              		.loc 1 23 6 view .LVU63
+ 292 005a 6340     		eors	r3, r3, r4
+ 293 005c 00F80C30 		strb	r3, [r0, ip]
   24:External/bootloader/Src/bootloader_cmd.c **** }
- 257              		.loc 1 24 3 is_stmt 1 view .LVU60
+ 294              		.loc 1 24 3 is_stmt 1 view .LVU64
   24:External/bootloader/Src/bootloader_cmd.c **** }
- 258              		.loc 1 24 13 is_stmt 0 view .LVU61
- 259 0062 A05C     		ldrb	r0, [r4, r2]	@ zero_extendqisi2
- 260              	.LVL19:
+ 295              		.loc 1 24 13 is_stmt 0 view .LVU65
+ 296 0060 845C     		ldrb	r4, [r0, r2]	@ zero_extendqisi2
   24:External/bootloader/Src/bootloader_cmd.c **** }
- 261              		.loc 1 24 6 view .LVU62
- 262 0064 4340     		eors	r3, r3, r0
- 263 0066 A354     		strb	r3, [r4, r2]
- 264              	.LVL20:
+ 297              		.loc 1 24 6 view .LVU66
+ 298 0062 6340     		eors	r3, r3, r4
+ 299 0064 8354     		strb	r3, [r0, r2]
+ 300              	.LVL16:
   24:External/bootloader/Src/bootloader_cmd.c **** }
- 265              		.loc 1 24 6 view .LVU63
-ARM GAS  /tmp/ccHVVVIy.s 			page 8
-
-
- 266              	.LBE11:
- 267              	.LBE10:
+ 301              		.loc 1 24 6 view .LVU67
+ 302              	.LBE11:
+ 303              	.LBE10:
   42:External/bootloader/Src/bootloader_cmd.c ****   }
- 268              		.loc 1 42 5 is_stmt 1 view .LVU64
+ 304              		.loc 1 42 5 is_stmt 1 view .LVU68
   42:External/bootloader/Src/bootloader_cmd.c ****   }
- 269              		.loc 1 42 6 is_stmt 0 view .LVU65
- 270 0068 0132     		adds	r2, r2, #1
- 271              	.LVL21:
- 272              	.L11:
+ 305              		.loc 1 42 6 is_stmt 0 view .LVU69
+ 306 0066 0132     		adds	r2, r2, #1
+ 307              	.LVL17:
+ 308              	.L17:
   40:External/bootloader/Src/bootloader_cmd.c ****     swap(buffer + j, buffer + (i - j - 1));
- 273              		.loc 1 40 12 is_stmt 1 view .LVU66
+ 309              		.loc 1 40 12 is_stmt 1 view .LVU70
   40:External/bootloader/Src/bootloader_cmd.c ****     swap(buffer + j, buffer + (i - j - 1));
- 274              		.loc 1 40 16 is_stmt 0 view .LVU67
- 275 006a 01EBD173 		add	r3, r1, r1, lsr #31
+ARM GAS  /tmp/ccCICZWy.s 			page 9
+
+
+ 310              		.loc 1 40 16 is_stmt 0 view .LVU71
+ 311 0068 01EBD173 		add	r3, r1, r1, lsr #31
   40:External/bootloader/Src/bootloader_cmd.c ****     swap(buffer + j, buffer + (i - j - 1));
- 276              		.loc 1 40 12 view .LVU68
- 277 006e B2EB630F 		cmp	r2, r3, asr #1
- 278 0072 E9DB     		blt	.L12
+ 312              		.loc 1 40 12 view .LVU72
+ 313 006c B2EB630F 		cmp	r2, r3, asr #1
+ 314 0070 E7DB     		blt	.L18
   45:External/bootloader/Src/bootloader_cmd.c **** }
- 279              		.loc 1 45 3 is_stmt 1 view .LVU69
- 280              	.LVL22:
+ 315              		.loc 1 45 3 is_stmt 1 view .LVU73
+ 316              	.LVL18:
   45:External/bootloader/Src/bootloader_cmd.c **** }
- 281              		.loc 1 45 3 is_stmt 0 view .LVU70
- 282              	.LBE9:
- 283              	.LBE8:
-  64:External/bootloader/Src/bootloader_cmd.c **** }
- 284              		.loc 1 64 3 is_stmt 1 view .LVU71
- 285 0074 C9B2     		uxtb	r1, r1
-  64:External/bootloader/Src/bootloader_cmd.c **** }
- 286              		.loc 1 64 3 is_stmt 0 view .LVU72
- 287 0076 2046     		mov	r0, r4
- 288 0078 FFF7FEFF 		bl	bootloader_io_write
- 289              	.LVL23:
-  65:External/bootloader/Src/bootloader_cmd.c **** 
- 290              		.loc 1 65 1 view .LVU73
- 291 007c 10BD     		pop	{r4, pc}
- 292              	.LVL24:
- 293              	.L15:
-  65:External/bootloader/Src/bootloader_cmd.c **** 
- 294              		.loc 1 65 1 view .LVU74
- 295 007e 00BF     		.align	2
- 296              	.L14:
- 297 0080 00000000 		.word	.LC2
- 298 0084 CDCCCCCC 		.word	-858993459
- 299              		.cfi_endproc
- 300              	.LFE3:
- 302              		.section	.rodata.bootloader_start_output.str1.4,"aMS",%progbits,1
- 303              		.align	2
- 304              	.LC3:
- 305 0000 2D466C65 		.ascii	"-FlexyPixel Bootloader. Type '0' for commands list\000"
- 305      78795069 
- 305      78656C20 
- 305      426F6F74 
- 305      6C6F6164 
- 306 0033 00       		.align	2
- 307              	.LC4:
- 308 0034 0D0A3E3E 		.ascii	"\015\012>>\000"
-ARM GAS  /tmp/ccHVVVIy.s 			page 9
+ 317              		.loc 1 45 3 is_stmt 0 view .LVU74
+ 318              	.LBE9:
+ 319              	.LBE8:
+  75:External/bootloader/Src/bootloader_cmd.c **** }
+ 320              		.loc 1 75 3 is_stmt 1 view .LVU75
+ 321 0072 C9B2     		uxtb	r1, r1
+  75:External/bootloader/Src/bootloader_cmd.c **** }
+ 322              		.loc 1 75 3 is_stmt 0 view .LVU76
+ 323 0074 0148     		ldr	r0, .L20
+ 324 0076 FFF7FEFF 		bl	bootloader_io_write
+ 325              	.LVL19:
+  76:External/bootloader/Src/bootloader_cmd.c **** 
+ 326              		.loc 1 76 1 view .LVU77
+ 327 007a 10BD     		pop	{r4, pc}
+ 328              	.L21:
+ 329              		.align	2
+ 330              	.L20:
+ 331 007c 00000000 		.word	uart_buffer
+ 332 0080 00000000 		.word	.LC2
+ 333 0084 CDCCCCCC 		.word	-858993459
+ 334              		.cfi_endproc
+ 335              	.LFE4:
+ 337              		.section	.text.cmd_write,"ax",%progbits
+ 338              		.align	1
+ 339              		.syntax unified
+ 340              		.thumb
+ 341              		.thumb_func
+ 343              	cmd_write:
+ 344              	.LFB6:
+  93:External/bootloader/Src/bootloader_cmd.c **** 
+  94:External/bootloader/Src/bootloader_cmd.c **** // cmd_0: address (4 bytes)
+  95:External/bootloader/Src/bootloader_cmd.c **** // cmd_0: data (4 bytes)
+  96:External/bootloader/Src/bootloader_cmd.c **** static bootloader_status cmd_write()
+  97:External/bootloader/Src/bootloader_cmd.c **** {
+ 345              		.loc 1 97 1 is_stmt 1 view -0
+ 346              		.cfi_startproc
+ 347              		@ args = 0, pretend = 0, frame = 8
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349 0000 10B5     		push	{r4, lr}
+ 350              	.LCFI4:
+ 351              		.cfi_def_cfa_offset 8
+ 352              		.cfi_offset 4, -8
+ 353              		.cfi_offset 14, -4
+ 354 0002 82B0     		sub	sp, sp, #8
+ 355              	.LCFI5:
+ 356              		.cfi_def_cfa_offset 16
+  98:External/bootloader/Src/bootloader_cmd.c ****   uint32_t address = 0;
+ARM GAS  /tmp/ccCICZWy.s 			page 10
 
 
- 308      00
- 309              		.section	.text.bootloader_start_output,"ax",%progbits
- 310              		.align	1
- 311              		.global	bootloader_start_output
- 312              		.syntax unified
- 313              		.thumb
- 314              		.thumb_func
- 316              	bootloader_start_output:
- 317              	.LFB6:
-  82:External/bootloader/Src/bootloader_cmd.c **** 
-  83:External/bootloader/Src/bootloader_cmd.c **** static void cmd_read_page(uint8_t *const uart_buffer)
-  84:External/bootloader/Src/bootloader_cmd.c **** {
-  85:External/bootloader/Src/bootloader_cmd.c ****   
-  86:External/bootloader/Src/bootloader_cmd.c **** }
-  87:External/bootloader/Src/bootloader_cmd.c **** 
-  88:External/bootloader/Src/bootloader_cmd.c **** // Implementations -----------------------------------------------------------
-  89:External/bootloader/Src/bootloader_cmd.c **** 
-  90:External/bootloader/Src/bootloader_cmd.c **** bootloader_status bootloader_start_output()
-  91:External/bootloader/Src/bootloader_cmd.c **** {
- 318              		.loc 1 91 1 is_stmt 1 view -0
- 319              		.cfi_startproc
- 320              		@ args = 0, pretend = 0, frame = 0
- 321              		@ frame_needed = 0, uses_anonymous_args = 0
- 322 0000 10B5     		push	{r4, lr}
- 323              	.LCFI3:
- 324              		.cfi_def_cfa_offset 8
- 325              		.cfi_offset 4, -8
- 326              		.cfi_offset 14, -4
-  92:External/bootloader/Src/bootloader_cmd.c ****   bootloader_status status = bootloader_io_write(
- 327              		.loc 1 92 3 view .LVU76
- 328              		.loc 1 92 30 is_stmt 0 view .LVU77
- 329 0002 3321     		movs	r1, #51
- 330 0004 0548     		ldr	r0, .L18
- 331 0006 FFF7FEFF 		bl	bootloader_io_write
- 332              	.LVL25:
- 333 000a 0446     		mov	r4, r0
- 334              	.LVL26:
-  93:External/bootloader/Src/bootloader_cmd.c ****     (uint8_t*)start_message,
-  94:External/bootloader/Src/bootloader_cmd.c ****     strlen(start_message) + 1
-  95:External/bootloader/Src/bootloader_cmd.c ****   );
-  96:External/bootloader/Src/bootloader_cmd.c ****   status |= bootloader_io_write(
- 335              		.loc 1 96 3 is_stmt 1 view .LVU78
- 336              		.loc 1 96 13 is_stmt 0 view .LVU79
- 337 000c 0521     		movs	r1, #5
- 338 000e 0448     		ldr	r0, .L18+4
- 339 0010 FFF7FEFF 		bl	bootloader_io_write
- 340              	.LVL27:
- 341              		.loc 1 96 10 discriminator 1 view .LVU80
- 342 0014 2043     		orrs	r0, r0, r4
- 343              	.LVL28:
-  97:External/bootloader/Src/bootloader_cmd.c ****     (uint8_t*)input_prompt,
-  98:External/bootloader/Src/bootloader_cmd.c ****     strlen(input_prompt) + 1
-  99:External/bootloader/Src/bootloader_cmd.c ****   );
- 100:External/bootloader/Src/bootloader_cmd.c **** 
- 101:External/bootloader/Src/bootloader_cmd.c ****   return status;
- 344              		.loc 1 101 3 is_stmt 1 view .LVU81
- 102:External/bootloader/Src/bootloader_cmd.c **** }
-ARM GAS  /tmp/ccHVVVIy.s 			page 10
-
-
- 345              		.loc 1 102 1 is_stmt 0 view .LVU82
- 346 0016 C0B2     		uxtb	r0, r0
- 347              		.loc 1 102 1 view .LVU83
- 348 0018 10BD     		pop	{r4, pc}
- 349              	.L19:
- 350 001a 00BF     		.align	2
- 351              	.L18:
- 352 001c 00000000 		.word	.LC3
- 353 0020 34000000 		.word	.LC4
- 354              		.cfi_endproc
- 355              	.LFE6:
- 357              		.section	.text.bootloader_proccess_input,"ax",%progbits
- 358              		.align	1
- 359              		.global	bootloader_proccess_input
- 360              		.syntax unified
- 361              		.thumb
- 362              		.thumb_func
- 364              	bootloader_proccess_input:
- 365              	.LFB7:
+ 357              		.loc 1 98 3 view .LVU79
+ 358              		.loc 1 98 12 is_stmt 0 view .LVU80
+ 359 0004 0023     		movs	r3, #0
+ 360 0006 0193     		str	r3, [sp, #4]
+  99:External/bootloader/Src/bootloader_cmd.c ****   bootloader_status status = bootloader_io_read(&address, sizeof(uint32_t));
+ 361              		.loc 1 99 3 is_stmt 1 view .LVU81
+ 362              		.loc 1 99 30 is_stmt 0 view .LVU82
+ 363 0008 0421     		movs	r1, #4
+ 364 000a 0DEB0100 		add	r0, sp, r1
+ 365 000e FFF7FEFF 		bl	bootloader_io_read
+ 366              	.LVL20:
+ 367 0012 0446     		mov	r4, r0
+ 368              	.LVL21:
+ 100:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 369              		.loc 1 100 3 is_stmt 1 view .LVU83
+ 370 0014 FFF7FEFF 		bl	send_response
+ 371              	.LVL22:
+ 101:External/bootloader/Src/bootloader_cmd.c ****   if (status)
+ 372              		.loc 1 101 3 view .LVU84
+ 373              		.loc 1 101 6 is_stmt 0 view .LVU85
+ 374 0018 14B1     		cbz	r4, .L25
+ 375              	.L23:
+ 102:External/bootloader/Src/bootloader_cmd.c ****     return status;
  103:External/bootloader/Src/bootloader_cmd.c **** 
- 104:External/bootloader/Src/bootloader_cmd.c **** bootloader_status bootloader_proccess_input()
- 105:External/bootloader/Src/bootloader_cmd.c **** {
- 366              		.loc 1 105 1 is_stmt 1 view -0
- 367              		.cfi_startproc
- 368              		@ args = 0, pretend = 0, frame = 0
- 369              		@ frame_needed = 0, uses_anonymous_args = 0
- 370 0000 38B5     		push	{r3, r4, r5, lr}
- 371              	.LCFI4:
- 372              		.cfi_def_cfa_offset 16
- 373              		.cfi_offset 3, -16
- 374              		.cfi_offset 4, -12
- 375              		.cfi_offset 5, -8
- 376              		.cfi_offset 14, -4
- 106:External/bootloader/Src/bootloader_cmd.c ****   bootloader_status status = bootloader_io_read(uart_buffer, 1);
- 377              		.loc 1 106 3 view .LVU85
- 378              		.loc 1 106 30 is_stmt 0 view .LVU86
- 379 0002 0121     		movs	r1, #1
- 380 0004 1148     		ldr	r0, .L26
- 381 0006 FFF7FEFF 		bl	bootloader_io_read
- 382              	.LVL29:
- 107:External/bootloader/Src/bootloader_cmd.c **** 
- 108:External/bootloader/Src/bootloader_cmd.c ****   if (status == BOOTLOADER_TIMEOUT)
- 383              		.loc 1 108 3 is_stmt 1 view .LVU87
- 384              		.loc 1 108 6 is_stmt 0 view .LVU88
- 385 000a 0328     		cmp	r0, #3
- 386 000c 15D0     		beq	.L21
+ 104:External/bootloader/Src/bootloader_cmd.c ****   status |= bootloader_io_read(&uart_buffer, sizeof(uint32_t));
+ 105:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 106:External/bootloader/Src/bootloader_cmd.c ****   if (status)
+ 107:External/bootloader/Src/bootloader_cmd.c ****     return status;
+ 108:External/bootloader/Src/bootloader_cmd.c **** 
+ 109:External/bootloader/Src/bootloader_cmd.c ****   if (status)
+ 110:External/bootloader/Src/bootloader_cmd.c ****     return status;
+ 111:External/bootloader/Src/bootloader_cmd.c ****   status |= bootloader_io_program(address, &uart_buffer);
+ 112:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 113:External/bootloader/Src/bootloader_cmd.c **** 
+ 114:External/bootloader/Src/bootloader_cmd.c ****   return status;
+ 115:External/bootloader/Src/bootloader_cmd.c **** }
+ 376              		.loc 1 115 1 view .LVU86
+ 377 001a 2046     		mov	r0, r4
+ 378 001c 02B0     		add	sp, sp, #8
+ 379              	.LCFI6:
+ 380              		.cfi_remember_state
+ 381              		.cfi_def_cfa_offset 8
+ 382              		@ sp needed
+ 383 001e 10BD     		pop	{r4, pc}
+ 384              	.LVL23:
+ 385              	.L25:
+ 386              	.LCFI7:
+ 387              		.cfi_restore_state
+ 104:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 388              		.loc 1 104 3 is_stmt 1 view .LVU87
+ 104:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 389              		.loc 1 104 13 is_stmt 0 view .LVU88
+ 390 0020 0421     		movs	r1, #4
+ 391 0022 0A48     		ldr	r0, .L26
+ 392 0024 FFF7FEFF 		bl	bootloader_io_read
+ 393              	.LVL24:
+ 104:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ARM GAS  /tmp/ccCICZWy.s 			page 11
+
+
+ 394              		.loc 1 104 10 discriminator 1 view .LVU89
+ 395 0028 0443     		orrs	r4, r4, r0
+ 396              	.LVL25:
+ 104:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 397              		.loc 1 104 10 discriminator 1 view .LVU90
+ 398 002a E4B2     		uxtb	r4, r4
+ 399              	.LVL26:
+ 105:External/bootloader/Src/bootloader_cmd.c ****   if (status)
+ 400              		.loc 1 105 3 is_stmt 1 view .LVU91
+ 401 002c 2046     		mov	r0, r4
+ 402 002e FFF7FEFF 		bl	send_response
+ 403              	.LVL27:
+ 106:External/bootloader/Src/bootloader_cmd.c ****     return status;
+ 404              		.loc 1 106 3 view .LVU92
+ 106:External/bootloader/Src/bootloader_cmd.c ****     return status;
+ 405              		.loc 1 106 6 is_stmt 0 view .LVU93
+ 406 0032 002C     		cmp	r4, #0
+ 407 0034 F1D1     		bne	.L23
  109:External/bootloader/Src/bootloader_cmd.c ****     return status;
- 110:External/bootloader/Src/bootloader_cmd.c **** 
- 111:External/bootloader/Src/bootloader_cmd.c ****   status = bootloader_io_write(uart_buffer, 1);
- 387              		.loc 1 111 3 is_stmt 1 view .LVU89
- 388              		.loc 1 111 12 is_stmt 0 view .LVU90
- 389 000e 0F4D     		ldr	r5, .L26
- 390 0010 0121     		movs	r1, #1
- 391 0012 2846     		mov	r0, r5
- 392              	.LVL30:
- 393              		.loc 1 111 12 view .LVU91
- 394 0014 FFF7FEFF 		bl	bootloader_io_write
-ARM GAS  /tmp/ccHVVVIy.s 			page 11
-
-
- 395              	.LVL31:
- 396 0018 0446     		mov	r4, r0
- 397              	.LVL32:
+ 408              		.loc 1 109 3 is_stmt 1 view .LVU94
+ 111:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 409              		.loc 1 111 3 view .LVU95
+ 111:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 410              		.loc 1 111 13 is_stmt 0 view .LVU96
+ 411 0036 0549     		ldr	r1, .L26
+ 412 0038 0198     		ldr	r0, [sp, #4]
+ 413 003a FFF7FEFF 		bl	bootloader_io_program
+ 414              	.LVL28:
+ 111:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 415              		.loc 1 111 10 discriminator 1 view .LVU97
+ 416 003e 0443     		orrs	r4, r4, r0
+ 417              	.LVL29:
+ 111:External/bootloader/Src/bootloader_cmd.c ****   send_response(status);
+ 418              		.loc 1 111 10 discriminator 1 view .LVU98
+ 419 0040 E4B2     		uxtb	r4, r4
+ 420              	.LVL30:
  112:External/bootloader/Src/bootloader_cmd.c **** 
- 113:External/bootloader/Src/bootloader_cmd.c ****   switch(uart_buffer[0])
- 398              		.loc 1 113 3 is_stmt 1 view .LVU92
- 399              		.loc 1 113 21 is_stmt 0 view .LVU93
- 400 001a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
- 401              		.loc 1 113 3 view .LVU94
- 402 001c 312B     		cmp	r3, #49
- 403 001e 0DD0     		beq	.L22
- 404 0020 322B     		cmp	r3, #50
- 405 0022 0FD0     		beq	.L23
- 406 0024 302B     		cmp	r3, #48
- 407 0026 02D1     		bne	.L24
- 114:External/bootloader/Src/bootloader_cmd.c ****   {
- 115:External/bootloader/Src/bootloader_cmd.c ****     case CMD_HELP:
- 116:External/bootloader/Src/bootloader_cmd.c ****       cmd_help(uart_buffer);
- 408              		.loc 1 116 7 is_stmt 1 view .LVU95
- 409 0028 2846     		mov	r0, r5
- 410 002a FFF7FEFF 		bl	cmd_help
- 411              	.LVL33:
- 117:External/bootloader/Src/bootloader_cmd.c ****       break;
- 412              		.loc 1 117 7 view .LVU96
- 413              	.L24:
- 118:External/bootloader/Src/bootloader_cmd.c ****     case CMD_GET_ID:
- 119:External/bootloader/Src/bootloader_cmd.c ****       cmd_get_id(uart_buffer);
- 120:External/bootloader/Src/bootloader_cmd.c ****       break;
- 121:External/bootloader/Src/bootloader_cmd.c ****     case CMD_GET_BOOTLOADER_VER:
- 122:External/bootloader/Src/bootloader_cmd.c ****       cmd_get_bootloader_version(uart_buffer);
- 123:External/bootloader/Src/bootloader_cmd.c ****       break;
- 124:External/bootloader/Src/bootloader_cmd.c ****     case CMD_READ_PAGE:
- 125:External/bootloader/Src/bootloader_cmd.c ****       cmd_read_page(uart_buffer);
- 126:External/bootloader/Src/bootloader_cmd.c ****       break;
- 127:External/bootloader/Src/bootloader_cmd.c ****   }
- 128:External/bootloader/Src/bootloader_cmd.c **** 
- 129:External/bootloader/Src/bootloader_cmd.c ****   status |= bootloader_io_write((uint8_t*)input_prompt, 4);
- 414              		.loc 1 129 3 view .LVU97
- 415              		.loc 1 129 13 is_stmt 0 view .LVU98
- 416 002e 0421     		movs	r1, #4
- 417 0030 0748     		ldr	r0, .L26+4
- 418 0032 FFF7FEFF 		bl	bootloader_io_write
- 419              	.LVL34:
- 420              		.loc 1 129 10 discriminator 1 view .LVU99
- 421 0036 2043     		orrs	r0, r0, r4
- 422 0038 C0B2     		uxtb	r0, r0
- 423              	.LVL35:
+ 421              		.loc 1 112 3 is_stmt 1 view .LVU99
+ 422 0042 2046     		mov	r0, r4
+ 423 0044 FFF7FEFF 		bl	send_response
+ 424              	.LVL31:
+ 114:External/bootloader/Src/bootloader_cmd.c **** }
+ 425              		.loc 1 114 3 view .LVU100
+ 114:External/bootloader/Src/bootloader_cmd.c **** }
+ 426              		.loc 1 114 10 is_stmt 0 view .LVU101
+ 427 0048 E7E7     		b	.L23
+ 428              	.L27:
+ 429 004a 00BF     		.align	2
+ 430              	.L26:
+ 431 004c 00000000 		.word	uart_buffer
+ 432              		.cfi_endproc
+ 433              	.LFE6:
+ 435              		.section	.rodata.bootloader_start_output.str1.4,"aMS",%progbits,1
+ 436              		.align	2
+ 437              	.LC3:
+ 438 0000 2D466C65 		.ascii	"-FlexyPixel Bootloader. Type '0' for commands list\000"
+ 438      78795069 
+ARM GAS  /tmp/ccCICZWy.s 			page 12
+
+
+ 438      78656C20 
+ 438      426F6F74 
+ 438      6C6F6164 
+ 439 0033 00       		.align	2
+ 440              	.LC4:
+ 441 0034 0D0A3E3E 		.ascii	"\015\012>>\000"
+ 441      00
+ 442              		.section	.text.bootloader_start_output,"ax",%progbits
+ 443              		.align	1
+ 444              		.global	bootloader_start_output
+ 445              		.syntax unified
+ 446              		.thumb
+ 447              		.thumb_func
+ 449              	bootloader_start_output:
+ 450              	.LFB7:
+ 116:External/bootloader/Src/bootloader_cmd.c **** 
+ 117:External/bootloader/Src/bootloader_cmd.c **** // Implementations -----------------------------------------------------------
+ 118:External/bootloader/Src/bootloader_cmd.c **** 
+ 119:External/bootloader/Src/bootloader_cmd.c **** bootloader_status bootloader_start_output()
+ 120:External/bootloader/Src/bootloader_cmd.c **** {
+ 451              		.loc 1 120 1 is_stmt 1 view -0
+ 452              		.cfi_startproc
+ 453              		@ args = 0, pretend = 0, frame = 0
+ 454              		@ frame_needed = 0, uses_anonymous_args = 0
+ 455 0000 10B5     		push	{r4, lr}
+ 456              	.LCFI8:
+ 457              		.cfi_def_cfa_offset 8
+ 458              		.cfi_offset 4, -8
+ 459              		.cfi_offset 14, -4
+ 121:External/bootloader/Src/bootloader_cmd.c ****   bootloader_status status = bootloader_io_write(
+ 460              		.loc 1 121 3 view .LVU103
+ 461              		.loc 1 121 30 is_stmt 0 view .LVU104
+ 462 0002 3321     		movs	r1, #51
+ 463 0004 0548     		ldr	r0, .L30
+ 464 0006 FFF7FEFF 		bl	bootloader_io_write
+ 465              	.LVL32:
+ 466 000a 0446     		mov	r4, r0
+ 467              	.LVL33:
+ 122:External/bootloader/Src/bootloader_cmd.c ****     (uint8_t*)start_message,
+ 123:External/bootloader/Src/bootloader_cmd.c ****     strlen(start_message) + 1
+ 124:External/bootloader/Src/bootloader_cmd.c ****   );
+ 125:External/bootloader/Src/bootloader_cmd.c ****   status |= bootloader_io_write(
+ 468              		.loc 1 125 3 is_stmt 1 view .LVU105
+ 469              		.loc 1 125 13 is_stmt 0 view .LVU106
+ 470 000c 0521     		movs	r1, #5
+ 471 000e 0448     		ldr	r0, .L30+4
+ 472 0010 FFF7FEFF 		bl	bootloader_io_write
+ 473              	.LVL34:
+ 474              		.loc 1 125 10 discriminator 1 view .LVU107
+ 475 0014 2043     		orrs	r0, r0, r4
+ 476              	.LVL35:
+ 126:External/bootloader/Src/bootloader_cmd.c ****     (uint8_t*)input_prompt,
+ 127:External/bootloader/Src/bootloader_cmd.c ****     strlen(input_prompt) + 1
+ 128:External/bootloader/Src/bootloader_cmd.c ****   );
+ 129:External/bootloader/Src/bootloader_cmd.c **** 
  130:External/bootloader/Src/bootloader_cmd.c ****   return status;
- 424              		.loc 1 130 3 is_stmt 1 view .LVU100
- 425              	.L21:
+ 477              		.loc 1 130 3 is_stmt 1 view .LVU108
+ARM GAS  /tmp/ccCICZWy.s 			page 13
+
+
  131:External/bootloader/Src/bootloader_cmd.c **** }
- 426              		.loc 1 131 1 is_stmt 0 view .LVU101
- 427 003a 38BD     		pop	{r3, r4, r5, pc}
- 428              	.LVL36:
- 429              	.L22:
- 119:External/bootloader/Src/bootloader_cmd.c ****       break;
- 430              		.loc 1 119 7 is_stmt 1 view .LVU102
-ARM GAS  /tmp/ccHVVVIy.s 			page 12
+ 478              		.loc 1 131 1 is_stmt 0 view .LVU109
+ 479 0016 C0B2     		uxtb	r0, r0
+ 480              		.loc 1 131 1 view .LVU110
+ 481 0018 10BD     		pop	{r4, pc}
+ 482              	.L31:
+ 483 001a 00BF     		.align	2
+ 484              	.L30:
+ 485 001c 00000000 		.word	.LC3
+ 486 0020 34000000 		.word	.LC4
+ 487              		.cfi_endproc
+ 488              	.LFE7:
+ 490              		.section	.text.bootloader_proccess_input,"ax",%progbits
+ 491              		.align	1
+ 492              		.global	bootloader_proccess_input
+ 493              		.syntax unified
+ 494              		.thumb
+ 495              		.thumb_func
+ 497              	bootloader_proccess_input:
+ 498              	.LFB8:
+ 132:External/bootloader/Src/bootloader_cmd.c **** 
+ 133:External/bootloader/Src/bootloader_cmd.c **** bootloader_status bootloader_proccess_input()
+ 134:External/bootloader/Src/bootloader_cmd.c **** {
+ 499              		.loc 1 134 1 is_stmt 1 view -0
+ 500              		.cfi_startproc
+ 501              		@ args = 0, pretend = 0, frame = 0
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 503 0000 38B5     		push	{r3, r4, r5, lr}
+ 504              	.LCFI9:
+ 505              		.cfi_def_cfa_offset 16
+ 506              		.cfi_offset 3, -16
+ 507              		.cfi_offset 4, -12
+ 508              		.cfi_offset 5, -8
+ 509              		.cfi_offset 14, -4
+ 135:External/bootloader/Src/bootloader_cmd.c ****   bootloader_status status = bootloader_io_read(uart_buffer, 1);
+ 510              		.loc 1 135 3 view .LVU112
+ 511              		.loc 1 135 30 is_stmt 0 view .LVU113
+ 512 0002 0121     		movs	r1, #1
+ 513 0004 1348     		ldr	r0, .L42
+ 514 0006 FFF7FEFF 		bl	bootloader_io_read
+ 515              	.LVL36:
+ 136:External/bootloader/Src/bootloader_cmd.c **** 
+ 137:External/bootloader/Src/bootloader_cmd.c ****   if (status == BOOTLOADER_TIMEOUT)
+ 516              		.loc 1 137 3 is_stmt 1 view .LVU114
+ 517              		.loc 1 137 6 is_stmt 0 view .LVU115
+ 518 000a 0328     		cmp	r0, #3
+ 519 000c 15D0     		beq	.L33
+ 138:External/bootloader/Src/bootloader_cmd.c ****     return status;
+ 139:External/bootloader/Src/bootloader_cmd.c **** 
+ 140:External/bootloader/Src/bootloader_cmd.c ****   status = bootloader_io_write(uart_buffer, 1);
+ 520              		.loc 1 140 3 is_stmt 1 view .LVU116
+ 521              		.loc 1 140 12 is_stmt 0 view .LVU117
+ 522 000e 114D     		ldr	r5, .L42
+ 523 0010 0121     		movs	r1, #1
+ 524 0012 2846     		mov	r0, r5
+ 525              	.LVL37:
+ 526              		.loc 1 140 12 view .LVU118
+ARM GAS  /tmp/ccCICZWy.s 			page 14
 
 
- 431 003c 0348     		ldr	r0, .L26
- 432 003e FFF7FEFF 		bl	cmd_get_id
- 433              	.LVL37:
- 120:External/bootloader/Src/bootloader_cmd.c ****     case CMD_GET_BOOTLOADER_VER:
- 434              		.loc 1 120 7 view .LVU103
- 435 0042 F4E7     		b	.L24
- 436              	.L23:
- 122:External/bootloader/Src/bootloader_cmd.c ****       break;
- 437              		.loc 1 122 7 view .LVU104
- 438 0044 0148     		ldr	r0, .L26
- 439 0046 FFF7FEFF 		bl	cmd_get_bootloader_version
- 440              	.LVL38:
- 123:External/bootloader/Src/bootloader_cmd.c ****     case CMD_READ_PAGE:
- 441              		.loc 1 123 7 view .LVU105
- 442 004a F0E7     		b	.L24
- 443              	.L27:
- 444              		.align	2
- 445              	.L26:
- 446 004c 00000000 		.word	uart_buffer
- 447 0050 34000000 		.word	.LC4
- 448              		.cfi_endproc
- 449              	.LFE7:
- 451              		.section	.bss.uart_buffer,"aw",%nobits
- 452              		.align	2
- 455              	uart_buffer:
- 456 0000 00000000 		.space	100
- 456      00000000 
- 456      00000000 
- 456      00000000 
- 456      00000000 
- 457              		.text
- 458              	.Letext0:
- 459              		.file 2 "External/bootloader/Inc/bootloader_defs.h"
- 460              		.file 3 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/machine/_default_types.h"
- 461              		.file 4 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/sys/_stdint.h"
- 462              		.file 5 "/usr/local/src/arm-gnu-toolchain-13.2/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h"
- 463              		.file 6 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/string.h"
- 464              		.file 7 "External/bootloader/Inc/bootloader_io.h"
- 465              		.file 8 "<built-in>"
-ARM GAS  /tmp/ccHVVVIy.s 			page 13
+ 527 0014 FFF7FEFF 		bl	bootloader_io_write
+ 528              	.LVL38:
+ 529 0018 0446     		mov	r4, r0
+ 530              	.LVL39:
+ 141:External/bootloader/Src/bootloader_cmd.c **** 
+ 142:External/bootloader/Src/bootloader_cmd.c ****   switch(uart_buffer[0])
+ 531              		.loc 1 142 3 is_stmt 1 view .LVU119
+ 532              		.loc 1 142 21 is_stmt 0 view .LVU120
+ 533 001a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 534              		.loc 1 142 3 view .LVU121
+ 535 001c 303B     		subs	r3, r3, #48
+ 536 001e 032B     		cmp	r3, #3
+ 537 0020 05D8     		bhi	.L34
+ 538 0022 DFE803F0 		tbb	[pc, r3]
+ 539              	.L36:
+ 540 0026 02       		.byte	(.L39-.L36)/2
+ 541 0027 0B       		.byte	(.L38-.L36)/2
+ 542 0028 0E       		.byte	(.L37-.L36)/2
+ 543 0029 11       		.byte	(.L35-.L36)/2
+ 544              		.p2align 1
+ 545              	.L39:
+ 143:External/bootloader/Src/bootloader_cmd.c ****   {
+ 144:External/bootloader/Src/bootloader_cmd.c ****     case CMD_HELP:
+ 145:External/bootloader/Src/bootloader_cmd.c ****       cmd_help();
+ 546              		.loc 1 145 7 is_stmt 1 view .LVU122
+ 547 002a FFF7FEFF 		bl	cmd_help
+ 548              	.LVL40:
+ 146:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 549              		.loc 1 146 7 view .LVU123
+ 550              	.L34:
+ 147:External/bootloader/Src/bootloader_cmd.c ****     case CMD_GET_ID:
+ 148:External/bootloader/Src/bootloader_cmd.c ****       cmd_get_id();
+ 149:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 150:External/bootloader/Src/bootloader_cmd.c ****     case CMD_GET_BOOTLOADER_VER:
+ 151:External/bootloader/Src/bootloader_cmd.c ****       cmd_get_bootloader_version();
+ 152:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 153:External/bootloader/Src/bootloader_cmd.c ****     case CMD_WRITE:
+ 154:External/bootloader/Src/bootloader_cmd.c ****       status |= cmd_write();
+ 155:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 156:External/bootloader/Src/bootloader_cmd.c ****   }
+ 157:External/bootloader/Src/bootloader_cmd.c **** 
+ 158:External/bootloader/Src/bootloader_cmd.c ****   status |= bootloader_io_write((uint8_t*)input_prompt, 4);
+ 551              		.loc 1 158 3 view .LVU124
+ 552              		.loc 1 158 13 is_stmt 0 view .LVU125
+ 553 002e 0421     		movs	r1, #4
+ 554 0030 0948     		ldr	r0, .L42+4
+ 555 0032 FFF7FEFF 		bl	bootloader_io_write
+ 556              	.LVL41:
+ 557              		.loc 1 158 10 discriminator 1 view .LVU126
+ 558 0036 2043     		orrs	r0, r0, r4
+ 559 0038 C0B2     		uxtb	r0, r0
+ 560              	.LVL42:
+ 159:External/bootloader/Src/bootloader_cmd.c ****   return status;
+ 561              		.loc 1 159 3 is_stmt 1 view .LVU127
+ 562              	.L33:
+ 160:External/bootloader/Src/bootloader_cmd.c **** }
+ 563              		.loc 1 160 1 is_stmt 0 view .LVU128
+ARM GAS  /tmp/ccCICZWy.s 			page 15
+
+
+ 564 003a 38BD     		pop	{r3, r4, r5, pc}
+ 565              	.LVL43:
+ 566              	.L38:
+ 148:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 567              		.loc 1 148 7 is_stmt 1 view .LVU129
+ 568 003c FFF7FEFF 		bl	cmd_get_id
+ 569              	.LVL44:
+ 149:External/bootloader/Src/bootloader_cmd.c ****     case CMD_GET_BOOTLOADER_VER:
+ 570              		.loc 1 149 7 view .LVU130
+ 571 0040 F5E7     		b	.L34
+ 572              	.L37:
+ 151:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 573              		.loc 1 151 7 view .LVU131
+ 574 0042 FFF7FEFF 		bl	cmd_get_bootloader_version
+ 575              	.LVL45:
+ 152:External/bootloader/Src/bootloader_cmd.c ****     case CMD_WRITE:
+ 576              		.loc 1 152 7 view .LVU132
+ 577 0046 F2E7     		b	.L34
+ 578              	.L35:
+ 154:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 579              		.loc 1 154 7 view .LVU133
+ 154:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 580              		.loc 1 154 17 is_stmt 0 view .LVU134
+ 581 0048 FFF7FEFF 		bl	cmd_write
+ 582              	.LVL46:
+ 154:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 583              		.loc 1 154 14 discriminator 1 view .LVU135
+ 584 004c 0443     		orrs	r4, r4, r0
+ 585              	.LVL47:
+ 154:External/bootloader/Src/bootloader_cmd.c ****       break;
+ 586              		.loc 1 154 14 discriminator 1 view .LVU136
+ 587 004e E4B2     		uxtb	r4, r4
+ 588              	.LVL48:
+ 155:External/bootloader/Src/bootloader_cmd.c ****   }
+ 589              		.loc 1 155 7 is_stmt 1 view .LVU137
+ 590 0050 EDE7     		b	.L34
+ 591              	.L43:
+ 592 0052 00BF     		.align	2
+ 593              	.L42:
+ 594 0054 00000000 		.word	uart_buffer
+ 595 0058 34000000 		.word	.LC4
+ 596              		.cfi_endproc
+ 597              	.LFE8:
+ 599              		.section	.bss.uart_buffer,"aw",%nobits
+ 600              		.align	2
+ 603              	uart_buffer:
+ 604 0000 00000000 		.space	100
+ 604      00000000 
+ 604      00000000 
+ 604      00000000 
+ 604      00000000 
+ 605              		.text
+ 606              	.Letext0:
+ 607              		.file 2 "External/bootloader/Inc/bootloader_defs.h"
+ 608              		.file 3 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/machine/_default_types.h"
+ 609              		.file 4 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/sys/_stdint.h"
+ 610              		.file 5 "/usr/local/src/arm-gnu-toolchain-13.2/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h"
+ARM GAS  /tmp/ccCICZWy.s 			page 16
+
+
+ 611              		.file 6 "External/bootloader/Inc/bootloader_io.h"
+ 612              		.file 7 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/string.h"
+ 613              		.file 8 "<built-in>"
+ARM GAS  /tmp/ccCICZWy.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 bootloader_cmd.c
-     /tmp/ccHVVVIy.s:19     .rodata.cmd_help.str1.4:00000000 $d
-     /tmp/ccHVVVIy.s:25     .text.cmd_help:00000000 $t
-     /tmp/ccHVVVIy.s:30     .text.cmd_help:00000000 cmd_help
-     /tmp/ccHVVVIy.s:66     .text.cmd_help:00000018 $d
-     /tmp/ccHVVVIy.s:71     .rodata.cmd_get_bootloader_version.str1.4:00000000 $d
-     /tmp/ccHVVVIy.s:75     .text.cmd_get_bootloader_version:00000000 $t
-     /tmp/ccHVVVIy.s:80     .text.cmd_get_bootloader_version:00000000 cmd_get_bootloader_version
-     /tmp/ccHVVVIy.s:140    .text.cmd_get_bootloader_version:00000038 $d
-     /tmp/ccHVVVIy.s:145    .rodata.cmd_get_id.str1.4:00000000 $d
-     /tmp/ccHVVVIy.s:149    .text.cmd_get_id:00000000 $t
-     /tmp/ccHVVVIy.s:154    .text.cmd_get_id:00000000 cmd_get_id
-     /tmp/ccHVVVIy.s:297    .text.cmd_get_id:00000080 $d
-     /tmp/ccHVVVIy.s:303    .rodata.bootloader_start_output.str1.4:00000000 $d
-     /tmp/ccHVVVIy.s:310    .text.bootloader_start_output:00000000 $t
-     /tmp/ccHVVVIy.s:316    .text.bootloader_start_output:00000000 bootloader_start_output
-     /tmp/ccHVVVIy.s:352    .text.bootloader_start_output:0000001c $d
-     /tmp/ccHVVVIy.s:358    .text.bootloader_proccess_input:00000000 $t
-     /tmp/ccHVVVIy.s:364    .text.bootloader_proccess_input:00000000 bootloader_proccess_input
-     /tmp/ccHVVVIy.s:446    .text.bootloader_proccess_input:0000004c $d
-     /tmp/ccHVVVIy.s:455    .bss.uart_buffer:00000000 uart_buffer
-     /tmp/ccHVVVIy.s:452    .bss.uart_buffer:00000000 $d
+     /tmp/ccCICZWy.s:19     .text.send_response:00000000 $t
+     /tmp/ccCICZWy.s:24     .text.send_response:00000000 send_response
+     /tmp/ccCICZWy.s:67     .text.send_response:0000001c $d
+     /tmp/ccCICZWy.s:603    .bss.uart_buffer:00000000 uart_buffer
+     /tmp/ccCICZWy.s:72     .rodata.cmd_help.str1.4:00000000 $d
+     /tmp/ccCICZWy.s:78     .text.cmd_help:00000000 $t
+     /tmp/ccCICZWy.s:83     .text.cmd_help:00000000 cmd_help
+     /tmp/ccCICZWy.s:116    .text.cmd_help:0000001c $d
+     /tmp/ccCICZWy.s:122    .rodata.cmd_get_bootloader_version.str1.4:00000000 $d
+     /tmp/ccCICZWy.s:126    .text.cmd_get_bootloader_version:00000000 $t
+     /tmp/ccCICZWy.s:131    .text.cmd_get_bootloader_version:00000000 cmd_get_bootloader_version
+     /tmp/ccCICZWy.s:183    .text.cmd_get_bootloader_version:00000040 $d
+     /tmp/ccCICZWy.s:189    .rodata.cmd_get_id.str1.4:00000000 $d
+     /tmp/ccCICZWy.s:193    .text.cmd_get_id:00000000 $t
+     /tmp/ccCICZWy.s:198    .text.cmd_get_id:00000000 cmd_get_id
+     /tmp/ccCICZWy.s:331    .text.cmd_get_id:0000007c $d
+     /tmp/ccCICZWy.s:338    .text.cmd_write:00000000 $t
+     /tmp/ccCICZWy.s:343    .text.cmd_write:00000000 cmd_write
+     /tmp/ccCICZWy.s:431    .text.cmd_write:0000004c $d
+     /tmp/ccCICZWy.s:436    .rodata.bootloader_start_output.str1.4:00000000 $d
+     /tmp/ccCICZWy.s:443    .text.bootloader_start_output:00000000 $t
+     /tmp/ccCICZWy.s:449    .text.bootloader_start_output:00000000 bootloader_start_output
+     /tmp/ccCICZWy.s:485    .text.bootloader_start_output:0000001c $d
+     /tmp/ccCICZWy.s:491    .text.bootloader_proccess_input:00000000 $t
+     /tmp/ccCICZWy.s:497    .text.bootloader_proccess_input:00000000 bootloader_proccess_input
+     /tmp/ccCICZWy.s:540    .text.bootloader_proccess_input:00000026 $d
+     /tmp/ccCICZWy.s:544    .text.bootloader_proccess_input:0000002a $t
+     /tmp/ccCICZWy.s:594    .text.bootloader_proccess_input:00000054 $d
+     /tmp/ccCICZWy.s:600    .bss.uart_buffer:00000000 $d
 
 UNDEFINED SYMBOLS
-memcpy
 bootloader_io_write
+memcpy
 bootloader_io_get_dev_id
 bootloader_io_read
+bootloader_io_program
