@@ -45,8 +45,6 @@ inline static uint8_t int_to_string(uint8_t *const buffer, uint32_t num)
   return i;
 }
 
-// __attribute__((always_inline))
-// inline 
 static void send_response(bootloader_status status)
 {
   if (status)
@@ -96,19 +94,50 @@ static void cmd_get_bootloader_version()
 static bootloader_status cmd_write()
 {
   uint32_t address = 0;
-  bootloader_status status = bootloader_io_read(&address, sizeof(uint32_t));
+  uint16_t data = 0;
+  bootloader_status status = bootloader_io_read(
+    (uint8_t*)&address,
+    sizeof(uint32_t)
+  );
   send_response(status);
   if (status)
     return status;
 
-  status |= bootloader_io_read(&uart_buffer, sizeof(uint16_t));
+  status |= bootloader_io_read((uint8_t*)&data, sizeof(uint16_t));
   send_response(status);
   if (status)
     return status;
 
   if (status)
     return status;
-  status |= bootloader_io_program(address, &uart_buffer);
+  status |= bootloader_io_program(address, data);
+  send_response(status);
+
+  return status;
+}
+
+// cmd_0: address (4 bytes)
+// cmd_0: pages to erase (1 byte)
+static bootloader_status cmd_erase()
+{
+  uint32_t address = 0;
+  uint8_t page_num = 0;
+  bootloader_status status = bootloader_io_read(
+    (uint8_t*)&address,
+    sizeof(uint32_t)
+  );
+  send_response(status);
+  if (status)
+    return status;
+
+  status |= bootloader_io_read(&page_num, sizeof(uint8_t));
+  send_response(status);
+  if (status)
+    return status;
+
+  if (status)
+    return status;
+  status |= bootloader_io_erase(address, page_num);
   send_response(status);
 
   return status;
@@ -152,6 +181,9 @@ bootloader_status bootloader_proccess_input()
       break;
     case CMD_WRITE:
       status |= cmd_write();
+      break;
+    case CMD_ERASE:
+      status |= cmd_erase();
       break;
   }
 
