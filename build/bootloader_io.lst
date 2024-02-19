@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccJNEUYr.s 			page 1
+ARM GAS  /tmp/ccAb9AGe.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
   41 0008 054B     		ldr	r3, .L5+4
   42 000a 9842     		cmp	r0, r3
   43 000c 03D3     		bcc	.L4
-ARM GAS  /tmp/ccJNEUYr.s 			page 2
+ARM GAS  /tmp/ccAb9AGe.s 			page 2
 
 
   12:External/bootloader/Src/bootloader_io.c ****   return !(
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
   87 0004 33B1     		cbz	r3, .L9
   23:External/bootloader/Src/bootloader_io.c ****     address + 1024 < FLASH_BANK1_END // flash bank1 end
   88              		.loc 1 23 13 view .LVU15
-ARM GAS  /tmp/ccJNEUYr.s 			page 3
+ARM GAS  /tmp/ccAb9AGe.s 			page 3
 
 
   89 0006 00F58060 		add	r0, r0, #1024
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  129              		.loc 1 33 1 is_stmt 1 view -0
  130              		.cfi_startproc
  131              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccJNEUYr.s 			page 4
+ARM GAS  /tmp/ccAb9AGe.s 			page 4
 
 
  132              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -192,7 +192,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
   34:External/bootloader/Src/bootloader_io.c ****   return (bootloader_status)HAL_UART_Receive(
  140              		.loc 1 34 3 is_stmt 1 view .LVU25
  141              		.loc 1 34 29 is_stmt 0 view .LVU26
- 142 0004 6423     		movs	r3, #100
+ 142 0004 C823     		movs	r3, #200
  143 0006 0146     		mov	r1, r0
  144              	.LVL11:
  145              		.loc 1 34 29 view .LVU27
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  175              		.loc 1 46 1 is_stmt 0 view .LVU31
  176 0000 08B5     		push	{r3, lr}
  177              	.LCFI1:
-ARM GAS  /tmp/ccJNEUYr.s 			page 5
+ARM GAS  /tmp/ccAb9AGe.s 			page 5
 
 
  178              		.cfi_def_cfa_offset 8
@@ -248,7 +248,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
   47:External/bootloader/Src/bootloader_io.c ****   return (bootloader_status)HAL_UART_Transmit(
  182              		.loc 1 47 3 is_stmt 1 view .LVU32
  183              		.loc 1 47 29 is_stmt 0 view .LVU33
- 184 0004 6423     		movs	r3, #100
+ 184 0004 C823     		movs	r3, #200
  185 0006 0146     		mov	r1, r0
  186              	.LVL15:
  187              		.loc 1 47 29 view .LVU34
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  223 0002 FFF7FEFF 		bl	HAL_GetDEVID
  224              	.LVL18:
   58:External/bootloader/Src/bootloader_io.c **** }
-ARM GAS  /tmp/ccJNEUYr.s 			page 6
+ARM GAS  /tmp/ccAb9AGe.s 			page 6
 
 
  225              		.loc 1 58 1 view .LVU40
@@ -339,13 +339,13 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
   67:External/bootloader/Src/bootloader_io.c ****   //   address < APP_START_ADDRESS || 
   68:External/bootloader/Src/bootloader_io.c ****   //   address + sizeof(uint16_t) >= FLASH_BANK1_END
   69:External/bootloader/Src/bootloader_io.c ****   // )
-  70:External/bootloader/Src/bootloader_io.c ****   if (is_address_in_bounds(address))
+  70:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address))
  254              		.loc 1 70 3 is_stmt 1 view .LVU43
- 255              		.loc 1 70 7 is_stmt 0 view .LVU44
+ 255              		.loc 1 70 8 is_stmt 0 view .LVU44
  256 0006 FFF7FEFF 		bl	is_address_in_bounds
  257              	.LVL20:
  258              		.loc 1 70 6 discriminator 1 view .LVU45
- 259 000a 80B9     		cbnz	r0, .L25
+ 259 000a 80B1     		cbz	r0, .L25
   71:External/bootloader/Src/bootloader_io.c ****     return BOOTLOADER_BOUNDS_ERROR;
   72:External/bootloader/Src/bootloader_io.c **** 
   73:External/bootloader/Src/bootloader_io.c ****   HAL_StatusTypeDef status = HAL_FLASH_Unlock();
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  265              		.loc 1 74 6 is_stmt 0 view .LVU49
  266 0010 0446     		mov	r4, r0
  267 0012 68B9     		cbnz	r0, .L24
-ARM GAS  /tmp/ccJNEUYr.s 			page 7
+ARM GAS  /tmp/ccAb9AGe.s 			page 7
 
 
   75:External/bootloader/Src/bootloader_io.c ****     return (bootloader_status)status;
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  310              		.align	1
  311              		.global	bootloader_io_erase
  312              		.syntax unified
-ARM GAS  /tmp/ccJNEUYr.s 			page 8
+ARM GAS  /tmp/ccAb9AGe.s 			page 8
 
 
  313              		.thumb
@@ -449,87 +449,82 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  333              		.cfi_def_cfa_offset 40
  334 0004 0546     		mov	r5, r0
  335 0006 0E46     		mov	r6, r1
-  93:External/bootloader/Src/bootloader_io.c ****   // bool a = is_address_in_bounds(address);
-  94:External/bootloader/Src/bootloader_io.c ****   // bool b = is_address_in_bounds(address);
-  95:External/bootloader/Src/bootloader_io.c ****   // if (a || !is_page_address(address))
-  96:External/bootloader/Src/bootloader_io.c ****   //   return BOOTLOADER_BOUNDS_ERROR;
-  97:External/bootloader/Src/bootloader_io.c **** 
-  98:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address) || !is_page_address(address))
- 336              		.loc 1 98 3 is_stmt 1 view .LVU66
- 337              		.loc 1 98 8 is_stmt 0 view .LVU67
+  93:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address) || !is_page_address(address))
+ 336              		.loc 1 93 3 is_stmt 1 view .LVU66
+ 337              		.loc 1 93 8 is_stmt 0 view .LVU67
  338 0008 FFF7FEFF 		bl	is_address_in_bounds
  339              	.LVL31:
- 340              		.loc 1 98 6 discriminator 1 view .LVU68
+ 340              		.loc 1 93 6 discriminator 1 view .LVU68
  341 000c 00B3     		cbz	r0, .L30
- 342              		.loc 1 98 42 discriminator 1 view .LVU69
+ 342              		.loc 1 93 42 discriminator 1 view .LVU69
  343 000e 2846     		mov	r0, r5
  344 0010 FFF7FEFF 		bl	is_page_address
  345              	.LVL32:
- 346              		.loc 1 98 38 discriminator 1 view .LVU70
+ 346              		.loc 1 93 38 discriminator 1 view .LVU70
  347 0014 F0B1     		cbz	r0, .L31
-  99:External/bootloader/Src/bootloader_io.c ****     return BOOTLOADER_BOUNDS_ERROR;
- 100:External/bootloader/Src/bootloader_io.c **** 
- 101:External/bootloader/Src/bootloader_io.c ****   HAL_StatusTypeDef status = HAL_FLASH_Unlock();
- 348              		.loc 1 101 3 is_stmt 1 view .LVU71
- 349              		.loc 1 101 30 is_stmt 0 view .LVU72
+  94:External/bootloader/Src/bootloader_io.c ****     return BOOTLOADER_BOUNDS_ERROR;
+  95:External/bootloader/Src/bootloader_io.c **** 
+  96:External/bootloader/Src/bootloader_io.c ****   HAL_StatusTypeDef status = HAL_FLASH_Unlock();
+ 348              		.loc 1 96 3 is_stmt 1 view .LVU71
+ 349              		.loc 1 96 30 is_stmt 0 view .LVU72
  350 0016 FFF7FEFF 		bl	HAL_FLASH_Unlock
  351              	.LVL33:
  352 001a 0446     		mov	r4, r0
  353              	.LVL34:
- 102:External/bootloader/Src/bootloader_io.c **** 
- 103:External/bootloader/Src/bootloader_io.c ****   FLASH_EraseInitTypeDef erase_init_struct = (FLASH_EraseInitTypeDef){
-ARM GAS  /tmp/ccJNEUYr.s 			page 9
-
-
- 354              		.loc 1 103 3 is_stmt 1 view .LVU73
- 355              		.loc 1 103 26 is_stmt 0 view .LVU74
+  97:External/bootloader/Src/bootloader_io.c **** 
+  98:External/bootloader/Src/bootloader_io.c ****   FLASH_EraseInitTypeDef erase_init_struct = (FLASH_EraseInitTypeDef){
+ 354              		.loc 1 98 3 is_stmt 1 view .LVU73
+ 355              		.loc 1 98 26 is_stmt 0 view .LVU74
  356 001c 0023     		movs	r3, #0
  357 001e 0293     		str	r3, [sp, #8]
  358 0020 0122     		movs	r2, #1
+ARM GAS  /tmp/ccAb9AGe.s 			page 9
+
+
  359 0022 0392     		str	r2, [sp, #12]
  360 0024 0495     		str	r5, [sp, #16]
  361 0026 0596     		str	r6, [sp, #20]
- 104:External/bootloader/Src/bootloader_io.c ****     .TypeErase = FLASH_TYPEERASE_PAGES,
- 105:External/bootloader/Src/bootloader_io.c ****     .Banks = FLASH_BANK_1,
- 106:External/bootloader/Src/bootloader_io.c ****     .PageAddress = address,
- 107:External/bootloader/Src/bootloader_io.c ****     .NbPages = pages_num
- 108:External/bootloader/Src/bootloader_io.c ****   };
- 109:External/bootloader/Src/bootloader_io.c ****   uint32_t page_error = 0x0U;
- 362              		.loc 1 109 3 is_stmt 1 view .LVU75
- 363              		.loc 1 109 12 is_stmt 0 view .LVU76
+  99:External/bootloader/Src/bootloader_io.c ****     .TypeErase = FLASH_TYPEERASE_PAGES,
+ 100:External/bootloader/Src/bootloader_io.c ****     .Banks = FLASH_BANK_1,
+ 101:External/bootloader/Src/bootloader_io.c ****     .PageAddress = address,
+ 102:External/bootloader/Src/bootloader_io.c ****     .NbPages = pages_num
+ 103:External/bootloader/Src/bootloader_io.c ****   };
+ 104:External/bootloader/Src/bootloader_io.c ****   uint32_t page_error = 0x0U;
+ 362              		.loc 1 104 3 is_stmt 1 view .LVU75
+ 363              		.loc 1 104 12 is_stmt 0 view .LVU76
  364 0028 0193     		str	r3, [sp, #4]
- 110:External/bootloader/Src/bootloader_io.c **** 
- 111:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASHEx_Erase(&erase_init_struct, &page_error);
- 365              		.loc 1 111 3 is_stmt 1 view .LVU77
- 366              		.loc 1 111 13 is_stmt 0 view .LVU78
+ 105:External/bootloader/Src/bootloader_io.c **** 
+ 106:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASHEx_Erase(&erase_init_struct, &page_error);
+ 365              		.loc 1 106 3 is_stmt 1 view .LVU77
+ 366              		.loc 1 106 13 is_stmt 0 view .LVU78
  367 002a 01A9     		add	r1, sp, #4
  368 002c 02A8     		add	r0, sp, #8
  369 002e FFF7FEFF 		bl	HAL_FLASHEx_Erase
  370              	.LVL35:
- 371              		.loc 1 111 10 discriminator 1 view .LVU79
+ 371              		.loc 1 106 10 discriminator 1 view .LVU79
  372 0032 2043     		orrs	r0, r0, r4
  373 0034 C4B2     		uxtb	r4, r0
  374              	.LVL36:
- 112:External/bootloader/Src/bootloader_io.c **** 
- 113:External/bootloader/Src/bootloader_io.c ****   if (page_error != ~0x0)
- 375              		.loc 1 113 3 is_stmt 1 view .LVU80
- 376              		.loc 1 113 18 is_stmt 0 view .LVU81
+ 107:External/bootloader/Src/bootloader_io.c **** 
+ 108:External/bootloader/Src/bootloader_io.c ****   if (page_error != ~0x0)
+ 375              		.loc 1 108 3 is_stmt 1 view .LVU80
+ 376              		.loc 1 108 18 is_stmt 0 view .LVU81
  377 0036 019B     		ldr	r3, [sp, #4]
- 378              		.loc 1 113 6 view .LVU82
+ 378              		.loc 1 108 6 view .LVU82
  379 0038 B3F1FF3F 		cmp	r3, #-1
  380 003c 03D0     		beq	.L29
- 114:External/bootloader/Src/bootloader_io.c ****     return status |= BOOTLOADER_FLASH_PAGE_ERROR; 
- 381              		.loc 1 114 5 is_stmt 1 view .LVU83
- 382              		.loc 1 114 19 is_stmt 0 view .LVU84
+ 109:External/bootloader/Src/bootloader_io.c ****     return status |= BOOTLOADER_FLASH_PAGE_ERROR; 
+ 381              		.loc 1 109 5 is_stmt 1 view .LVU83
+ 382              		.loc 1 109 19 is_stmt 0 view .LVU84
  383 003e 44F00500 		orr	r0, r4, #5
  384              	.LVL37:
  385              	.L28:
- 115:External/bootloader/Src/bootloader_io.c **** 
- 116:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASH_Lock();
- 117:External/bootloader/Src/bootloader_io.c **** 
- 118:External/bootloader/Src/bootloader_io.c ****   return status;
- 119:External/bootloader/Src/bootloader_io.c **** }
- 386              		.loc 1 119 1 view .LVU85
+ 110:External/bootloader/Src/bootloader_io.c **** 
+ 111:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASH_Lock();
+ 112:External/bootloader/Src/bootloader_io.c **** 
+ 113:External/bootloader/Src/bootloader_io.c ****   return status;
+ 114:External/bootloader/Src/bootloader_io.c **** }
+ 386              		.loc 1 114 1 view .LVU85
  387 0042 06B0     		add	sp, sp, #24
  388              	.LCFI6:
  389              		.cfi_remember_state
@@ -538,31 +533,31 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  392 0044 70BD     		pop	{r4, r5, r6, pc}
  393              	.LVL38:
  394              	.L29:
-ARM GAS  /tmp/ccJNEUYr.s 			page 10
-
-
  395              	.LCFI7:
  396              		.cfi_restore_state
- 116:External/bootloader/Src/bootloader_io.c **** 
- 397              		.loc 1 116 3 is_stmt 1 view .LVU86
- 116:External/bootloader/Src/bootloader_io.c **** 
- 398              		.loc 1 116 13 is_stmt 0 view .LVU87
+ 111:External/bootloader/Src/bootloader_io.c **** 
+ 397              		.loc 1 111 3 is_stmt 1 view .LVU86
+ 111:External/bootloader/Src/bootloader_io.c **** 
+ARM GAS  /tmp/ccAb9AGe.s 			page 10
+
+
+ 398              		.loc 1 111 13 is_stmt 0 view .LVU87
  399 0046 FFF7FEFF 		bl	HAL_FLASH_Lock
  400              	.LVL39:
- 116:External/bootloader/Src/bootloader_io.c **** 
- 401              		.loc 1 116 10 discriminator 1 view .LVU88
+ 111:External/bootloader/Src/bootloader_io.c **** 
+ 401              		.loc 1 111 10 discriminator 1 view .LVU88
  402 004a 2043     		orrs	r0, r0, r4
  403 004c C0B2     		uxtb	r0, r0
  404              	.LVL40:
- 118:External/bootloader/Src/bootloader_io.c **** }
- 405              		.loc 1 118 3 is_stmt 1 view .LVU89
- 118:External/bootloader/Src/bootloader_io.c **** }
- 406              		.loc 1 118 10 is_stmt 0 view .LVU90
+ 113:External/bootloader/Src/bootloader_io.c **** }
+ 405              		.loc 1 113 3 is_stmt 1 view .LVU89
+ 113:External/bootloader/Src/bootloader_io.c **** }
+ 406              		.loc 1 113 10 is_stmt 0 view .LVU90
  407 004e F8E7     		b	.L28
  408              	.LVL41:
  409              	.L30:
-  99:External/bootloader/Src/bootloader_io.c **** 
- 410              		.loc 1 99 12 view .LVU91
+  94:External/bootloader/Src/bootloader_io.c **** 
+ 410              		.loc 1 94 12 view .LVU91
  411 0050 0420     		movs	r0, #4
  412 0052 F6E7     		b	.L28
  413              	.L31:
@@ -582,29 +577,29 @@ ARM GAS  /tmp/ccJNEUYr.s 			page 1
  428              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
  429              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h"
  430              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
-ARM GAS  /tmp/ccJNEUYr.s 			page 11
+ARM GAS  /tmp/ccAb9AGe.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 bootloader_io.c
-     /tmp/ccJNEUYr.s:19     .text.is_address_in_bounds:00000000 $t
-     /tmp/ccJNEUYr.s:24     .text.is_address_in_bounds:00000000 is_address_in_bounds
-     /tmp/ccJNEUYr.s:64     .text.is_address_in_bounds:0000001c $d
-     /tmp/ccJNEUYr.s:70     .text.is_page_address:00000000 $t
-     /tmp/ccJNEUYr.s:75     .text.is_page_address:00000000 is_page_address
-     /tmp/ccJNEUYr.s:115    .text.is_page_address:0000001c $d
-     /tmp/ccJNEUYr.s:120    .text.bootloader_io_read:00000000 $t
-     /tmp/ccJNEUYr.s:126    .text.bootloader_io_read:00000000 bootloader_io_read
-     /tmp/ccJNEUYr.s:157    .text.bootloader_io_read:00000014 $d
-     /tmp/ccJNEUYr.s:162    .text.bootloader_io_write:00000000 $t
-     /tmp/ccJNEUYr.s:168    .text.bootloader_io_write:00000000 bootloader_io_write
-     /tmp/ccJNEUYr.s:199    .text.bootloader_io_write:00000014 $d
-     /tmp/ccJNEUYr.s:204    .text.bootloader_io_get_dev_id:00000000 $t
-     /tmp/ccJNEUYr.s:210    .text.bootloader_io_get_dev_id:00000000 bootloader_io_get_dev_id
-     /tmp/ccJNEUYr.s:231    .text.bootloader_io_program:00000000 $t
-     /tmp/ccJNEUYr.s:237    .text.bootloader_io_program:00000000 bootloader_io_program
-     /tmp/ccJNEUYr.s:310    .text.bootloader_io_erase:00000000 $t
-     /tmp/ccJNEUYr.s:316    .text.bootloader_io_erase:00000000 bootloader_io_erase
+     /tmp/ccAb9AGe.s:19     .text.is_address_in_bounds:00000000 $t
+     /tmp/ccAb9AGe.s:24     .text.is_address_in_bounds:00000000 is_address_in_bounds
+     /tmp/ccAb9AGe.s:64     .text.is_address_in_bounds:0000001c $d
+     /tmp/ccAb9AGe.s:70     .text.is_page_address:00000000 $t
+     /tmp/ccAb9AGe.s:75     .text.is_page_address:00000000 is_page_address
+     /tmp/ccAb9AGe.s:115    .text.is_page_address:0000001c $d
+     /tmp/ccAb9AGe.s:120    .text.bootloader_io_read:00000000 $t
+     /tmp/ccAb9AGe.s:126    .text.bootloader_io_read:00000000 bootloader_io_read
+     /tmp/ccAb9AGe.s:157    .text.bootloader_io_read:00000014 $d
+     /tmp/ccAb9AGe.s:162    .text.bootloader_io_write:00000000 $t
+     /tmp/ccAb9AGe.s:168    .text.bootloader_io_write:00000000 bootloader_io_write
+     /tmp/ccAb9AGe.s:199    .text.bootloader_io_write:00000014 $d
+     /tmp/ccAb9AGe.s:204    .text.bootloader_io_get_dev_id:00000000 $t
+     /tmp/ccAb9AGe.s:210    .text.bootloader_io_get_dev_id:00000000 bootloader_io_get_dev_id
+     /tmp/ccAb9AGe.s:231    .text.bootloader_io_program:00000000 $t
+     /tmp/ccAb9AGe.s:237    .text.bootloader_io_program:00000000 bootloader_io_program
+     /tmp/ccAb9AGe.s:310    .text.bootloader_io_erase:00000000 $t
+     /tmp/ccAb9AGe.s:316    .text.bootloader_io_erase:00000000 bootloader_io_erase
 
 UNDEFINED SYMBOLS
 HAL_UART_Receive

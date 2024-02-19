@@ -1,6 +1,7 @@
 #include "bootloader_cmd.h"
 #include "bootloader_defs.h"
 #include <string.h>
+#include <stdbool.h>
 
 static char *start_message = "-FlexyPixel Bootloader."
   " Type '0' for commands list";
@@ -96,23 +97,24 @@ static bootloader_status cmd_write()
   uint32_t address = 0;
   uint16_t data = 0;
 
-  bootloader_status status = bootloader_io_read(
-    (uint8_t*)&address,
-    sizeof(uint32_t)
-  );
-  send_response(status);
-  if (status)
-    return status;
+  bootloader_status status = BOOTLOADER_OK;
+  while (true) {
+    status |= bootloader_io_read(
+      (uint8_t*)&address,
+      sizeof(uint32_t)
+    );
+    if (address == END_SUBSEQUENCE)
+      break;
 
-  status |= bootloader_io_read((uint8_t*)&data, sizeof(uint16_t));
-  send_response(status);
-  if (status)
-    return status;
+    status |= bootloader_io_read((uint8_t*)&data, sizeof(uint16_t));
 
-  if (status)
-    return status;
-  status |= bootloader_io_program(address, data);
-  send_response(status);
+    if (status == BOOTLOADER_OK)
+      status |= bootloader_io_program(address, data);
+
+    send_response(status);
+    if (status)
+      break;
+  }
 
   return status;
 }
@@ -123,23 +125,16 @@ static bootloader_status cmd_erase()
 {
   uint32_t address = 0;
   uint8_t page_num = 0;
-  
+
   bootloader_status status = bootloader_io_read(
     (uint8_t*)&address,
     sizeof(uint32_t)
   );
-  send_response(status);
-  if (status)
-    return status;
 
   status |= bootloader_io_read(&page_num, sizeof(uint8_t));
-  send_response(status);
-  if (status)
-    return status;
 
-  if (status)
-    return status;
-  status |= bootloader_io_erase(address, page_num);
+  if (status == BOOTLOADER_OK)
+    status |= bootloader_io_erase(address, page_num);
   send_response(status);
 
   return status;

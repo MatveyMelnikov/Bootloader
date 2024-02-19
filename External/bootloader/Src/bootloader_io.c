@@ -67,7 +67,7 @@ bootloader_status bootloader_io_program(
   //   address < APP_START_ADDRESS || 
   //   address + sizeof(uint16_t) >= FLASH_BANK1_END
   // )
-  if (is_address_in_bounds(address))
+  if (!is_address_in_bounds(address))
     return BOOTLOADER_BOUNDS_ERROR;
 
   HAL_StatusTypeDef status = HAL_FLASH_Unlock();
@@ -90,11 +90,6 @@ bootloader_status bootloader_io_erase(
   const uint8_t pages_num
 )
 {
-  // bool a = is_address_in_bounds(address);
-  // bool b = is_address_in_bounds(address);
-  // if (a || !is_page_address(address))
-  //   return BOOTLOADER_BOUNDS_ERROR;
-
   if (!is_address_in_bounds(address) || !is_page_address(address))
     return BOOTLOADER_BOUNDS_ERROR;
 
