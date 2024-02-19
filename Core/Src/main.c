@@ -34,7 +34,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define GET_VALUE_FROM_ADDR(address) \
+  *((volatile uint32_t*)(address))
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -63,7 +64,6 @@ int main(void);
 void SysTick_Handler(void);
 void HAL_GPIO_DeInit(GPIO_TypeDef  *GPIOx, uint32_t GPIO_Pin);
 static void led_blink(void);
-static void gpio_deinit(void);
 static void start_application_code(void);
 /* USER CODE END PFP */
 
@@ -290,25 +290,24 @@ static void led_blink(void)
 
 static void start_application_code()
 {
-  uint32_t app_msp = *((volatile uint32_t*)APP_START_ADDRESS);
+  uint32_t app_msp = GET_VALUE_FROM_ADDR(APP_START_ADDRESS);
   if (app_msp != SRAM_END)
     Error_Handler();
 
-  HAL_UART_DeInit(&huart1);
   HAL_GPIO_DeInit(GPIOC, GPIO_PIN_13);
   HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12);
   HAL_DeInit();
 
-  //RCC->CIR = 0x00000000; // Disable all interrupts related to clock
-  __disable_irq();
-  __set_MSP(app_msp);
+  // references manual pg. 104
+  RCC->CIR = 0x00000000; // disable all interrupts related to clock
+  __set_MSP(GET_VALUE_FROM_ADDR(APP_START_ADDRESS));
   // programming manual pg. 99
   __DMB();
-  SCB->VTOR = APP_START_ADDRESS; // not address! offset is value
-  /// programming manual pg. 100
+  SCB->VTOR = APP_START_ADDRESS;
+  // programming manual pg. 100
   __DSB();
 
-  volatile uint32_t *jump_address = (volatile uint32_t*)(
+  uint32_t jump_address = GET_VALUE_FROM_ADDR(
     APP_START_ADDRESS + sizeof(uint32_t)
   );
   void (*reset_handler)(void) = (void*)jump_address;

@@ -95,6 +95,7 @@ static bootloader_status cmd_write()
 {
   uint32_t address = 0;
   uint16_t data = 0;
+
   bootloader_status status = bootloader_io_read(
     (uint8_t*)&address,
     sizeof(uint32_t)
@@ -122,6 +123,7 @@ static bootloader_status cmd_erase()
 {
   uint32_t address = 0;
   uint8_t page_num = 0;
+  
   bootloader_status status = bootloader_io_read(
     (uint8_t*)&address,
     sizeof(uint32_t)

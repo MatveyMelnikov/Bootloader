@@ -1,7 +1,8 @@
 #ifndef BOOTLOADER_DEFS_H
 #define BOOTLOADER_DEFS_H
 
-#define APP_START_ADDRESS 0x08000000 + (0x400 * 10) /* page 10 */
+//#define APP_START_ADDRESS 0x08000000 + (0x400 * 10) /* page 10 */
+#define APP_START_ADDRESS 0x08002800 /* page 10 */
 #define SRAM_SIZE 20 * 1024
 #define SRAM_END (SRAM_BASE + SRAM_SIZE)
 
