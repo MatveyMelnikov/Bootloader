@@ -96,8 +96,10 @@ static bootloader_status cmd_write()
 {
   uint32_t address = 0;
   uint16_t data = 0;
-
+  uint32_t num = 0;
   bootloader_status status = BOOTLOADER_OK;
+
+  send_response(status);
   while (true) {
     status |= bootloader_io_read(
       (uint8_t*)&address,
@@ -114,7 +116,11 @@ static bootloader_status cmd_write()
     send_response(status);
     if (status)
       break;
+    num++;
   }
+
+  if (num == 0)
+    return status || BOOTLOADER_ERROR;
 
   return status;
 }
@@ -125,8 +131,10 @@ static bootloader_status cmd_erase()
 {
   uint32_t address = 0;
   uint8_t page_num = 0;
+  bootloader_status status = BOOTLOADER_OK;
 
-  bootloader_status status = bootloader_io_read(
+  send_response(status);
+  status = bootloader_io_read(
     (uint8_t*)&address,
     sizeof(uint32_t)
   );
@@ -163,9 +171,8 @@ bootloader_status bootloader_proccess_input()
   if (status == BOOTLOADER_TIMEOUT)
     return status;
 
-  status = bootloader_io_write(uart_buffer, 1);
-
-  switch(uart_buffer[0])
+  uint8_t input_cmd = uart_buffer[0];
+  switch(input_cmd)
   {
     case CMD_HELP:
       cmd_help();
@@ -184,6 +191,7 @@ bootloader_status bootloader_proccess_input()
       break;
   }
 
+  status |= bootloader_io_write(&input_cmd, 1);
   status |= bootloader_io_write((uint8_t*)input_prompt, 4);
   return status;
 }

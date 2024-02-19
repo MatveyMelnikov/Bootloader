@@ -150,7 +150,7 @@ int main(void)
     {
       led_blink();
 
-      if ((HAL_GetTick() - current_ticks) < UART_DELAY)
+      if ((HAL_GetTick() - current_ticks) < UART_POLLING_DELAY)
         continue;
       if (bootloader_proccess_input() == BOOTLOADER_TIMEOUT)
         continue;

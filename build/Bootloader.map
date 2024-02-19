@@ -887,7 +887,7 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
                 0x08000040                g_pfnVectors
                 0x0800014c                        . = ALIGN (0x4)
 
-.text           0x0800014c     0x1900
+.text           0x0800014c     0x191c
                 0x0800014c                        . = ALIGN (0x4)
  *(.text)
  *(.text*)
@@ -1076,176 +1076,176 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
  .text.cmd_get_id
                 0x080016b4       0x88 build/bootloader_cmd.o
  .text.cmd_write
-                0x0800173c       0x52 build/bootloader_cmd.o
+                0x0800173c       0x66 build/bootloader_cmd.o
  .text.cmd_erase
-                0x0800178e       0x52 build/bootloader_cmd.o
+                0x080017a2       0x4a build/bootloader_cmd.o
  .text.bootloader_start_output
-                0x080017e0       0x24 build/bootloader_cmd.o
-                0x080017e0                bootloader_start_output
+                0x080017ec       0x24 build/bootloader_cmd.o
+                0x080017ec                bootloader_start_output
  .text.bootloader_proccess_input
-                0x08001804       0x68 build/bootloader_cmd.o
-                0x08001804                bootloader_proccess_input
+                0x08001810       0x78 build/bootloader_cmd.o
+                0x08001810                bootloader_proccess_input
  .text.is_address_in_bounds
-                0x0800186c       0x24 build/bootloader_io.o
+                0x08001888       0x24 build/bootloader_io.o
  .text.is_page_address
-                0x08001890       0x20 build/bootloader_io.o
+                0x080018ac       0x20 build/bootloader_io.o
  .text.bootloader_io_read
-                0x080018b0       0x18 build/bootloader_io.o
-                0x080018b0                bootloader_io_read
+                0x080018cc       0x18 build/bootloader_io.o
+                0x080018cc                bootloader_io_read
  .text.bootloader_io_write
-                0x080018c8       0x18 build/bootloader_io.o
-                0x080018c8                bootloader_io_write
+                0x080018e4       0x18 build/bootloader_io.o
+                0x080018e4                bootloader_io_write
  .text.bootloader_io_get_dev_id
-                0x080018e0        0x8 build/bootloader_io.o
-                0x080018e0                bootloader_io_get_dev_id
+                0x080018fc        0x8 build/bootloader_io.o
+                0x080018fc                bootloader_io_get_dev_id
  .text.bootloader_io_program
-                0x080018e8       0x34 build/bootloader_io.o
-                0x080018e8                bootloader_io_program
+                0x08001904       0x34 build/bootloader_io.o
+                0x08001904                bootloader_io_program
  .text.bootloader_io_erase
-                0x0800191c       0x58 build/bootloader_io.o
-                0x0800191c                bootloader_io_erase
+                0x08001938       0x58 build/bootloader_io.o
+                0x08001938                bootloader_io_erase
  .text.Reset_Handler
-                0x08001974       0x48 build/startup_stm32f103xb.o
-                0x08001974                Reset_Handler
+                0x08001990       0x48 build/startup_stm32f103xb.o
+                0x08001990                Reset_Handler
  .text.Default_Handler
-                0x080019bc        0x2 build/startup_stm32f103xb.o
-                0x080019bc                RTC_Alarm_IRQHandler
-                0x080019bc                EXTI2_IRQHandler
-                0x080019bc                TIM1_CC_IRQHandler
-                0x080019bc                PVD_IRQHandler
-                0x080019bc                EXTI3_IRQHandler
-                0x080019bc                EXTI0_IRQHandler
-                0x080019bc                I2C2_EV_IRQHandler
-                0x080019bc                ADC1_2_IRQHandler
-                0x080019bc                SPI1_IRQHandler
-                0x080019bc                TAMPER_IRQHandler
-                0x080019bc                DMA1_Channel4_IRQHandler
-                0x080019bc                USART3_IRQHandler
-                0x080019bc                RTC_IRQHandler
-                0x080019bc                DMA1_Channel7_IRQHandler
-                0x080019bc                CAN1_RX1_IRQHandler
-                0x080019bc                TIM4_IRQHandler
-                0x080019bc                I2C1_EV_IRQHandler
-                0x080019bc                DMA1_Channel6_IRQHandler
-                0x080019bc                TIM3_IRQHandler
-                0x080019bc                RCC_IRQHandler
-                0x080019bc                TIM1_TRG_COM_IRQHandler
-                0x080019bc                DMA1_Channel1_IRQHandler
-                0x080019bc                Default_Handler
-                0x080019bc                EXTI15_10_IRQHandler
-                0x080019bc                EXTI9_5_IRQHandler
-                0x080019bc                SPI2_IRQHandler
-                0x080019bc                DMA1_Channel5_IRQHandler
-                0x080019bc                EXTI4_IRQHandler
-                0x080019bc                USB_LP_CAN1_RX0_IRQHandler
-                0x080019bc                USB_HP_CAN1_TX_IRQHandler
-                0x080019bc                DMA1_Channel3_IRQHandler
-                0x080019bc                TIM1_UP_IRQHandler
-                0x080019bc                WWDG_IRQHandler
-                0x080019bc                TIM2_IRQHandler
-                0x080019bc                TIM1_BRK_IRQHandler
-                0x080019bc                EXTI1_IRQHandler
-                0x080019bc                USART2_IRQHandler
-                0x080019bc                I2C2_ER_IRQHandler
-                0x080019bc                DMA1_Channel2_IRQHandler
-                0x080019bc                CAN1_SCE_IRQHandler
-                0x080019bc                FLASH_IRQHandler
-                0x080019bc                USART1_IRQHandler
-                0x080019bc                I2C1_ER_IRQHandler
-                0x080019bc                USBWakeUp_IRQHandler
- *fill*         0x080019be        0x2 
+                0x080019d8        0x2 build/startup_stm32f103xb.o
+                0x080019d8                RTC_Alarm_IRQHandler
+                0x080019d8                EXTI2_IRQHandler
+                0x080019d8                TIM1_CC_IRQHandler
+                0x080019d8                PVD_IRQHandler
+                0x080019d8                EXTI3_IRQHandler
+                0x080019d8                EXTI0_IRQHandler
+                0x080019d8                I2C2_EV_IRQHandler
+                0x080019d8                ADC1_2_IRQHandler
+                0x080019d8                SPI1_IRQHandler
+                0x080019d8                TAMPER_IRQHandler
+                0x080019d8                DMA1_Channel4_IRQHandler
+                0x080019d8                USART3_IRQHandler
+                0x080019d8                RTC_IRQHandler
+                0x080019d8                DMA1_Channel7_IRQHandler
+                0x080019d8                CAN1_RX1_IRQHandler
+                0x080019d8                TIM4_IRQHandler
+                0x080019d8                I2C1_EV_IRQHandler
+                0x080019d8                DMA1_Channel6_IRQHandler
+                0x080019d8                TIM3_IRQHandler
+                0x080019d8                RCC_IRQHandler
+                0x080019d8                TIM1_TRG_COM_IRQHandler
+                0x080019d8                DMA1_Channel1_IRQHandler
+                0x080019d8                Default_Handler
+                0x080019d8                EXTI15_10_IRQHandler
+                0x080019d8                EXTI9_5_IRQHandler
+                0x080019d8                SPI2_IRQHandler
+                0x080019d8                DMA1_Channel5_IRQHandler
+                0x080019d8                EXTI4_IRQHandler
+                0x080019d8                USB_LP_CAN1_RX0_IRQHandler
+                0x080019d8                USB_HP_CAN1_TX_IRQHandler
+                0x080019d8                DMA1_Channel3_IRQHandler
+                0x080019d8                TIM1_UP_IRQHandler
+                0x080019d8                WWDG_IRQHandler
+                0x080019d8                TIM2_IRQHandler
+                0x080019d8                TIM1_BRK_IRQHandler
+                0x080019d8                EXTI1_IRQHandler
+                0x080019d8                USART2_IRQHandler
+                0x080019d8                I2C2_ER_IRQHandler
+                0x080019d8                DMA1_Channel2_IRQHandler
+                0x080019d8                CAN1_SCE_IRQHandler
+                0x080019d8                FLASH_IRQHandler
+                0x080019d8                USART1_IRQHandler
+                0x080019d8                I2C1_ER_IRQHandler
+                0x080019d8                USBWakeUp_IRQHandler
+ *fill*         0x080019da        0x2 
  .text.__libc_init_array
-                0x080019c0       0x48 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-init.o)
-                0x080019c0                __libc_init_array
- .text.memcpy   0x08001a08       0x1c /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
-                0x08001a08                memcpy
- .text.memset   0x08001a24       0x10 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memset.o)
-                0x08001a24                memset
+                0x080019dc       0x48 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-init.o)
+                0x080019dc                __libc_init_array
+ .text.memcpy   0x08001a24       0x1c /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+                0x08001a24                memcpy
+ .text.memset   0x08001a40       0x10 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memset.o)
+                0x08001a40                memset
  *(.glue_7)
- .glue_7        0x08001a34        0x0 linker stubs
+ .glue_7        0x08001a50        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x08001a34        0x0 linker stubs
+ .glue_7t       0x08001a50        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x08001a34        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
+ .eh_frame      0x08001a50        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
  *(.init)
- .init          0x08001a34        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crti.o
-                0x08001a34                _init
- .init          0x08001a38        0x8 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtn.o
+ .init          0x08001a50        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crti.o
+                0x08001a50                _init
+ .init          0x08001a54        0x8 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtn.o
  *(.fini)
- .fini          0x08001a40        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crti.o
-                0x08001a40                _fini
- .fini          0x08001a44        0x8 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtn.o
-                0x08001a4c                        . = ALIGN (0x4)
-                0x08001a4c                        _etext = .
+ .fini          0x08001a5c        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crti.o
+                0x08001a5c                _fini
+ .fini          0x08001a60        0x8 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtn.o
+                0x08001a68                        . = ALIGN (0x4)
+                0x08001a68                        _etext = .
 
-.vfp11_veneer   0x08001a4c        0x0
- .vfp11_veneer  0x08001a4c        0x0 linker stubs
+.vfp11_veneer   0x08001a68        0x0
+ .vfp11_veneer  0x08001a68        0x0 linker stubs
 
-.v4_bx          0x08001a4c        0x0
- .v4_bx         0x08001a4c        0x0 linker stubs
+.v4_bx          0x08001a68        0x0
+ .v4_bx         0x08001a68        0x0 linker stubs
 
-.iplt           0x08001a4c        0x0
- .iplt          0x08001a4c        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
+.iplt           0x08001a68        0x0
+ .iplt          0x08001a68        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
 
-.rodata         0x08001a4c       0xf0
-                0x08001a4c                        . = ALIGN (0x4)
+.rodata         0x08001a68       0xf0
+                0x08001a68                        . = ALIGN (0x4)
  *(.rodata)
  *(.rodata*)
  .rodata.aPredivFactorTable.0
-                0x08001a4c        0x2 build/stm32f1xx_hal_rcc.o
- *fill*         0x08001a4e        0x2 
+                0x08001a68        0x2 build/stm32f1xx_hal_rcc.o
+ *fill*         0x08001a6a        0x2 
  .rodata.aPLLMULFactorTable.1
-                0x08001a50       0x10 build/stm32f1xx_hal_rcc.o
+                0x08001a6c       0x10 build/stm32f1xx_hal_rcc.o
  .rodata.APBPrescTable
-                0x08001a60        0x8 build/system_stm32f1xx.o
-                0x08001a60                APBPrescTable
+                0x08001a7c        0x8 build/system_stm32f1xx.o
+                0x08001a7c                APBPrescTable
  .rodata.AHBPrescTable
-                0x08001a68       0x10 build/system_stm32f1xx.o
-                0x08001a68                AHBPrescTable
+                0x08001a84       0x10 build/system_stm32f1xx.o
+                0x08001a84                AHBPrescTable
  .rodata.cmd_help.str1.4
-                0x08001a78       0xc1 build/bootloader_cmd.o
+                0x08001a94       0xc1 build/bootloader_cmd.o
                                  0x64 (size before relaxing)
  .rodata.cmd_get_bootloader_version.str1.4
-                0x08001b39       0x17 build/bootloader_cmd.o
+                0x08001b55       0x17 build/bootloader_cmd.o
  .rodata.cmd_get_id.str1.4
-                0x08001b39        0xc build/bootloader_cmd.o
+                0x08001b55        0xc build/bootloader_cmd.o
  .rodata.bootloader_start_output.str1.4
-                0x08001b39       0x39 build/bootloader_cmd.o
-                0x08001b74                        . = ALIGN (0x4)
- *fill*         0x08001b39        0x3 
+                0x08001b55       0x39 build/bootloader_cmd.o
+                0x08001b90                        . = ALIGN (0x4)
+ *fill*         0x08001b55        0x3 
 
-.rel.dyn        0x08001b3c        0x0
- .rel.iplt      0x08001b3c        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
+.rel.dyn        0x08001b58        0x0
+ .rel.iplt      0x08001b58        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x08001b3c        0x0
-                0x08001b3c                        __exidx_start = .
+.ARM            0x08001b58        0x0
+                0x08001b58                        __exidx_start = .
  *(.ARM.exidx*)
-                0x08001b3c                        __exidx_end = .
+                0x08001b58                        __exidx_end = .
 
-.preinit_array  0x08001b3c        0x0
-                0x08001b3c                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x08001b58        0x0
+                0x08001b58                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x08001b3c                        PROVIDE (__preinit_array_end = .)
+                0x08001b58                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x08001b3c        0x4
-                0x08001b3c                        PROVIDE (__init_array_start = .)
+.init_array     0x08001b58        0x4
+                0x08001b58                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x08001b3c        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
-                0x08001b40                        PROVIDE (__init_array_end = .)
+ .init_array    0x08001b58        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
+                0x08001b5c                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x08001b40        0x4
+.fini_array     0x08001b5c        0x4
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x08001b40        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
+ .fini_array    0x08001b5c        0x4 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x08001b44                        _sidata = LOADADDR (.data)
+                0x08001b60                        _sidata = LOADADDR (.data)
 
-.data           0x20000000       0x14 load address 0x08001b44
+.data           0x20000000       0x14 load address 0x08001b60
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        _sdata = .
  *(.data)
@@ -1269,17 +1269,17 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
                 0x20000014                        _edata = .
 
 .tm_clone_table
-                0x20000014        0x0 load address 0x08001b58
+                0x20000014        0x0 load address 0x08001b74
  .tm_clone_table
                 0x20000014        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
  .tm_clone_table
                 0x20000014        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtend.o
 
-.igot.plt       0x20000014        0x0 load address 0x08001b58
+.igot.plt       0x20000014        0x0 load address 0x08001b74
  .igot.plt      0x20000014        0x0 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/crtbegin.o
                 0x20000014                        . = ALIGN (0x4)
 
-.bss            0x20000018       0xec load address 0x08001b58
+.bss            0x20000018       0xec load address 0x08001b74
                 0x20000018                        _sbss = .
                 0x20000018                        __bss_start__ = _sbss
  *(.bss)
@@ -1302,7 +1302,7 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
                 0x20000104                        __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x20000104      0x604 load address 0x08001b58
+                0x20000104      0x604 load address 0x08001b74
                 0x20000108                        . = ALIGN (0x8)
  *fill*         0x20000104        0x4 
                 0x20000108                        PROVIDE (end = .)
@@ -1369,23 +1369,23 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/.
 LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libm.a
 LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7-m/nofp/libgcc.a
 
-.debug_info     0x00000000     0xb203
- .debug_info    0x00000000     0x12c9 build/main.o
- .debug_info    0x000012c9      0x158 build/stm32f1xx_it.o
- .debug_info    0x00001421      0x980 build/stm32f1xx_hal_msp.o
- .debug_info    0x00001da1      0x880 build/stm32f1xx_hal.o
- .debug_info    0x00002621      0xb10 build/stm32f1xx_hal_rcc.o
- .debug_info    0x00003131      0x6d7 build/stm32f1xx_hal_gpio.o
- .debug_info    0x00003808      0xe3f build/stm32f1xx_hal_cortex.o
- .debug_info    0x00004647      0x6fd build/stm32f1xx_hal_flash.o
- .debug_info    0x00004d44      0xb94 build/stm32f1xx_hal_flash_ex.o
- .debug_info    0x000058d8     0x440c build/stm32f1xx_hal_uart.o
- .debug_info    0x00009ce4      0x26e build/system_stm32f1xx.o
- .debug_info    0x00009f52      0x7a2 build/bootloader_cmd.o
- .debug_info    0x0000a6f4      0xadf build/bootloader_io.o
- .debug_info    0x0000b1d3       0x30 build/startup_stm32f103xb.o
+.debug_info     0x00000000     0xb21f
+ .debug_info    0x00000000     0x12d1 build/main.o
+ .debug_info    0x000012d1      0x158 build/stm32f1xx_it.o
+ .debug_info    0x00001429      0x980 build/stm32f1xx_hal_msp.o
+ .debug_info    0x00001da9      0x880 build/stm32f1xx_hal.o
+ .debug_info    0x00002629      0xb10 build/stm32f1xx_hal_rcc.o
+ .debug_info    0x00003139      0x6d7 build/stm32f1xx_hal_gpio.o
+ .debug_info    0x00003810      0xe3f build/stm32f1xx_hal_cortex.o
+ .debug_info    0x0000464f      0x6fd build/stm32f1xx_hal_flash.o
+ .debug_info    0x00004d4c      0xb94 build/stm32f1xx_hal_flash_ex.o
+ .debug_info    0x000058e0     0x440c build/stm32f1xx_hal_uart.o
+ .debug_info    0x00009cec      0x26e build/system_stm32f1xx.o
+ .debug_info    0x00009f5a      0x7ac build/bootloader_cmd.o
+ .debug_info    0x0000a706      0xae9 build/bootloader_io.o
+ .debug_info    0x0000b1ef       0x30 build/startup_stm32f103xb.o
 
-.debug_abbrev   0x00000000     0x1f57
+.debug_abbrev   0x00000000     0x1f6b
  .debug_abbrev  0x00000000      0x419 build/main.o
  .debug_abbrev  0x00000419       0x80 build/stm32f1xx_it.o
  .debug_abbrev  0x00000499      0x1d5 build/stm32f1xx_hal_msp.o
@@ -1397,11 +1397,11 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
  .debug_abbrev  0x000013c7      0x297 build/stm32f1xx_hal_flash_ex.o
  .debug_abbrev  0x0000165e      0x35f build/stm32f1xx_hal_uart.o
  .debug_abbrev  0x000019bd      0x140 build/system_stm32f1xx.o
- .debug_abbrev  0x00001afd      0x243 build/bootloader_cmd.o
- .debug_abbrev  0x00001d40      0x1fa build/bootloader_io.o
- .debug_abbrev  0x00001f3a       0x1d build/startup_stm32f103xb.o
+ .debug_abbrev  0x00001afd      0x257 build/bootloader_cmd.o
+ .debug_abbrev  0x00001d54      0x1fa build/bootloader_io.o
+ .debug_abbrev  0x00001f4e       0x1d build/startup_stm32f103xb.o
 
-.debug_loc      0x00000000     0x8340
+.debug_loc      0x00000000     0x83e4
  .debug_loc     0x00000000      0x261 build/main.o
  .debug_loc     0x00000261       0x20 build/stm32f1xx_it.o
  .debug_loc     0x00000281      0x141 build/stm32f1xx_hal_msp.o
@@ -1413,8 +1413,8 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
  .debug_loc     0x0000201c      0x9ec build/stm32f1xx_hal_flash_ex.o
  .debug_loc     0x00002a08     0x5192 build/stm32f1xx_hal_uart.o
  .debug_loc     0x00007b9a      0x11b build/system_stm32f1xx.o
- .debug_loc     0x00007cb5      0x323 build/bootloader_cmd.o
- .debug_loc     0x00007fd8      0x368 build/bootloader_io.o
+ .debug_loc     0x00007cb5      0x3c7 build/bootloader_cmd.o
+ .debug_loc     0x0000807c      0x368 build/bootloader_io.o
 
 .debug_aranges  0x00000000      0x790
  .debug_aranges
@@ -1462,7 +1462,7 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
  .debug_ranges  0x00000690       0x40 build/bootloader_io.o
  .debug_ranges  0x000006d0       0x20 build/startup_stm32f103xb.o
 
-.debug_line     0x00000000     0x7621
+.debug_line     0x00000000     0x763f
  .debug_line    0x00000000      0x53f build/main.o
  .debug_line    0x0000053f      0x13d build/stm32f1xx_it.o
  .debug_line    0x0000067c      0x26b build/stm32f1xx_hal_msp.o
@@ -1474,26 +1474,26 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
  .debug_line    0x00002d44      0x8d5 build/stm32f1xx_hal_flash_ex.o
  .debug_line    0x00003619     0x34e5 build/stm32f1xx_hal_uart.o
  .debug_line    0x00006afe      0x20f build/system_stm32f1xx.o
- .debug_line    0x00006d0d      0x4cf build/bootloader_cmd.o
- .debug_line    0x000071dc      0x3d4 build/bootloader_io.o
- .debug_line    0x000075b0       0x71 build/startup_stm32f103xb.o
+ .debug_line    0x00006d0d      0x4ed build/bootloader_cmd.o
+ .debug_line    0x000071fa      0x3d4 build/bootloader_io.o
+ .debug_line    0x000075ce       0x71 build/startup_stm32f103xb.o
 
-.debug_str      0x00000000     0x2655
- .debug_str     0x00000000     0x2655 build/main.o
-                                0xb8f (size before relaxing)
- .debug_str     0x00002655      0x203 build/stm32f1xx_it.o
- .debug_str     0x00002655      0x685 build/stm32f1xx_hal_msp.o
- .debug_str     0x00002655      0x80f build/stm32f1xx_hal.o
- .debug_str     0x00002655      0x60c build/stm32f1xx_hal_rcc.o
- .debug_str     0x00002655      0x3e1 build/stm32f1xx_hal_gpio.o
- .debug_str     0x00002655      0x8b4 build/stm32f1xx_hal_cortex.o
- .debug_str     0x00002655      0x510 build/stm32f1xx_hal_flash.o
- .debug_str     0x00002655      0x626 build/stm32f1xx_hal_flash_ex.o
- .debug_str     0x00002655      0xcd5 build/stm32f1xx_hal_uart.o
- .debug_str     0x00002655      0x235 build/system_stm32f1xx.o
- .debug_str     0x00002655      0x4be build/bootloader_cmd.o
- .debug_str     0x00002655      0x8b2 build/bootloader_io.o
- .debug_str     0x00002655       0x6c build/startup_stm32f103xb.o
+.debug_str      0x00000000     0x266f
+ .debug_str     0x00000000     0x266f build/main.o
+                                0xb9f (size before relaxing)
+ .debug_str     0x0000266f      0x203 build/stm32f1xx_it.o
+ .debug_str     0x0000266f      0x685 build/stm32f1xx_hal_msp.o
+ .debug_str     0x0000266f      0x80f build/stm32f1xx_hal.o
+ .debug_str     0x0000266f      0x60c build/stm32f1xx_hal_rcc.o
+ .debug_str     0x0000266f      0x3e1 build/stm32f1xx_hal_gpio.o
+ .debug_str     0x0000266f      0x8b4 build/stm32f1xx_hal_cortex.o
+ .debug_str     0x0000266f      0x510 build/stm32f1xx_hal_flash.o
+ .debug_str     0x0000266f      0x626 build/stm32f1xx_hal_flash_ex.o
+ .debug_str     0x0000266f      0xcd5 build/stm32f1xx_hal_uart.o
+ .debug_str     0x0000266f      0x235 build/system_stm32f1xx.o
+ .debug_str     0x0000266f      0x4d8 build/bootloader_cmd.o
+ .debug_str     0x0000266f      0x8c2 build/bootloader_io.o
+ .debug_str     0x0000266f       0x6c build/startup_stm32f103xb.o
 
 .comment        0x00000000       0x44
  .comment       0x00000000       0x44 build/main.o
@@ -1511,7 +1511,7 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
  .comment       0x00000044       0x45 build/bootloader_cmd.o
  .comment       0x00000044       0x45 build/bootloader_io.o
 
-.debug_frame    0x00000000     0x12a0
+.debug_frame    0x00000000     0x12a8
  .debug_frame   0x00000000       0xe4 build/main.o
  .debug_frame   0x000000e4       0xa8 build/stm32f1xx_it.o
  .debug_frame   0x0000018c       0x60 build/stm32f1xx_hal_msp.o
@@ -1523,11 +1523,11 @@ LOAD /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/t
  .debug_frame   0x000008f0      0x194 build/stm32f1xx_hal_flash_ex.o
  .debug_frame   0x00000a84      0x5d4 build/stm32f1xx_hal_uart.o
  .debug_frame   0x00001058       0x30 build/system_stm32f1xx.o
- .debug_frame   0x00001088       0xec build/bootloader_cmd.o
- .debug_frame   0x00001174       0xb8 build/bootloader_io.o
- .debug_frame   0x0000122c       0x2c /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-init.o)
- .debug_frame   0x00001258       0x28 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
- .debug_frame   0x00001280       0x20 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memset.o)
+ .debug_frame   0x00001088       0xf4 build/bootloader_cmd.o
+ .debug_frame   0x0000117c       0xb8 build/bootloader_io.o
+ .debug_frame   0x00001234       0x2c /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-init.o)
+ .debug_frame   0x00001260       0x28 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+ .debug_frame   0x00001288       0x20 /usr/local/src/arm-gnu-toolchain-13.2/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(libc_a-memset.o)
 
 Cross Reference Table
 

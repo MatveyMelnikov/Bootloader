@@ -63,10 +63,6 @@ bootloader_status bootloader_io_program(
 )
 {
   // 128 pages
-  // if (
-  //   address < APP_START_ADDRESS || 
-  //   address + sizeof(uint16_t) >= FLASH_BANK1_END
-  // )
   if (!is_address_in_bounds(address))
     return BOOTLOADER_BOUNDS_ERROR;
 
@@ -75,7 +71,7 @@ bootloader_status bootloader_io_program(
     return (bootloader_status)status;
 
   status |= HAL_FLASH_Program(
-    FLASH_TYPEPROGRAM_WORD, // uint16_t
+    FLASH_TYPEPROGRAM_HALFWORD, // uint16_t
     address,
     data
   );
