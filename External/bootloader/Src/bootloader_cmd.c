@@ -9,7 +9,8 @@ static char *input_prompt = "\r\n>>";
 static char *commands_list_message = "\r\nCommands:\r\n"
   "Get id of chip - '1';\r\n"
   "Get bootloader version - '2';\r\n"
-  "Write to memory (2 bytes) - '3'.";
+  "Write to memory (2 bytes) - '3';\r\n"
+  "Erase.";
 static char *id_message = "\r\nChip ID: ";
 static char *bootloader_version_message = "\r\nBootloader version: ";
 
@@ -57,12 +58,10 @@ static void send_response(bootloader_status status)
 
 static void cmd_help()
 {
-  strncpy(
-    (char*)uart_buffer,
-    commands_list_message,
-    strlen(commands_list_message)
-  );
-  bootloader_io_write(uart_buffer, strlen(commands_list_message));
+  uint16_t message_size = strlen(commands_list_message) + 1;
+
+  strncpy((char*)uart_buffer, commands_list_message, message_size);
+  bootloader_io_write(uart_buffer, message_size);
 }
 
 static void cmd_get_id()
@@ -76,12 +75,10 @@ static void cmd_get_id()
 
 static void cmd_get_bootloader_version()
 {
-  strncpy(
-    (char*)uart_buffer,
-    bootloader_version_message,
-    strlen(bootloader_version_message) + 1
-  );
-  bootloader_io_write(uart_buffer, strlen(bootloader_version_message) + 1);
+  uint16_t message_size = strlen(bootloader_version_message) + 1;
+
+  strncpy((char*)uart_buffer, bootloader_version_message, message_size);
+  bootloader_io_write(uart_buffer, message_size);
 
   uart_buffer[0] = BOOTLOADER_VER_MAJOR;
   uart_buffer[1] = '.';
@@ -118,9 +115,6 @@ static bootloader_status cmd_write()
       break;
     num++;
   }
-
-  if (num == 0)
-    return status || BOOTLOADER_ERROR;
 
   return status;
 }

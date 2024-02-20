@@ -27,7 +27,7 @@ TEST_GROUP(bootloader);
 
 TEST_SETUP(bootloader)
 {
-  mock_bootloader_io_create(20);
+  mock_bootloader_io_create(30);
 }
 
 TEST_TEAR_DOWN(bootloader)
@@ -59,9 +59,10 @@ TEST(bootloader, start_output_success)
 TEST(bootloader, output_help_success)
 {
   static char *commands_list_message = "\r\nCommands:\r\n"
-    "Get id of chip - '1';\r\n"
-    "Get bootloader version - '2';\r\n"
-    "Write to memory (2 bytes) - '3'.";
+  "Get id of chip - '1';\r\n"
+  "Get bootloader version - '2';\r\n"
+  "Write to memory (2 bytes) - '3';\r\n"
+  "Erase.";
   static char *input_data = "0";
   char *input_prompt = "\r\n>>";
 
@@ -150,6 +151,7 @@ TEST(bootloader, write_success)
 
   mock_bootloader_io_expect_read_then_return((uint8_t*)input_cmd, 1);
 
+  mock_bootloader_io_expect_write(&ack_byte, sizeof(ack_byte));
   for (uint8_t i = 0; i < 4; i++)
   {
     mock_bootloader_io_expect_read_then_return(
@@ -185,10 +187,12 @@ TEST(bootloader, write_bound_error)
   static uint32_t input_addr = 0x08000000 + 0x400 * 128;
   static uint16_t input_data = 0x33aa;
   static char *input_prompt = "\r\n>>";
+  static uint8_t ack_byte = ACK_BYTE;
   static uint8_t nack_byte = NACK_BYTE;
 
   mock_bootloader_io_expect_read_then_return((uint8_t*)input_cmd, 1);
 
+  mock_bootloader_io_expect_write(&ack_byte, sizeof(ack_byte));
   mock_bootloader_io_expect_read_then_return(
     (uint8_t*)&input_addr,
     sizeof(uint32_t)
@@ -228,6 +232,7 @@ TEST(bootloader, write_middle_success)
 
   mock_bootloader_io_expect_read_then_return((uint8_t*)input_cmd, 1);
 
+  mock_bootloader_io_expect_write(&ack_byte, sizeof(ack_byte));
   for (uint8_t i = 0; i < 4; i++)
   {
     mock_bootloader_io_expect_read_then_return(
@@ -267,6 +272,7 @@ TEST(bootloader, erase_success)
 
   mock_bootloader_io_expect_read_then_return((uint8_t*)input_cmd, 1);
 
+  mock_bootloader_io_expect_write(&ack_byte, sizeof(ack_byte));
   mock_bootloader_io_expect_read_then_return(
     (uint8_t*)&input_addr,
     sizeof(input_addr)
@@ -296,9 +302,11 @@ TEST(bootloader, erase_start_bound_error)
   static uint8_t input_page_num = 32;
   static char *input_prompt = "\r\n>>";
   static uint8_t nack_byte = NACK_BYTE;
+  static uint8_t ack_byte = ACK_BYTE;
 
   mock_bootloader_io_expect_read_then_return((uint8_t*)input_cmd, 1);
 
+  mock_bootloader_io_expect_write(&ack_byte, sizeof(ack_byte));
   mock_bootloader_io_expect_read_then_return(
     (uint8_t*)&input_addr,
     sizeof(input_addr)
@@ -328,9 +336,11 @@ TEST(bootloader, erase_end_bound_error)
   static uint8_t input_page_num = 32;
   static char *input_prompt = "\r\n>>";
   static uint8_t nack_byte = NACK_BYTE;
+  static uint8_t ack_byte = ACK_BYTE;
 
   mock_bootloader_io_expect_read_then_return((uint8_t*)input_cmd, 1);
 
+  mock_bootloader_io_expect_write(&ack_byte, sizeof(ack_byte));
   mock_bootloader_io_expect_read_then_return(
     (uint8_t*)&input_addr,
     sizeof(input_addr)
