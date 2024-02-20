@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccCUsxGm.s 			page 1
+ARM GAS  /tmp/ccNW2L4w.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -10,7 +10,7 @@ ARM GAS  /tmp/ccCUsxGm.s 			page 1
    7              		.eabi_attribute 24, 1
    8              		.eabi_attribute 25, 1
    9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 30, 4
   11              		.eabi_attribute 34, 1
   12              		.eabi_attribute 18, 4
   13              		.file	"bootloader_io.c"
@@ -18,14 +18,15 @@ ARM GAS  /tmp/ccCUsxGm.s 			page 1
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
   17              		.file 1 "External/bootloader/Src/bootloader_io.c"
-  18              		.section	.text.is_address_in_bounds,"ax",%progbits
+  18              		.section	.text.bootloader_io_read,"ax",%progbits
   19              		.align	1
-  20              		.syntax unified
-  21              		.thumb
-  22              		.thumb_func
-  24              	is_address_in_bounds:
-  25              	.LVL0:
-  26              	.LFB65:
+  20              		.global	bootloader_io_read
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	bootloader_io_read:
+  26              	.LVL0:
+  27              	.LFB67:
    1:External/bootloader/Src/bootloader_io.c **** #include "bootloader_io.h"
    2:External/bootloader/Src/bootloader_io.c **** #include "stm32f1xx.h"
    3:External/bootloader/Src/bootloader_io.c **** #include "stm32f1xx_hal_uart.h"
@@ -37,565 +38,558 @@ ARM GAS  /tmp/ccCUsxGm.s 			page 1
    9:External/bootloader/Src/bootloader_io.c **** 
   10:External/bootloader/Src/bootloader_io.c **** static bool is_address_in_bounds(const uint32_t address)
   11:External/bootloader/Src/bootloader_io.c **** {
-  27              		.loc 1 11 1 view -0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31              		@ link register save eliminated.
   12:External/bootloader/Src/bootloader_io.c ****   return !(
-  32              		.loc 1 12 3 view .LVU1
-  33              		.loc 1 12 10 is_stmt 0 view .LVU2
-  34 0000 064B     		ldr	r3, .L5
-  35 0002 9842     		cmp	r0, r3
-  36 0004 05D3     		bcc	.L3
   13:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
   14:External/bootloader/Src/bootloader_io.c ****     address + sizeof(uint16_t) >= FLASH_BANK1_END
-  37              		.loc 1 14 13 view .LVU3
-  38 0006 0230     		adds	r0, r0, #2
-  39              	.LVL1:
-  12:External/bootloader/Src/bootloader_io.c ****   return !(
-  40              		.loc 1 12 10 discriminator 1 view .LVU4
-  41 0008 054B     		ldr	r3, .L5+4
-  42 000a 9842     		cmp	r0, r3
-  43 000c 03D3     		bcc	.L4
-ARM GAS  /tmp/ccCUsxGm.s 			page 2
-
-
-  12:External/bootloader/Src/bootloader_io.c ****   return !(
-  44              		.loc 1 12 10 discriminator 4 view .LVU5
-  45 000e 0020     		movs	r0, #0
-  46              	.LVL2:
-  12:External/bootloader/Src/bootloader_io.c ****   return !(
-  47              		.loc 1 12 10 discriminator 4 view .LVU6
-  48 0010 7047     		bx	lr
-  49              	.LVL3:
-  50              	.L3:
-  12:External/bootloader/Src/bootloader_io.c ****   return !(
-  51              		.loc 1 12 10 discriminator 4 view .LVU7
-  52 0012 0020     		movs	r0, #0
-  53              	.LVL4:
-  12:External/bootloader/Src/bootloader_io.c ****   return !(
-  54              		.loc 1 12 10 discriminator 4 view .LVU8
-  55 0014 7047     		bx	lr
-  56              	.L4:
-  12:External/bootloader/Src/bootloader_io.c ****   return !(
-  57              		.loc 1 12 10 discriminator 3 view .LVU9
-  58 0016 0120     		movs	r0, #1
   15:External/bootloader/Src/bootloader_io.c ****   );
   16:External/bootloader/Src/bootloader_io.c **** }
-  59              		.loc 1 16 1 view .LVU10
-  60 0018 7047     		bx	lr
-  61              	.L6:
-  62 001a 00BF     		.align	2
-  63              	.L5:
-  64 001c 00280008 		.word	134227968
-  65 0020 FFFF0108 		.word	134348799
-  66              		.cfi_endproc
-  67              	.LFE65:
-  69              		.section	.text.is_page_address,"ax",%progbits
-  70              		.align	1
-  71              		.syntax unified
-  72              		.thumb
-  73              		.thumb_func
-  75              	is_page_address:
-  76              	.LVL5:
-  77              	.LFB66:
   17:External/bootloader/Src/bootloader_io.c **** 
   18:External/bootloader/Src/bootloader_io.c **** static bool is_page_address(const uint32_t address)
   19:External/bootloader/Src/bootloader_io.c **** {
-  78              		.loc 1 19 1 is_stmt 1 view -0
-  79              		.cfi_startproc
-  80              		@ args = 0, pretend = 0, frame = 0
-  81              		@ frame_needed = 0, uses_anonymous_args = 0
-  82              		@ link register save eliminated.
   20:External/bootloader/Src/bootloader_io.c ****   // 128 pages
   21:External/bootloader/Src/bootloader_io.c ****   return (
-  83              		.loc 1 21 3 view .LVU12
   22:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
-  84              		.loc 1 22 13 is_stmt 0 view .LVU13
-  85 0000 C0F30903 		ubfx	r3, r0, #0, #10
-  86              		.loc 1 22 24 view .LVU14
-  87 0004 33B1     		cbz	r3, .L9
   23:External/bootloader/Src/bootloader_io.c ****     address + 1024 < FLASH_BANK1_END // flash bank1 end
-  88              		.loc 1 23 13 view .LVU15
-ARM GAS  /tmp/ccCUsxGm.s 			page 3
-
-
-  89 0006 00F58060 		add	r0, r0, #1024
-  90              	.LVL6:
-  22:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
-  91              		.loc 1 22 24 discriminator 2 view .LVU16
-  92 000a 044B     		ldr	r3, .L11
-  93 000c 9842     		cmp	r0, r3
-  94 000e 03D2     		bcs	.L10
-  22:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
-  95              		.loc 1 22 24 discriminator 3 view .LVU17
-  96 0010 0120     		movs	r0, #1
-  97              	.LVL7:
-  22:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
-  98              		.loc 1 22 24 discriminator 3 view .LVU18
-  99 0012 7047     		bx	lr
- 100              	.LVL8:
- 101              	.L9:
-  22:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
- 102              		.loc 1 22 24 discriminator 3 view .LVU19
- 103 0014 0120     		movs	r0, #1
- 104              	.LVL9:
-  22:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
- 105              		.loc 1 22 24 discriminator 3 view .LVU20
- 106 0016 7047     		bx	lr
- 107              	.L10:
-  22:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
- 108              		.loc 1 22 24 discriminator 4 view .LVU21
- 109 0018 0020     		movs	r0, #0
   24:External/bootloader/Src/bootloader_io.c ****   );
   25:External/bootloader/Src/bootloader_io.c **** }
- 110              		.loc 1 25 1 view .LVU22
- 111 001a 7047     		bx	lr
- 112              	.L12:
- 113              		.align	2
- 114              	.L11:
- 115 001c FFFF0108 		.word	134348799
- 116              		.cfi_endproc
- 117              	.LFE66:
- 119              		.section	.text.bootloader_io_read,"ax",%progbits
- 120              		.align	1
- 121              		.global	bootloader_io_read
- 122              		.syntax unified
- 123              		.thumb
- 124              		.thumb_func
- 126              	bootloader_io_read:
- 127              	.LVL10:
- 128              	.LFB67:
   26:External/bootloader/Src/bootloader_io.c **** 
   27:External/bootloader/Src/bootloader_io.c **** // Implementations -----------------------------------------------------------
   28:External/bootloader/Src/bootloader_io.c **** 
   29:External/bootloader/Src/bootloader_io.c **** bootloader_status bootloader_io_read(
   30:External/bootloader/Src/bootloader_io.c ****   uint8_t *const data,
   31:External/bootloader/Src/bootloader_io.c ****   const uint16_t size
+ARM GAS  /tmp/ccNW2L4w.s 			page 2
+
+
   32:External/bootloader/Src/bootloader_io.c **** )
   33:External/bootloader/Src/bootloader_io.c **** {
- 129              		.loc 1 33 1 is_stmt 1 view -0
- 130              		.cfi_startproc
- 131              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccCUsxGm.s 			page 4
-
-
- 132              		@ frame_needed = 0, uses_anonymous_args = 0
- 133              		.loc 1 33 1 is_stmt 0 view .LVU24
- 134 0000 08B5     		push	{r3, lr}
- 135              	.LCFI0:
- 136              		.cfi_def_cfa_offset 8
- 137              		.cfi_offset 3, -8
- 138              		.cfi_offset 14, -4
- 139 0002 0A46     		mov	r2, r1
+  28              		.loc 1 33 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
   34:External/bootloader/Src/bootloader_io.c ****   return (bootloader_status)HAL_UART_Receive(
- 140              		.loc 1 34 3 is_stmt 1 view .LVU25
- 141              		.loc 1 34 29 is_stmt 0 view .LVU26
- 142 0004 4FF4FA73 		mov	r3, #500
- 143 0008 0146     		mov	r1, r0
- 144              	.LVL11:
- 145              		.loc 1 34 29 view .LVU27
- 146 000a 0248     		ldr	r0, .L15
- 147              	.LVL12:
- 148              		.loc 1 34 29 view .LVU28
- 149 000c 0068     		ldr	r0, [r0]
- 150 000e FFF7FEFF 		bl	HAL_UART_Receive
- 151              	.LVL13:
+  33              		.loc 1 34 3 view .LVU1
+  33:External/bootloader/Src/bootloader_io.c ****   return (bootloader_status)HAL_UART_Receive(
+  34              		.loc 1 33 1 is_stmt 0 view .LVU2
+  35 0000 0A46     		mov	r2, r1
+  36              		.loc 1 34 29 view .LVU3
+  37 0002 0146     		mov	r1, r0
+  38              	.LVL1:
+  39              		.loc 1 34 29 view .LVU4
+  40 0004 0248     		ldr	r0, .L2
+  41              	.LVL2:
+  42              		.loc 1 34 29 view .LVU5
+  43 0006 4FF4FA73 		mov	r3, #500
+  44 000a 0068     		ldr	r0, [r0]
+  45 000c FFF7FEBF 		b	HAL_UART_Receive
+  46              	.LVL3:
+  47              	.L3:
+  48              		.loc 1 34 29 view .LVU6
+  49              		.align	2
+  50              	.L2:
+  51 0010 00000000 		.word	bootloader_uart
+  52              		.cfi_endproc
+  53              	.LFE67:
+  55              		.section	.text.bootloader_io_write,"ax",%progbits
+  56              		.align	1
+  57              		.global	bootloader_io_write
+  58              		.syntax unified
+  59              		.thumb
+  60              		.thumb_func
+  62              	bootloader_io_write:
+  63              	.LVL4:
+  64              	.LFB68:
   35:External/bootloader/Src/bootloader_io.c ****     bootloader_uart,
   36:External/bootloader/Src/bootloader_io.c ****     (uint8_t*)data,
   37:External/bootloader/Src/bootloader_io.c ****     size,
   38:External/bootloader/Src/bootloader_io.c ****     UART_DELAY
   39:External/bootloader/Src/bootloader_io.c ****   );
   40:External/bootloader/Src/bootloader_io.c **** }
- 152              		.loc 1 40 1 view .LVU29
- 153 0012 08BD     		pop	{r3, pc}
- 154              	.L16:
- 155              		.align	2
- 156              	.L15:
- 157 0014 00000000 		.word	bootloader_uart
- 158              		.cfi_endproc
- 159              	.LFE67:
- 161              		.section	.text.bootloader_io_write,"ax",%progbits
- 162              		.align	1
- 163              		.global	bootloader_io_write
- 164              		.syntax unified
- 165              		.thumb
- 166              		.thumb_func
- 168              	bootloader_io_write:
- 169              	.LVL14:
- 170              	.LFB68:
   41:External/bootloader/Src/bootloader_io.c **** 
   42:External/bootloader/Src/bootloader_io.c **** bootloader_status bootloader_io_write(
   43:External/bootloader/Src/bootloader_io.c ****   const uint8_t *const data,
   44:External/bootloader/Src/bootloader_io.c ****   const uint16_t size
   45:External/bootloader/Src/bootloader_io.c **** )
   46:External/bootloader/Src/bootloader_io.c **** {
- 171              		.loc 1 46 1 is_stmt 1 view -0
- 172              		.cfi_startproc
- 173              		@ args = 0, pretend = 0, frame = 0
- 174              		@ frame_needed = 0, uses_anonymous_args = 0
- 175              		.loc 1 46 1 is_stmt 0 view .LVU31
- 176 0000 08B5     		push	{r3, lr}
- 177              	.LCFI1:
-ARM GAS  /tmp/ccCUsxGm.s 			page 5
-
-
- 178              		.cfi_def_cfa_offset 8
- 179              		.cfi_offset 3, -8
- 180              		.cfi_offset 14, -4
- 181 0002 0A46     		mov	r2, r1
+  65              		.loc 1 46 1 is_stmt 1 view -0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		@ link register save eliminated.
   47:External/bootloader/Src/bootloader_io.c ****   return (bootloader_status)HAL_UART_Transmit(
- 182              		.loc 1 47 3 is_stmt 1 view .LVU32
- 183              		.loc 1 47 29 is_stmt 0 view .LVU33
- 184 0004 4FF4FA73 		mov	r3, #500
- 185 0008 0146     		mov	r1, r0
- 186              	.LVL15:
- 187              		.loc 1 47 29 view .LVU34
- 188 000a 0248     		ldr	r0, .L19
- 189              	.LVL16:
- 190              		.loc 1 47 29 view .LVU35
- 191 000c 0068     		ldr	r0, [r0]
- 192 000e FFF7FEFF 		bl	HAL_UART_Transmit
- 193              	.LVL17:
+ARM GAS  /tmp/ccNW2L4w.s 			page 3
+
+
+  70              		.loc 1 47 3 view .LVU8
+  46:External/bootloader/Src/bootloader_io.c ****   return (bootloader_status)HAL_UART_Transmit(
+  71              		.loc 1 46 1 is_stmt 0 view .LVU9
+  72 0000 0A46     		mov	r2, r1
+  73              		.loc 1 47 29 view .LVU10
+  74 0002 0146     		mov	r1, r0
+  75              	.LVL5:
+  76              		.loc 1 47 29 view .LVU11
+  77 0004 0248     		ldr	r0, .L5
+  78              	.LVL6:
+  79              		.loc 1 47 29 view .LVU12
+  80 0006 4FF4FA73 		mov	r3, #500
+  81 000a 0068     		ldr	r0, [r0]
+  82 000c FFF7FEBF 		b	HAL_UART_Transmit
+  83              	.LVL7:
+  84              	.L6:
+  85              		.loc 1 47 29 view .LVU13
+  86              		.align	2
+  87              	.L5:
+  88 0010 00000000 		.word	bootloader_uart
+  89              		.cfi_endproc
+  90              	.LFE68:
+  92              		.section	.text.bootloader_io_get_dev_id,"ax",%progbits
+  93              		.align	1
+  94              		.global	bootloader_io_get_dev_id
+  95              		.syntax unified
+  96              		.thumb
+  97              		.thumb_func
+  99              	bootloader_io_get_dev_id:
+ 100              	.LFB69:
   48:External/bootloader/Src/bootloader_io.c ****     bootloader_uart,
   49:External/bootloader/Src/bootloader_io.c ****     (uint8_t*)data,
   50:External/bootloader/Src/bootloader_io.c ****     size,
   51:External/bootloader/Src/bootloader_io.c ****     UART_DELAY
   52:External/bootloader/Src/bootloader_io.c ****   );
   53:External/bootloader/Src/bootloader_io.c **** }
- 194              		.loc 1 53 1 view .LVU36
- 195 0012 08BD     		pop	{r3, pc}
- 196              	.L20:
- 197              		.align	2
- 198              	.L19:
- 199 0014 00000000 		.word	bootloader_uart
- 200              		.cfi_endproc
- 201              	.LFE68:
- 203              		.section	.text.bootloader_io_get_dev_id,"ax",%progbits
- 204              		.align	1
- 205              		.global	bootloader_io_get_dev_id
- 206              		.syntax unified
- 207              		.thumb
- 208              		.thumb_func
- 210              	bootloader_io_get_dev_id:
- 211              	.LFB69:
   54:External/bootloader/Src/bootloader_io.c **** 
   55:External/bootloader/Src/bootloader_io.c **** uint32_t bootloader_io_get_dev_id()
   56:External/bootloader/Src/bootloader_io.c **** {
- 212              		.loc 1 56 1 is_stmt 1 view -0
- 213              		.cfi_startproc
- 214              		@ args = 0, pretend = 0, frame = 0
- 215              		@ frame_needed = 0, uses_anonymous_args = 0
- 216 0000 08B5     		push	{r3, lr}
- 217              	.LCFI2:
- 218              		.cfi_def_cfa_offset 8
- 219              		.cfi_offset 3, -8
- 220              		.cfi_offset 14, -4
+ 101              		.loc 1 56 1 is_stmt 1 view -0
+ 102              		.cfi_startproc
+ 103              		@ args = 0, pretend = 0, frame = 0
+ 104              		@ frame_needed = 0, uses_anonymous_args = 0
+ 105              		@ link register save eliminated.
   57:External/bootloader/Src/bootloader_io.c ****   return HAL_GetDEVID();
- 221              		.loc 1 57 3 view .LVU38
- 222              		.loc 1 57 10 is_stmt 0 view .LVU39
- 223 0002 FFF7FEFF 		bl	HAL_GetDEVID
- 224              	.LVL18:
+ 106              		.loc 1 57 3 view .LVU15
+ 107              		.loc 1 57 10 is_stmt 0 view .LVU16
+ 108 0000 FFF7FEBF 		b	HAL_GetDEVID
+ 109              	.LVL8:
+ 110              		.cfi_endproc
+ 111              	.LFE69:
+ 113              		.section	.text.bootloader_io_program,"ax",%progbits
+ 114              		.align	1
+ 115              		.global	bootloader_io_program
+ 116              		.syntax unified
+ 117              		.thumb
+ 118              		.thumb_func
+ARM GAS  /tmp/ccNW2L4w.s 			page 4
+
+
+ 120              	bootloader_io_program:
+ 121              	.LVL9:
+ 122              	.LFB70:
   58:External/bootloader/Src/bootloader_io.c **** }
-ARM GAS  /tmp/ccCUsxGm.s 			page 6
-
-
- 225              		.loc 1 58 1 view .LVU40
- 226 0006 08BD     		pop	{r3, pc}
- 227              		.cfi_endproc
- 228              	.LFE69:
- 230              		.section	.text.bootloader_io_program,"ax",%progbits
- 231              		.align	1
- 232              		.global	bootloader_io_program
- 233              		.syntax unified
- 234              		.thumb
- 235              		.thumb_func
- 237              	bootloader_io_program:
- 238              	.LVL19:
- 239              	.LFB70:
   59:External/bootloader/Src/bootloader_io.c **** 
   60:External/bootloader/Src/bootloader_io.c **** bootloader_status bootloader_io_program(
   61:External/bootloader/Src/bootloader_io.c ****   const uint32_t address,
   62:External/bootloader/Src/bootloader_io.c ****   const uint16_t data
   63:External/bootloader/Src/bootloader_io.c **** )
   64:External/bootloader/Src/bootloader_io.c **** {
- 240              		.loc 1 64 1 is_stmt 1 view -0
- 241              		.cfi_startproc
- 242              		@ args = 0, pretend = 0, frame = 0
- 243              		@ frame_needed = 0, uses_anonymous_args = 0
- 244              		.loc 1 64 1 is_stmt 0 view .LVU42
- 245 0000 70B5     		push	{r4, r5, r6, lr}
- 246              	.LCFI3:
- 247              		.cfi_def_cfa_offset 16
- 248              		.cfi_offset 4, -16
- 249              		.cfi_offset 5, -12
- 250              		.cfi_offset 6, -8
- 251              		.cfi_offset 14, -4
- 252 0002 0546     		mov	r5, r0
- 253 0004 0E46     		mov	r6, r1
+ 123              		.loc 1 64 1 is_stmt 1 view -0
+ 124              		.cfi_startproc
+ 125              		@ args = 0, pretend = 0, frame = 0
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
   65:External/bootloader/Src/bootloader_io.c ****   // 128 pages
   66:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address))
- 254              		.loc 1 66 3 is_stmt 1 view .LVU43
- 255              		.loc 1 66 8 is_stmt 0 view .LVU44
- 256 0006 FFF7FEFF 		bl	is_address_in_bounds
- 257              	.LVL20:
- 258              		.loc 1 66 6 discriminator 1 view .LVU45
- 259 000a 80B1     		cbz	r0, .L25
+ 127              		.loc 1 66 3 view .LVU18
+ 128              	.LBB4:
+ 129              	.LBI4:
+  10:External/bootloader/Src/bootloader_io.c **** {
+ 130              		.loc 1 10 13 view .LVU19
+ 131              	.LBB5:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 132              		.loc 1 12 3 view .LVU20
+ 133              	.LBE5:
+ 134              	.LBE4:
+  64:External/bootloader/Src/bootloader_io.c ****   // 128 pages
+ 135              		.loc 1 64 1 is_stmt 0 view .LVU21
+ 136 0000 38B5     		push	{r3, r4, r5, lr}
+ 137              	.LCFI0:
+ 138              		.cfi_def_cfa_offset 16
+ 139              		.cfi_offset 3, -16
+ 140              		.cfi_offset 4, -12
+ 141              		.cfi_offset 5, -8
+ 142              		.cfi_offset 14, -4
+ 143              	.LBB9:
+ 144              	.LBB6:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 145              		.loc 1 12 10 view .LVU22
+ 146 0002 0D4B     		ldr	r3, .L12
+ 147              	.LBE6:
+ 148              	.LBE9:
+  64:External/bootloader/Src/bootloader_io.c ****   // 128 pages
+ 149              		.loc 1 64 1 view .LVU23
+ 150 0004 0446     		mov	r4, r0
+ 151              	.LBB10:
+ 152              	.LBB7:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 153              		.loc 1 12 10 view .LVU24
+ 154 0006 9842     		cmp	r0, r3
+ 155              	.LBE7:
+ 156              	.LBE10:
+  64:External/bootloader/Src/bootloader_io.c ****   // 128 pages
+ 157              		.loc 1 64 1 view .LVU25
+ 158 0008 0D46     		mov	r5, r1
+ 159              	.LBB11:
+ 160              	.LBB8:
+ARM GAS  /tmp/ccNW2L4w.s 			page 5
+
+
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 161              		.loc 1 12 10 view .LVU26
+ 162 000a 12D3     		bcc	.L11
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 163              		.loc 1 12 10 discriminator 1 view .LVU27
+ 164 000c 0B4B     		ldr	r3, .L12+4
+  14:External/bootloader/Src/bootloader_io.c ****   );
+ 165              		.loc 1 14 13 view .LVU28
+ 166 000e 821C     		adds	r2, r0, #2
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 167              		.loc 1 12 10 discriminator 1 view .LVU29
+ 168 0010 9A42     		cmp	r2, r3
+ 169 0012 0ED2     		bcs	.L11
+ 170              	.LVL10:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 171              		.loc 1 12 10 discriminator 1 view .LVU30
+ 172              	.LBE8:
+ 173              	.LBE11:
   67:External/bootloader/Src/bootloader_io.c ****     return BOOTLOADER_BOUNDS_ERROR;
   68:External/bootloader/Src/bootloader_io.c **** 
   69:External/bootloader/Src/bootloader_io.c ****   HAL_StatusTypeDef status = HAL_FLASH_Unlock();
- 260              		.loc 1 69 3 is_stmt 1 view .LVU46
- 261              		.loc 1 69 30 is_stmt 0 view .LVU47
- 262 000c FFF7FEFF 		bl	HAL_FLASH_Unlock
- 263              	.LVL21:
+ 174              		.loc 1 69 3 is_stmt 1 view .LVU31
+ 175              		.loc 1 69 30 is_stmt 0 view .LVU32
+ 176 0014 FFF7FEFF 		bl	HAL_FLASH_Unlock
+ 177              	.LVL11:
   70:External/bootloader/Src/bootloader_io.c ****   if (status)
- 264              		.loc 1 70 3 is_stmt 1 view .LVU48
- 265              		.loc 1 70 6 is_stmt 0 view .LVU49
- 266 0010 0446     		mov	r4, r0
- 267 0012 68B9     		cbnz	r0, .L24
+ 178              		.loc 1 70 3 is_stmt 1 view .LVU33
+ 179              		.loc 1 70 6 is_stmt 0 view .LVU34
+ 180 0018 50B9     		cbnz	r0, .L9
   71:External/bootloader/Src/bootloader_io.c ****     return (bootloader_status)status;
   72:External/bootloader/Src/bootloader_io.c **** 
   73:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASH_Program(
- 268              		.loc 1 73 3 is_stmt 1 view .LVU50
-ARM GAS  /tmp/ccCUsxGm.s 			page 7
-
-
- 269              		.loc 1 73 13 is_stmt 0 view .LVU51
- 270 0014 3246     		mov	r2, r6
- 271 0016 0023     		movs	r3, #0
- 272 0018 2946     		mov	r1, r5
- 273 001a 0120     		movs	r0, #1
- 274              	.LVL22:
- 275              		.loc 1 73 13 view .LVU52
- 276 001c FFF7FEFF 		bl	HAL_FLASH_Program
- 277              	.LVL23:
- 278              		.loc 1 73 10 discriminator 1 view .LVU53
- 279 0020 0443     		orrs	r4, r4, r0
- 280              	.LVL24:
- 281              		.loc 1 73 10 discriminator 1 view .LVU54
- 282 0022 E4B2     		uxtb	r4, r4
- 283              	.LVL25:
+ 181              		.loc 1 73 3 is_stmt 1 view .LVU35
+ 182              		.loc 1 73 13 is_stmt 0 view .LVU36
+ 183 001a 0346     		mov	r3, r0
+ 184 001c 2146     		mov	r1, r4
+ 185 001e 2A46     		mov	r2, r5
+ 186 0020 0120     		movs	r0, #1
+ 187              	.LVL12:
+ 188              		.loc 1 73 13 view .LVU37
+ 189 0022 FFF7FEFF 		bl	HAL_FLASH_Program
+ 190              	.LVL13:
+ 191              		.loc 1 73 13 view .LVU38
+ 192 0026 0446     		mov	r4, r0
+ 193              	.LVL14:
   74:External/bootloader/Src/bootloader_io.c ****     FLASH_TYPEPROGRAM_HALFWORD, // uint16_t
   75:External/bootloader/Src/bootloader_io.c ****     address,
   76:External/bootloader/Src/bootloader_io.c ****     data
   77:External/bootloader/Src/bootloader_io.c ****   );
   78:External/bootloader/Src/bootloader_io.c **** 
   79:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASH_Lock();
- 284              		.loc 1 79 3 is_stmt 1 view .LVU55
- 285              		.loc 1 79 13 is_stmt 0 view .LVU56
- 286 0024 FFF7FEFF 		bl	HAL_FLASH_Lock
- 287              	.LVL26:
- 288              		.loc 1 79 10 discriminator 1 view .LVU57
- 289 0028 0443     		orrs	r4, r4, r0
- 290              	.LVL27:
- 291              		.loc 1 79 10 discriminator 1 view .LVU58
- 292 002a E4B2     		uxtb	r4, r4
- 293              	.LVL28:
+ 194              		.loc 1 79 3 is_stmt 1 view .LVU39
+ 195              		.loc 1 79 13 is_stmt 0 view .LVU40
+ 196 0028 FFF7FEFF 		bl	HAL_FLASH_Lock
+ 197              	.LVL15:
+ 198              		.loc 1 79 10 discriminator 1 view .LVU41
+ 199 002c 2043     		orrs	r0, r0, r4
+ARM GAS  /tmp/ccNW2L4w.s 			page 6
+
+
+ 200 002e C0B2     		uxtb	r0, r0
+ 201              	.LVL16:
   80:External/bootloader/Src/bootloader_io.c **** 
   81:External/bootloader/Src/bootloader_io.c ****   return (bootloader_status)status;
- 294              		.loc 1 81 3 is_stmt 1 view .LVU59
- 295              		.loc 1 81 10 is_stmt 0 view .LVU60
- 296 002c 00E0     		b	.L24
- 297              	.LVL29:
- 298              	.L25:
-  67:External/bootloader/Src/bootloader_io.c **** 
- 299              		.loc 1 67 12 view .LVU61
- 300 002e 0424     		movs	r4, #4
- 301              	.L24:
+ 202              		.loc 1 81 3 is_stmt 1 view .LVU42
+ 203              	.L9:
   82:External/bootloader/Src/bootloader_io.c **** }
- 302              		.loc 1 82 1 view .LVU62
- 303 0030 2046     		mov	r0, r4
- 304 0032 70BD     		pop	{r4, r5, r6, pc}
- 305              		.loc 1 82 1 view .LVU63
- 306              		.cfi_endproc
- 307              	.LFE70:
- 309              		.section	.text.bootloader_io_erase,"ax",%progbits
- 310              		.align	1
- 311              		.global	bootloader_io_erase
- 312              		.syntax unified
- 313              		.thumb
- 314              		.thumb_func
- 316              	bootloader_io_erase:
- 317              	.LVL30:
-ARM GAS  /tmp/ccCUsxGm.s 			page 8
-
-
- 318              	.LFB71:
+ 204              		.loc 1 82 1 is_stmt 0 view .LVU43
+ 205 0030 38BD     		pop	{r3, r4, r5, pc}
+ 206              	.LVL17:
+ 207              	.L11:
+  67:External/bootloader/Src/bootloader_io.c **** 
+ 208              		.loc 1 67 12 view .LVU44
+ 209 0032 0420     		movs	r0, #4
+ 210              	.LVL18:
+  67:External/bootloader/Src/bootloader_io.c **** 
+ 211              		.loc 1 67 12 view .LVU45
+ 212 0034 FCE7     		b	.L9
+ 213              	.L13:
+ 214 0036 00BF     		.align	2
+ 215              	.L12:
+ 216 0038 00280008 		.word	134227968
+ 217 003c FFFF0108 		.word	134348799
+ 218              		.cfi_endproc
+ 219              	.LFE70:
+ 221              		.section	.text.bootloader_io_erase,"ax",%progbits
+ 222              		.align	1
+ 223              		.global	bootloader_io_erase
+ 224              		.syntax unified
+ 225              		.thumb
+ 226              		.thumb_func
+ 228              	bootloader_io_erase:
+ 229              	.LVL19:
+ 230              	.LFB71:
   83:External/bootloader/Src/bootloader_io.c **** 
   84:External/bootloader/Src/bootloader_io.c **** bootloader_status bootloader_io_erase(
   85:External/bootloader/Src/bootloader_io.c ****   const uint32_t address,
   86:External/bootloader/Src/bootloader_io.c ****   const uint8_t pages_num
   87:External/bootloader/Src/bootloader_io.c **** )
   88:External/bootloader/Src/bootloader_io.c **** {
- 319              		.loc 1 88 1 is_stmt 1 view -0
- 320              		.cfi_startproc
- 321              		@ args = 0, pretend = 0, frame = 24
- 322              		@ frame_needed = 0, uses_anonymous_args = 0
- 323              		.loc 1 88 1 is_stmt 0 view .LVU65
- 324 0000 70B5     		push	{r4, r5, r6, lr}
- 325              	.LCFI4:
- 326              		.cfi_def_cfa_offset 16
- 327              		.cfi_offset 4, -16
- 328              		.cfi_offset 5, -12
- 329              		.cfi_offset 6, -8
- 330              		.cfi_offset 14, -4
- 331 0002 86B0     		sub	sp, sp, #24
- 332              	.LCFI5:
- 333              		.cfi_def_cfa_offset 40
- 334 0004 0546     		mov	r5, r0
- 335 0006 0E46     		mov	r6, r1
+ 231              		.loc 1 88 1 is_stmt 1 view -0
+ 232              		.cfi_startproc
+ 233              		@ args = 0, pretend = 0, frame = 24
+ 234              		@ frame_needed = 0, uses_anonymous_args = 0
   89:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address) || !is_page_address(address))
- 336              		.loc 1 89 3 is_stmt 1 view .LVU66
- 337              		.loc 1 89 8 is_stmt 0 view .LVU67
- 338 0008 FFF7FEFF 		bl	is_address_in_bounds
- 339              	.LVL31:
- 340              		.loc 1 89 6 discriminator 1 view .LVU68
- 341 000c 00B3     		cbz	r0, .L30
- 342              		.loc 1 89 42 discriminator 1 view .LVU69
- 343 000e 2846     		mov	r0, r5
- 344 0010 FFF7FEFF 		bl	is_page_address
- 345              	.LVL32:
- 346              		.loc 1 89 38 discriminator 1 view .LVU70
- 347 0014 F0B1     		cbz	r0, .L31
+ 235              		.loc 1 89 3 view .LVU47
+ 236              	.LBB16:
+ 237              	.LBI16:
+  10:External/bootloader/Src/bootloader_io.c **** {
+ 238              		.loc 1 10 13 view .LVU48
+ 239              	.LBB17:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 240              		.loc 1 12 3 view .LVU49
+ 241              	.LBE17:
+ 242              	.LBE16:
+  88:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address) || !is_page_address(address))
+ 243              		.loc 1 88 1 is_stmt 0 view .LVU50
+ARM GAS  /tmp/ccNW2L4w.s 			page 7
+
+
+ 244 0000 70B5     		push	{r4, r5, r6, lr}
+ 245              	.LCFI1:
+ 246              		.cfi_def_cfa_offset 16
+ 247              		.cfi_offset 4, -16
+ 248              		.cfi_offset 5, -12
+ 249              		.cfi_offset 6, -8
+ 250              		.cfi_offset 14, -4
+ 251              	.LBB21:
+ 252              	.LBB18:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 253              		.loc 1 12 10 view .LVU51
+ 254 0002 174B     		ldr	r3, .L24
+ 255              	.LBE18:
+ 256              	.LBE21:
+  88:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address) || !is_page_address(address))
+ 257              		.loc 1 88 1 view .LVU52
+ 258 0004 0546     		mov	r5, r0
+ 259              	.LBB22:
+ 260              	.LBB19:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 261              		.loc 1 12 10 view .LVU53
+ 262 0006 9842     		cmp	r0, r3
+ 263              	.LBE19:
+ 264              	.LBE22:
+  88:External/bootloader/Src/bootloader_io.c ****   if (!is_address_in_bounds(address) || !is_page_address(address))
+ 265              		.loc 1 88 1 view .LVU54
+ 266 0008 0E46     		mov	r6, r1
+ 267 000a 86B0     		sub	sp, sp, #24
+ 268              	.LCFI2:
+ 269              		.cfi_def_cfa_offset 40
+ 270              	.LBB23:
+ 271              	.LBB20:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 272              		.loc 1 12 10 view .LVU55
+ 273 000c 26D3     		bcc	.L20
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 274              		.loc 1 12 10 discriminator 1 view .LVU56
+ 275 000e 154B     		ldr	r3, .L24+4
+  14:External/bootloader/Src/bootloader_io.c ****   );
+ 276              		.loc 1 14 13 view .LVU57
+ 277 0010 821C     		adds	r2, r0, #2
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 278              		.loc 1 12 10 discriminator 1 view .LVU58
+ 279 0012 9A42     		cmp	r2, r3
+ 280 0014 22D2     		bcs	.L20
+ 281              	.LVL20:
+  12:External/bootloader/Src/bootloader_io.c ****     address < APP_START_ADDRESS || 
+ 282              		.loc 1 12 10 discriminator 1 view .LVU59
+ 283              	.LBE20:
+ 284              	.LBE23:
+ 285              	.LBB24:
+ 286              	.LBI24:
+  18:External/bootloader/Src/bootloader_io.c **** {
+ 287              		.loc 1 18 13 is_stmt 1 view .LVU60
+ 288              	.LBB25:
+  21:External/bootloader/Src/bootloader_io.c ****     address % 1024 == 0|| 
+ 289              		.loc 1 21 3 view .LVU61
+ARM GAS  /tmp/ccNW2L4w.s 			page 8
+
+
+  22:External/bootloader/Src/bootloader_io.c ****     address + 1024 < FLASH_BANK1_END // flash bank1 end
+ 290              		.loc 1 22 13 is_stmt 0 view .LVU62
+ 291 0016 C0F30902 		ubfx	r2, r0, #0, #10
+  22:External/bootloader/Src/bootloader_io.c ****     address + 1024 < FLASH_BANK1_END // flash bank1 end
+ 292              		.loc 1 22 24 view .LVU63
+ 293 001a 1AB1     		cbz	r2, .L16
+  23:External/bootloader/Src/bootloader_io.c ****   );
+ 294              		.loc 1 23 13 view .LVU64
+ 295 001c 00F58062 		add	r2, r0, #1024
+  22:External/bootloader/Src/bootloader_io.c ****     address + 1024 < FLASH_BANK1_END // flash bank1 end
+ 296              		.loc 1 22 24 discriminator 2 view .LVU65
+ 297 0020 9A42     		cmp	r2, r3
+ 298 0022 1BD2     		bcs	.L20
+ 299              	.L16:
+ 300              	.LVL21:
+  22:External/bootloader/Src/bootloader_io.c ****     address + 1024 < FLASH_BANK1_END // flash bank1 end
+ 301              		.loc 1 22 24 discriminator 2 view .LVU66
+ 302              	.LBE25:
+ 303              	.LBE24:
   90:External/bootloader/Src/bootloader_io.c ****     return BOOTLOADER_BOUNDS_ERROR;
   91:External/bootloader/Src/bootloader_io.c **** 
   92:External/bootloader/Src/bootloader_io.c ****   HAL_StatusTypeDef status = HAL_FLASH_Unlock();
- 348              		.loc 1 92 3 is_stmt 1 view .LVU71
- 349              		.loc 1 92 30 is_stmt 0 view .LVU72
- 350 0016 FFF7FEFF 		bl	HAL_FLASH_Unlock
- 351              	.LVL33:
- 352 001a 0446     		mov	r4, r0
- 353              	.LVL34:
+ 304              		.loc 1 92 3 is_stmt 1 view .LVU67
+ 305              		.loc 1 92 30 is_stmt 0 view .LVU68
+ 306 0024 FFF7FEFF 		bl	HAL_FLASH_Unlock
+ 307              	.LVL22:
   93:External/bootloader/Src/bootloader_io.c **** 
   94:External/bootloader/Src/bootloader_io.c ****   FLASH_EraseInitTypeDef erase_init_struct = (FLASH_EraseInitTypeDef){
- 354              		.loc 1 94 3 is_stmt 1 view .LVU73
- 355              		.loc 1 94 26 is_stmt 0 view .LVU74
- 356 001c 0023     		movs	r3, #0
- 357 001e 0293     		str	r3, [sp, #8]
- 358 0020 0122     		movs	r2, #1
- 359 0022 0392     		str	r2, [sp, #12]
- 360 0024 0495     		str	r5, [sp, #16]
- 361 0026 0596     		str	r6, [sp, #20]
+ 308              		.loc 1 94 26 view .LVU69
+ 309 0028 0023     		movs	r3, #0
+ 310 002a 0122     		movs	r2, #1
+  92:External/bootloader/Src/bootloader_io.c **** 
+ 311              		.loc 1 92 30 view .LVU70
+ 312 002c 0446     		mov	r4, r0
+ 313              	.LVL23:
+ 314              		.loc 1 94 3 is_stmt 1 view .LVU71
   95:External/bootloader/Src/bootloader_io.c ****     .TypeErase = FLASH_TYPEERASE_PAGES,
-ARM GAS  /tmp/ccCUsxGm.s 			page 9
-
-
   96:External/bootloader/Src/bootloader_io.c ****     .Banks = FLASH_BANK_1,
   97:External/bootloader/Src/bootloader_io.c ****     .PageAddress = address,
   98:External/bootloader/Src/bootloader_io.c ****     .NbPages = pages_num
   99:External/bootloader/Src/bootloader_io.c ****   };
  100:External/bootloader/Src/bootloader_io.c ****   uint32_t page_error = 0x0U;
- 362              		.loc 1 100 3 is_stmt 1 view .LVU75
- 363              		.loc 1 100 12 is_stmt 0 view .LVU76
- 364 0028 0193     		str	r3, [sp, #4]
  101:External/bootloader/Src/bootloader_io.c **** 
  102:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASHEx_Erase(&erase_init_struct, &page_error);
- 365              		.loc 1 102 3 is_stmt 1 view .LVU77
- 366              		.loc 1 102 13 is_stmt 0 view .LVU78
- 367 002a 01A9     		add	r1, sp, #4
- 368 002c 02A8     		add	r0, sp, #8
- 369 002e FFF7FEFF 		bl	HAL_FLASHEx_Erase
- 370              	.LVL35:
- 371              		.loc 1 102 10 discriminator 1 view .LVU79
- 372 0032 2043     		orrs	r0, r0, r4
- 373 0034 C4B2     		uxtb	r4, r0
- 374              	.LVL36:
+ 315              		.loc 1 102 13 is_stmt 0 view .LVU72
+ 316 002e 01A9     		add	r1, sp, #4
+ 317 0030 02A8     		add	r0, sp, #8
+  94:External/bootloader/Src/bootloader_io.c ****     .TypeErase = FLASH_TYPEERASE_PAGES,
+ 318              		.loc 1 94 26 view .LVU73
+ 319 0032 CDE90232 		strd	r3, r2, [sp, #8]
+ 100:External/bootloader/Src/bootloader_io.c **** 
+ 320              		.loc 1 100 12 view .LVU74
+ 321 0036 0193     		str	r3, [sp, #4]
+  94:External/bootloader/Src/bootloader_io.c ****     .TypeErase = FLASH_TYPEERASE_PAGES,
+ 322              		.loc 1 94 26 view .LVU75
+ 323 0038 CDE90456 		strd	r5, r6, [sp, #16]
+ 100:External/bootloader/Src/bootloader_io.c **** 
+ARM GAS  /tmp/ccNW2L4w.s 			page 9
+
+
+ 324              		.loc 1 100 3 is_stmt 1 view .LVU76
+ 325              		.loc 1 102 3 view .LVU77
+ 326              		.loc 1 102 13 is_stmt 0 view .LVU78
+ 327 003c FFF7FEFF 		bl	HAL_FLASHEx_Erase
+ 328              	.LVL24:
  103:External/bootloader/Src/bootloader_io.c **** 
  104:External/bootloader/Src/bootloader_io.c ****   if (page_error != ~0x0)
- 375              		.loc 1 104 3 is_stmt 1 view .LVU80
- 376              		.loc 1 104 18 is_stmt 0 view .LVU81
- 377 0036 019B     		ldr	r3, [sp, #4]
- 378              		.loc 1 104 6 view .LVU82
- 379 0038 B3F1FF3F 		cmp	r3, #-1
- 380 003c 03D0     		beq	.L29
+ 329              		.loc 1 104 6 view .LVU79
+ 330 0040 019B     		ldr	r3, [sp, #4]
+ 102:External/bootloader/Src/bootloader_io.c **** 
+ 331              		.loc 1 102 10 discriminator 1 view .LVU80
+ 332 0042 2043     		orrs	r0, r0, r4
+ 333              		.loc 1 104 6 view .LVU81
+ 334 0044 0133     		adds	r3, r3, #1
+ 102:External/bootloader/Src/bootloader_io.c **** 
+ 335              		.loc 1 102 10 discriminator 1 view .LVU82
+ 336 0046 C4B2     		uxtb	r4, r0
+ 337              	.LVL25:
+ 338              		.loc 1 104 3 is_stmt 1 view .LVU83
+ 339              		.loc 1 104 6 is_stmt 0 view .LVU84
+ 340 0048 03D0     		beq	.L17
  105:External/bootloader/Src/bootloader_io.c ****     return status |= BOOTLOADER_FLASH_PAGE_ERROR; 
- 381              		.loc 1 105 5 is_stmt 1 view .LVU83
- 382              		.loc 1 105 19 is_stmt 0 view .LVU84
- 383 003e 44F00500 		orr	r0, r4, #5
- 384              	.LVL37:
- 385              	.L28:
+ 341              		.loc 1 105 5 is_stmt 1 view .LVU85
+ 342              		.loc 1 105 19 is_stmt 0 view .LVU86
+ 343 004a 44F00500 		orr	r0, r4, #5
+ 344              	.LVL26:
+ 345              	.L15:
  106:External/bootloader/Src/bootloader_io.c **** 
  107:External/bootloader/Src/bootloader_io.c ****   status |= HAL_FLASH_Lock();
  108:External/bootloader/Src/bootloader_io.c **** 
  109:External/bootloader/Src/bootloader_io.c ****   return status;
  110:External/bootloader/Src/bootloader_io.c **** }
- 386              		.loc 1 110 1 view .LVU85
- 387 0042 06B0     		add	sp, sp, #24
- 388              	.LCFI6:
- 389              		.cfi_remember_state
- 390              		.cfi_def_cfa_offset 16
- 391              		@ sp needed
- 392 0044 70BD     		pop	{r4, r5, r6, pc}
- 393              	.LVL38:
- 394              	.L29:
- 395              	.LCFI7:
- 396              		.cfi_restore_state
+ 346              		.loc 1 110 1 view .LVU87
+ 347 004e 06B0     		add	sp, sp, #24
+ 348              	.LCFI3:
+ 349              		.cfi_remember_state
+ 350              		.cfi_def_cfa_offset 16
+ 351              		@ sp needed
+ 352 0050 70BD     		pop	{r4, r5, r6, pc}
+ 353              	.LVL27:
+ 354              	.L17:
+ 355              	.LCFI4:
+ 356              		.cfi_restore_state
  107:External/bootloader/Src/bootloader_io.c **** 
- 397              		.loc 1 107 3 is_stmt 1 view .LVU86
+ 357              		.loc 1 107 3 is_stmt 1 view .LVU88
  107:External/bootloader/Src/bootloader_io.c **** 
- 398              		.loc 1 107 13 is_stmt 0 view .LVU87
- 399 0046 FFF7FEFF 		bl	HAL_FLASH_Lock
- 400              	.LVL39:
+ 358              		.loc 1 107 13 is_stmt 0 view .LVU89
+ 359 0052 FFF7FEFF 		bl	HAL_FLASH_Lock
+ 360              	.LVL28:
  107:External/bootloader/Src/bootloader_io.c **** 
-ARM GAS  /tmp/ccCUsxGm.s 			page 10
+ 361              		.loc 1 107 10 discriminator 1 view .LVU90
+ 362 0056 2043     		orrs	r0, r0, r4
+ 363 0058 C0B2     		uxtb	r0, r0
+ 364              	.LVL29:
+ 109:External/bootloader/Src/bootloader_io.c **** }
+ 365              		.loc 1 109 3 is_stmt 1 view .LVU91
+ 109:External/bootloader/Src/bootloader_io.c **** }
+ARM GAS  /tmp/ccNW2L4w.s 			page 10
 
 
- 401              		.loc 1 107 10 discriminator 1 view .LVU88
- 402 004a 2043     		orrs	r0, r0, r4
- 403 004c C0B2     		uxtb	r0, r0
- 404              	.LVL40:
- 109:External/bootloader/Src/bootloader_io.c **** }
- 405              		.loc 1 109 3 is_stmt 1 view .LVU89
- 109:External/bootloader/Src/bootloader_io.c **** }
- 406              		.loc 1 109 10 is_stmt 0 view .LVU90
- 407 004e F8E7     		b	.L28
- 408              	.LVL41:
- 409              	.L30:
+ 366              		.loc 1 109 10 is_stmt 0 view .LVU92
+ 367 005a F8E7     		b	.L15
+ 368              	.LVL30:
+ 369              	.L20:
   90:External/bootloader/Src/bootloader_io.c **** 
- 410              		.loc 1 90 12 view .LVU91
- 411 0050 0420     		movs	r0, #4
- 412 0052 F6E7     		b	.L28
- 413              	.L31:
- 414 0054 0420     		movs	r0, #4
- 415 0056 F4E7     		b	.L28
- 416              		.cfi_endproc
- 417              	.LFE71:
- 419              		.text
- 420              	.Letext0:
- 421              		.file 2 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/machine/_default_types.h"
- 422              		.file 3 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/sys/_stdint.h"
- 423              		.file 4 "External/bootloader/Inc/bootloader_defs.h"
- 424              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
- 425              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
- 426              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
- 427              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h"
- 428              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
- 429              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h"
- 430              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
-ARM GAS  /tmp/ccCUsxGm.s 			page 11
+ 370              		.loc 1 90 12 view .LVU93
+ 371 005c 0420     		movs	r0, #4
+ 372              	.LVL31:
+  90:External/bootloader/Src/bootloader_io.c **** 
+ 373              		.loc 1 90 12 view .LVU94
+ 374 005e F6E7     		b	.L15
+ 375              	.L25:
+ 376              		.align	2
+ 377              	.L24:
+ 378 0060 00280008 		.word	134227968
+ 379 0064 FFFF0108 		.word	134348799
+ 380              		.cfi_endproc
+ 381              	.LFE71:
+ 383              		.text
+ 384              	.Letext0:
+ 385              		.file 2 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/machine/_default_types.h"
+ 386              		.file 3 "/usr/local/src/arm-gnu-toolchain-13.2/arm-none-eabi/include/sys/_stdint.h"
+ 387              		.file 4 "External/bootloader/Inc/bootloader_defs.h"
+ 388              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 389              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 390              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 391              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h"
+ 392              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
+ 393              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h"
+ 394              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ARM GAS  /tmp/ccNW2L4w.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 bootloader_io.c
-     /tmp/ccCUsxGm.s:19     .text.is_address_in_bounds:00000000 $t
-     /tmp/ccCUsxGm.s:24     .text.is_address_in_bounds:00000000 is_address_in_bounds
-     /tmp/ccCUsxGm.s:64     .text.is_address_in_bounds:0000001c $d
-     /tmp/ccCUsxGm.s:70     .text.is_page_address:00000000 $t
-     /tmp/ccCUsxGm.s:75     .text.is_page_address:00000000 is_page_address
-     /tmp/ccCUsxGm.s:115    .text.is_page_address:0000001c $d
-     /tmp/ccCUsxGm.s:120    .text.bootloader_io_read:00000000 $t
-     /tmp/ccCUsxGm.s:126    .text.bootloader_io_read:00000000 bootloader_io_read
-     /tmp/ccCUsxGm.s:157    .text.bootloader_io_read:00000014 $d
-     /tmp/ccCUsxGm.s:162    .text.bootloader_io_write:00000000 $t
-     /tmp/ccCUsxGm.s:168    .text.bootloader_io_write:00000000 bootloader_io_write
-     /tmp/ccCUsxGm.s:199    .text.bootloader_io_write:00000014 $d
-     /tmp/ccCUsxGm.s:204    .text.bootloader_io_get_dev_id:00000000 $t
-     /tmp/ccCUsxGm.s:210    .text.bootloader_io_get_dev_id:00000000 bootloader_io_get_dev_id
-     /tmp/ccCUsxGm.s:231    .text.bootloader_io_program:00000000 $t
-     /tmp/ccCUsxGm.s:237    .text.bootloader_io_program:00000000 bootloader_io_program
-     /tmp/ccCUsxGm.s:310    .text.bootloader_io_erase:00000000 $t
-     /tmp/ccCUsxGm.s:316    .text.bootloader_io_erase:00000000 bootloader_io_erase
+     /tmp/ccNW2L4w.s:19     .text.bootloader_io_read:00000000 $t
+     /tmp/ccNW2L4w.s:25     .text.bootloader_io_read:00000000 bootloader_io_read
+     /tmp/ccNW2L4w.s:51     .text.bootloader_io_read:00000010 $d
+     /tmp/ccNW2L4w.s:56     .text.bootloader_io_write:00000000 $t
+     /tmp/ccNW2L4w.s:62     .text.bootloader_io_write:00000000 bootloader_io_write
+     /tmp/ccNW2L4w.s:88     .text.bootloader_io_write:00000010 $d
+     /tmp/ccNW2L4w.s:93     .text.bootloader_io_get_dev_id:00000000 $t
+     /tmp/ccNW2L4w.s:99     .text.bootloader_io_get_dev_id:00000000 bootloader_io_get_dev_id
+     /tmp/ccNW2L4w.s:114    .text.bootloader_io_program:00000000 $t
+     /tmp/ccNW2L4w.s:120    .text.bootloader_io_program:00000000 bootloader_io_program
+     /tmp/ccNW2L4w.s:216    .text.bootloader_io_program:00000038 $d
+     /tmp/ccNW2L4w.s:222    .text.bootloader_io_erase:00000000 $t
+     /tmp/ccNW2L4w.s:228    .text.bootloader_io_erase:00000000 bootloader_io_erase
+     /tmp/ccNW2L4w.s:378    .text.bootloader_io_erase:00000060 $d
 
 UNDEFINED SYMBOLS
 HAL_UART_Receive

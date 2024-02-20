@@ -22,9 +22,9 @@ TARGET = Bootloader
 # debug build?
 DEBUG = 1
 # optimization
-OPT = -Og
+#OPT = -Og
 #reduce size
-# OPT = -Os
+OPT = -Os
 
 
 #######################################

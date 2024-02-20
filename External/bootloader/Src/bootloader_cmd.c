@@ -10,7 +10,7 @@ static char *commands_list_message = "\r\nCommands:\r\n"
   "Get id of chip - '1';\r\n"
   "Get bootloader version - '2';\r\n"
   "Write to memory (2 bytes) - '3';\r\n"
-  "Erase.";
+  "Erase - '4'.";
 static char *id_message = "\r\nChip ID: ";
 static char *bootloader_version_message = "\r\nBootloader version: ";
 
@@ -165,8 +165,7 @@ bootloader_status bootloader_proccess_input()
   if (status == BOOTLOADER_TIMEOUT)
     return status;
 
-  uint8_t input_cmd = uart_buffer[0];
-  switch(input_cmd)
+  switch(uart_buffer[0])
   {
     case CMD_HELP:
       cmd_help();
@@ -185,7 +184,6 @@ bootloader_status bootloader_proccess_input()
       break;
   }
 
-  status |= bootloader_io_write(&input_cmd, 1);
   status |= bootloader_io_write((uint8_t*)input_prompt, 4);
   return status;
 }

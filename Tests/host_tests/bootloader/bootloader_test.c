@@ -62,7 +62,7 @@ TEST(bootloader, output_help_success)
   "Get id of chip - '1';\r\n"
   "Get bootloader version - '2';\r\n"
   "Write to memory (2 bytes) - '3';\r\n"
-  "Erase.";
+  "Erase - '4'.";
   static char *input_data = "0";
   char *input_prompt = "\r\n>>";
 
@@ -71,7 +71,6 @@ TEST(bootloader, output_help_success)
     (uint8_t*)commands_list_message,
     strlen(commands_list_message) + 1
   );
-  mock_bootloader_io_expect_write((uint8_t*)input_data, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -99,7 +98,6 @@ TEST(bootloader, output_get_id)
     (uint8_t*)id_num_message,
     strlen(id_num_message) + 1
   );
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -124,7 +122,6 @@ TEST(bootloader, output_bootloader_id)
   );
   mock_bootloader_io_expect_write((uint8_t*)version_message, 3);
 
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -170,7 +167,6 @@ TEST(bootloader, write_success)
     sizeof(end_seq)
   );
 
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -204,7 +200,6 @@ TEST(bootloader, write_bound_error)
   mock_bootloader_io_expect_program((uint8_t*)&input_data);
   mock_bootloader_io_expect_write(&nack_byte, sizeof(nack_byte));
 
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -251,7 +246,6 @@ TEST(bootloader, write_middle_success)
     sizeof(end_seq)
   );
 
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -284,7 +278,6 @@ TEST(bootloader, erase_success)
   mock_bootloader_io_expect_erase((uint8_t*)&input_addr, input_page_num);
   mock_bootloader_io_expect_write(&ack_byte, 1);
 
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -318,7 +311,6 @@ TEST(bootloader, erase_start_bound_error)
   mock_bootloader_io_expect_erase((uint8_t*)&input_addr, input_page_num);
   mock_bootloader_io_expect_write(&nack_byte, 1);
 
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
@@ -352,7 +344,6 @@ TEST(bootloader, erase_end_bound_error)
   mock_bootloader_io_expect_erase((uint8_t*)&input_addr, input_page_num);
   mock_bootloader_io_expect_write(&nack_byte, 1);
 
-  mock_bootloader_io_expect_write((uint8_t*)input_cmd, 1);
   mock_bootloader_io_expect_write(
     (uint8_t*)input_prompt,
     strlen(input_prompt) + 1
