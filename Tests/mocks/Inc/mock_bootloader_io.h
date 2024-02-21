@@ -21,6 +21,7 @@ void mock_bootloader_io_expect_read_then_return(
   const uint8_t data_size
 );
 void mock_bootloader_io_expect_get_id_then_return(void);
+void mock_bootloader_io_expect_read_flash(const uint8_t *const data);
 void mock_bootloader_io_verify_complete(void);
 
 #endif

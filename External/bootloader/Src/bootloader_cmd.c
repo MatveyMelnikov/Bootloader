@@ -10,11 +10,14 @@ static char *commands_list_message = "\r\nCommands:\r\n"
   "Get id of chip - '1';\r\n"
   "Get bootloader version - '2';\r\n"
   "Write to memory (2 bytes) - '3';\r\n"
-  "Erase - '4'.";
+  "Erase - '4';\r\n"
+  "Read pages from flash - '5'.\r\n";
 static char *id_message = "\r\nChip ID: ";
 static char *bootloader_version_message = "\r\nBootloader version: ";
+static char *read_message = "\r\nEnter flash page number(000 - 127): ";
 
 static uint8_t uart_buffer[UART_BUFFER_SIZE];
+static char* hex_symbols = "0123456789ABCDEF";
 
 // Static functions ----------------------------------------------------------
 
@@ -47,6 +50,13 @@ inline static uint8_t int_to_string(uint8_t *const buffer, uint32_t num)
   return i;
 }
 
+__attribute__((always_inline))
+inline static void get_hex_string(char *const buffer, uint8_t num)
+{
+  buffer[0] = hex_symbols[(num & 0xf0) >> 4];
+  buffer[1] = hex_symbols[num & 0x0f];
+}
+
 static void send_response(bootloader_status status)
 {
   if (status)
@@ -54,6 +64,43 @@ static void send_response(bootloader_status status)
   else
     uart_buffer[0] = ACK_BYTE;
   (void)bootloader_io_write(uart_buffer, 1);
+}
+
+static bool is_not_num(const char input)
+{
+  return input < '0' || input > '9';
+}
+
+static uint8_t read_string()
+{
+  bootloader_status status = BOOTLOADER_OK;
+  int8_t index = 0;
+  uint8_t page = 0;
+
+  memset(uart_buffer, 0, 3);
+
+  while (true)
+  {
+    status = bootloader_io_read(uart_buffer + index, sizeof(char));
+
+    if ((status == BOOTLOADER_TIMEOUT) | is_not_num(uart_buffer[index]))
+      continue;
+
+    (void)bootloader_io_write(uart_buffer + index, 1);
+
+    index++;
+    if (index > 2)
+      break;
+  }
+
+  int8_t rank = 1;
+  for (int8_t i = index - 1; i >= 0; i--)
+  {
+    page += (uart_buffer[i] - '0') * rank;
+    rank *= 10;
+  }
+
+  return page;
 }
 
 static void cmd_help()
@@ -142,6 +189,54 @@ static bootloader_status cmd_erase()
   return status;
 }
 
+static bootloader_status cmd_read()
+{
+  uint8_t page_num = 0;
+  uint8_t value = 0;
+  bootloader_status status = BOOTLOADER_OK;
+
+  strncpy((char*)uart_buffer, read_message, strlen(read_message) + 1);
+  bootloader_io_write(uart_buffer, strlen(read_message) + 1);
+
+  page_num = read_string();
+
+  if (page_num < 0 || page_num >= 128)
+    return BOOTLOADER_BOUNDS_ERROR;
+
+  strncpy((char*)uart_buffer, "\r\n", 3);
+  bootloader_io_write(uart_buffer, 2);
+
+  strncpy((char*)uart_buffer + 2, " ", 2);
+  for (uint8_t i = 0; i < 16; i++)
+  {
+    get_hex_string((char*)uart_buffer, i);
+    bootloader_io_write(uart_buffer, 4);
+  }
+
+  strncpy((char*)uart_buffer, "\r\n", 3);
+  bootloader_io_write(uart_buffer, 2);
+  bootloader_io_write(uart_buffer, 2);
+
+  uart_buffer[2] = ' ';
+  uint32_t address = 0x08000000 + (0x400 * page_num);
+  for (uint8_t i = 0; i < 64; i++)
+  {
+    for (uint8_t j = 0; j < 16; j++)
+    {
+      status |= bootloader_io_read_flash(address++, &value);
+      if (status)
+        return status;
+
+      get_hex_string((char*)uart_buffer, value);
+      bootloader_io_write(uart_buffer, 3);
+    }
+    strncpy((char*)uart_buffer, "\r\n", 3);
+    bootloader_io_write(uart_buffer, 2);
+  }
+
+  return status;
+}
+
 // Implementations -----------------------------------------------------------
 
 bootloader_status bootloader_start_output()
@@ -181,6 +276,9 @@ bootloader_status bootloader_proccess_input()
       break;
     case CMD_ERASE:
       status |= cmd_erase();
+      break;
+    case CMD_READ:
+      status |= cmd_read();
       break;
   }
 

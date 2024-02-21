@@ -108,3 +108,16 @@ bootloader_status bootloader_io_erase(
 
   return status;
 }
+
+bootloader_status bootloader_io_read_flash(
+  const uint32_t address,
+  uint8_t *const value
+)
+{
+  if (address < FLASH_BASE || address + sizeof(uint16_t) >= FLASH_BANK1_END)
+    return BOOTLOADER_BOUNDS_ERROR;
+
+  *value = (uint8_t)(*((volatile uint32_t*)address));
+
+  return BOOTLOADER_OK;
+}

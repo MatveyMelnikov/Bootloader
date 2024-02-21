@@ -21,5 +21,9 @@ bootloader_status bootloader_io_erase(
   const uint32_t address,
   const uint8_t pages_num
 );
+bootloader_status bootloader_io_read_flash(
+  const uint32_t address,
+  uint8_t *const value
+);
 
 #endif
